@@ -9,12 +9,12 @@
     <div
       class="w-[45px] top-[15%] h-[70%] right-0 z-2 absolute is-right-bg animate-pulse"
     ></div>
-    <Bim
+    <!-- <Bim
       class="h-[1080px]"
       @handleEmitShexiangtou="jiankongDialogVisible = true"
       @handleEmitYimo="centerDiaShown = true"
       @handleEmitJiqiren="jiqirenDiaShown = true"
-    />
+    /> -->
     <div
       class="absolute z-99 text-[#fff] top-[20px] left-[50px] text-[24px] flex items-center cursor-pointer"
       @click="router.back()"
