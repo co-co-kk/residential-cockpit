@@ -5,12 +5,12 @@
       @loadingComplete="handleLoadingComplete"
     />
     <div id="containCesium" class="containCesium"></div>
-    <button
+    <!-- <button
       @click="handleClick"
       class="bg-[red] absolute top-[20%] left-[40%] z-9 text-[50px]"
     >
       点击风险图层
-    </button>
+    </button> -->
     <!-- 添加视角信息显示控件 -->
     <div class="view-info-panel">
       <p>视角位置</p>
@@ -400,8 +400,10 @@ const initMap = async () => {
 
     let urls = [
       // tiles1,tiles2,tiles3,tiles4,
+       
+      "https://data.mars3d.cn/3dtiles/bim-daxue/tileset.json"
       // bim给的demo
-      "http://172.30.41.194:20035/qxsy_tiles/bim_zzkxjd_test/tileset.json",
+      //"http://172.30.41.194:20035/qxsy_tiles/bim_zzkxjd_test/tileset.json",
       // "http://172.30.41.194:20035/qxsy_tiles/qx_dnyy_250526/tileset.json",
       // "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_1/tileset.json",
       // "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_2/tileset.json",
@@ -439,12 +441,18 @@ const initMap = async () => {
     viewer.scene.globe.depthTestAgainstTerrain = true;
     agFeatureLayer = new agcim.layer.FeatureLayer(viewer);
 
-    // bim给的demo
-    let positionInfo = {
-      longitude: 112.99948457,
-      latitude: 22.99928826,
-      height: 63, // 增加高度来拉远视距
+    // hsl/que/coco
+     let positionInfo = {
+      longitude: 117.248583,
+      latitude: 31.844709,
+      height: 163, // 增加高度来拉远视距
     };
+    // bim给的demo
+    // let positionInfo = {
+    //   longitude: 112.99948457,
+    //   latitude: 22.99928826,
+    //   height: 63, // 增加高度来拉远视距
+    // };
     // 东南医院的
     // let positionInfo = {
     //   longitude: 106.650952,
