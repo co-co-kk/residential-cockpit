@@ -1,5 +1,6 @@
 <template>
   <div class="is-box">
+    <!-- 我是路由 -->
     <RouterView></RouterView>
   </div>
 </template>
