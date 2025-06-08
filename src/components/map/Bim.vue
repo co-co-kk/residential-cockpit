@@ -342,19 +342,7 @@ let drawerAnimation = {
   running: false,
 };
 
-// 添加克隆模型的函数
-function addClonedModel(modelMatrix) {
-  agFeatureLayer.addEntity({
-    position: Cesium.Matrix4.getTranslation(
-      modelMatrix,
-      new Cesium.Cartesian3()
-    ),
-    model: {
-      uri: "http://172.30.41.194:20035/qxsy_tiles/bim_zzkxjd_test/tileset.json", // 指向原始模型的路径
-      minimumPixelSize: 64,
-    },
-  });
-}
+
 const initMap = async () => {
   try {
     isLoading.value = true;
@@ -393,14 +381,14 @@ const initMap = async () => {
     CIM.layerTree.add(agTerrainLayer);
 
     // 添加 WMTS 图层
-    let options = {
-      // url: "http://25.26.26.42:8080/agserver/cqcim/wms",
-      url: "http://172.30.41.194:20035/agserver/gwc/service/wmts", //服务链接
-      layerTable: "dzdt_lll_fdcjyzx",
-      tileMatrixSet: "EPSG:4490_dzdt_lll_fdcjyzx",
-    };
-    let agWMTSLayer = new agcim.layer.AgWMTSLayer(options);
-    CIM.layerTree.add(agWMTSLayer);
+    // let options = {
+    //   // url: "http://25.26.26.42:8080/agserver/cqcim/wms",
+    //   url: "http://172.30.41.194:20035/agserver/gwc/service/wmts", //服务链接
+    //   layerTable: "dzdt_lll_fdcjyzx",
+    //   tileMatrixSet: "EPSG:4490_dzdt_lll_fdcjyzx",
+    // };
+    // let agWMTSLayer = new agcim.layer.AgWMTSLayer(options);
+    // CIM.layerTree.add(agWMTSLayer);
 
     let urls = [
       // tiles1,tiles2,tiles3,tiles4,
@@ -453,17 +441,17 @@ const initMap = async () => {
     //   height: 163, // 增加高度来拉远视距
     // };
     // bim给的demo
-    // let positionInfo = {
-    //   longitude: 112.99948457,
-    //   latitude: 22.99928826,
-    //   height: 63, // 增加高度来拉远视距
-    // };
-    // 东南医院的
     let positionInfo = {
-      longitude: 106.650952,
-      latitude: 29.504009,
-      height: 649.75, // 增加高度来拉远视距
+      longitude: 112.99948457,
+      latitude: 22.99928826,
+      height: 63, // 增加高度来拉远视距
     };
+    // 东南医院的
+    // let positionInfo = {
+    //   longitude: 106.650952,
+    //   latitude: 29.504009,
+    //   height: 649.75, // 增加高度来拉远视距
+    // };
 
     camera.setView({
       destination: Cesium.Cartesian3.fromDegrees(
@@ -550,9 +538,27 @@ const initMap = async () => {
         //   // 将实体添加到视图中
         //   agFeatureLayer.addEntity(imageEntity);
         // }
+        // 获取点击位置的经纬度和高度
+          const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+          const lon = Cesium.Math.toDegrees(cartographic.longitude);
+          const lat = Cesium.Math.toDegrees(cartographic.latitude);
+          const height = cartographic.height;
+
+          // 设置旋转角度（单位为弧度，绕Z轴旋转）
+          const heading = Cesium.Math.toRadians(90); // 90度旋转
+          const pitch = 0;
+          const roll = 0;
+          const orientation = Cesium.Transforms.headingPitchRollQuaternion(
+            Cesium.Cartesian3.fromDegrees(lon, lat, height),
+            new Cesium.HeadingPitchRoll(heading, pitch, roll)
+          );
         const imageEntity = new Cesium.Entity({
             id: `myEntity_1f}`, // 设置唯一ID
-            position: Cesium.Cartesian3.fromDegrees(106.651854, 29.509959, 100), // 更新位置
+            orientation: orientation, // 设置旋转
+            // 117.248735
+            position: Cesium.Cartesian3.fromDegrees(106.651854, 29.509959, 100), // 东南医院更新位置
+            // position: Cesium.Cartesian3.fromDegrees(117.248735, 31.847059, height), // 更新位置
+            // position: Cesium.Cartesian3.fromDegrees(lon, lat, height),
             model: {
               uri: "https://data.mars3d.cn/gltf/mars/floor/floor.glb",
               minimumPixelSize: 128,
