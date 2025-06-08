@@ -1,0 +1,52 @@
+
+.is-cus-title {
+  padding-left: 30px;
+  position: relative;
+  font-size: 22px;
+  color: #9ABBDB;
+  font-weight: bold;
+}
+.is-cus-title::after {
+  display: block;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(50% - 12px);
+  width: 10px;
+  height: 25px;
+  background: #189dfb;
+  border-radius: 3px;
+}
+
+
+.is-l-tit {
+  padding-left: 30px;
+  position: relative;
+  font-size: 22px;
+  color: #9ABBDB;
+}
+.is-l-tit::after {
+  display: block;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(50% - 3px);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #189dfb;
+  border-radius: 3px;
+}
+
+.is-border {
+  border: 1px solid rgba(28, 226, 255, 0.4);
+}
+
+.is-tit-bg1 {
+  background: url("@/assets/image/home/bt-tit-bg1.png") no-repeat center center;
+  background-size: 100% 100%;
+}
+.bt-tit-bg2{
+  background: url("@/assets/image/home/bt-tit-bg2.png") no-repeat center center;
+  background-size: 100% 100%;
+}
