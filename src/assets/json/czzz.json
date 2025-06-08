@@ -1,0 +1,628 @@
+{
+	"czzz": [
+		{
+			"name": "中环万象城",
+			"type":0,
+			"fwjzdm": null,
+			"fwpcbh": null,
+			"xqmc": null,
+			"jzmc": null,
+			"cqdw": null,
+			"zzts": null,
+			"xzqhdm_sj": null,
+			"xzqhdm_shj": null,
+			"xzqhdm_xj": null,
+			"xzqhdm_zj": null,
+			"xzqhdm_cj": null,
+			"xxdz_dlmc": null,
+			"xxdz_mph": null,
+			"xxdz_dh": null,
+			"xxdz": null,
+			"sfcqdj": null,
+			"jzcs_ds": null,
+			"jzcs_dx": null,
+			"jzgd": 60.00,
+			"jzmj": null,
+			"jzsj": null,
+			"jglx": null,
+			"jglx_xl": null,
+			"jglx_qtxl": null,
+			"jglx_qtms": null,
+			"jgz_sf": null,
+			"jgz_lb": null,
+			"bhxjz_sf": null,
+			"bhxjz_lb": null,
+			"sfzysjjz": null,
+			"sfqdsgxk": null,
+			"ywbxss": null,
+			"gz_sf": null,
+			"gz_sj": null,
+			"kzjg_sf": null,
+			"kzjg_sj": null,
+			"ywwygl": null,
+			"sfld_y": null,
+			"sfld_x": null,
+			"bz": null,
+			"txxx": [
+				[
+					106.56290095858544,
+					29.56423643267351
+				],
+				[
+					106.56239337408213,
+					29.564166048919407
+				],
+				[
+					106.56242912490235,
+					29.563975931927647
+				],
+				[
+					106.56258037181941,
+					29.56399955886598
+				],
+				[
+					106.56261023006425,
+					29.56383703578523
+				],
+				[
+					106.56277819590089,
+					29.56386488349134
+				],
+				[
+					106.56282171684174,
+					29.563693925604117
+				],
+				[
+					106.56301690817321,
+					29.56371286928826
+				],
+				[
+					106.56290095858544,
+					29.56423643267351
+				]
+			],
+			"dcrxm": null,
+			"dcrdw": null,
+			"dcrlxdh": null,
+			"dcrsfzh": null,
+			"dcsj": null,
+			"bsm": null,
+			"tbbh": 8
+		},
+		{
+			"name": "商务综合中心",
+			"type":0,
+			"fwjzdm": null,
+			"fwpcbh": null,
+			"xqmc": null,
+			"jzmc": null,
+			"cqdw": null,
+			"zzts": null,
+			"xzqhdm_sj": null,
+			"xzqhdm_shj": null,
+			"xzqhdm_xj": null,
+			"xzqhdm_zj": null,
+			"xzqhdm_cj": null,
+			"xxdz_dlmc": null,
+			"xxdz_mph": null,
+			"xxdz_dh": null,
+			"xxdz": null,
+			"sfcqdj": null,
+			"jzcs_ds": null,
+			"jzcs_dx": null,
+			"jzgd": 60.00,
+			"jzmj": null,
+			"jzsj": null,
+			"jglx": null,
+			"jglx_xl": null,
+			"jglx_qtxl": null,
+			"jglx_qtms": null,
+			"jgz_sf": null,
+			"jgz_lb": null,
+			"bhxjz_sf": null,
+			"bhxjz_lb": null,
+			"sfzysjjz": null,
+			"sfqdsgxk": null,
+			"ywbxss": null,
+			"gz_sf": null,
+			"gz_sj": null,
+			"kzjg_sf": null,
+			"kzjg_sj": null,
+			"ywwygl": null,
+			"sfld_y": null,
+			"sfld_x": null,
+			"bz": null,
+			"txxx": [
+				[
+					106.56205260808832,
+					29.563570941115024
+				],
+				[
+					106.56146587963948,
+					29.563588913486782
+				],
+				[
+					106.56148023770018,
+					29.563361239221624
+				],
+				[
+					106.56159969440945,
+					29.56333567450051
+				],
+				[
+					106.56163734886167,
+					29.563034919775276
+				],
+				[
+					106.56213063500425,
+					29.562974533930486
+				],
+				[
+					106.56205260808832,
+					29.563570941115024
+				]
+			],
+			"dcrxm": null,
+			"dcrdw": null,
+			"dcrlxdh": null,
+			"dcrsfzh": null,
+			"dcsj": null,
+			"bsm": null,
+			"tbbh": 7
+		},
+		{
+			"name": "业务综合楼",
+			"type":1,
+			"fwjzdm": null,
+			"fwpcbh": null,
+			"xqmc": null,
+			"jzmc": null,
+			"cqdw": null,
+			"zzts": null,
+			"xzqhdm_sj": null,
+			"xzqhdm_shj": null,
+			"xzqhdm_xj": null,
+			"xzqhdm_zj": null,
+			"xzqhdm_cj": null,
+			"xxdz_dlmc": null,
+			"xxdz_mph": null,
+			"xxdz_dh": null,
+			"xxdz": null,
+			"sfcqdj": null,
+			"jzcs_ds": null,
+			"jzcs_dx": null,
+			"jzgd": 88.00,
+			"jzmj": null,
+			"jzsj": null,
+			"jglx": null,
+			"jglx_xl": null,
+			"jglx_qtxl": null,
+			"jglx_qtms": null,
+			"jgz_sf": null,
+			"jgz_lb": null,
+			"bhxjz_sf": null,
+			"bhxjz_lb": null,
+			"sfzysjjz": null,
+			"sfqdsgxk": null,
+			"ywbxss": null,
+			"gz_sf": null,
+			"gz_sj": null,
+			"kzjg_sf": null,
+			"kzjg_sj": null,
+			"ywwygl": null,
+			"sfld_y": null,
+			"sfld_x": null,
+			"bz": null,
+			"txxx": [
+				[
+					106.55850137372012,
+					29.557290708877417
+				],
+				[
+					106.55831726957871,
+					29.557028342740583
+				],
+				[
+					106.55852293054983,
+					29.55678999752478
+				],
+				[
+					106.55886977751031,
+					29.556803349071696
+				],
+				[
+					106.55900151898642,
+					29.55704861320532
+				],
+				[
+					106.55877528699239,
+					29.55732113390186
+				],
+				[
+					106.55850137372012,
+					29.557290708877417
+				]
+			],
+			"dcrxm": null,
+			"dcrdw": null,
+			"dcrlxdh": null,
+			"dcrsfzh": null,
+			"dcsj": null,
+			"bsm": null,
+			"tbbh": 6
+		},
+		{
+			"name": "项目",
+			"type":1,
+			"fwjzdm": null,
+			"fwpcbh": null,
+			"xqmc": null,
+			"jzmc": null,
+			"cqdw": null,
+			"zzts": null,
+			"xzqhdm_sj": null,
+			"xzqhdm_shj": null,
+			"xzqhdm_xj": null,
+			"xzqhdm_zj": null,
+			"xzqhdm_cj": null,
+			"xxdz_dlmc": null,
+			"xxdz_mph": null,
+			"xxdz_dh": null,
+			"xxdz": null,
+			"sfcqdj": null,
+			"jzcs_ds": null,
+			"jzcs_dx": null,
+			"jzgd": 50.00,
+			"jzmj": null,
+			"jzsj": null,
+			"jglx": null,
+			"jglx_xl": null,
+			"jglx_qtxl": null,
+			"jglx_qtms": null,
+			"jgz_sf": null,
+			"jgz_lb": null,
+			"bhxjz_sf": null,
+			"bhxjz_lb": null,
+			"sfzysjjz": null,
+			"sfqdsgxk": null,
+			"ywbxss": null,
+			"gz_sf": null,
+			"gz_sj": null,
+			"kzjg_sf": null,
+			"kzjg_sj": null,
+			"ywwygl": null,
+			"sfld_y": null,
+			"sfld_x": null,
+			"bz": null,
+			"txxx": [
+				[
+					106.55488368941823,
+					29.554073767448262
+				],
+				[
+					106.55436493488814,
+					29.554146861019614
+				],
+				[
+					106.55428421549676,
+					29.55401735576175
+				],
+				[
+					106.5548411117982,
+					29.553954150765396
+				],
+				[
+					106.55488368941823,
+					29.554073767448262
+				]
+			],
+			"dcrxm": null,
+			"dcrdw": null,
+			"dcrlxdh": null,
+			"dcrsfzh": null,
+			"dcsj": null,
+			"bsm": null,
+			"tbbh": 5
+		},
+		{
+			"name": "项目",
+			"type":2,
+			"fwjzdm": null,
+			"fwpcbh": null,
+			"xqmc": null,
+			"jzmc": null,
+			"cqdw": null,
+			"zzts": null,
+			"xzqhdm_sj": null,
+			"xzqhdm_shj": null,
+			"xzqhdm_xj": null,
+			"xzqhdm_zj": null,
+			"xzqhdm_cj": null,
+			"xxdz_dlmc": null,
+			"xxdz_mph": null,
+			"xxdz_dh": null,
+			"xxdz": null,
+			"sfcqdj": null,
+			"jzcs_ds": null,
+			"jzcs_dx": null,
+			"jzgd": 30.00,
+			"jzmj": null,
+			"jzsj": null,
+			"jglx": null,
+			"jglx_xl": null,
+			"jglx_qtxl": null,
+			"jglx_qtms": null,
+			"jgz_sf": null,
+			"jgz_lb": null,
+			"bhxjz_sf": null,
+			"bhxjz_lb": null,
+			"sfzysjjz": null,
+			"sfqdsgxk": null,
+			"ywbxss": null,
+			"gz_sf": null,
+			"gz_sj": null,
+			"kzjg_sf": null,
+			"kzjg_sj": null,
+			"ywwygl": null,
+			"sfld_y": null,
+			"sfld_x": null,
+			"bz": null,
+			"txxx": [
+				[
+					106.55756309985216,
+					29.554599732097895
+				],
+				[
+					106.55766631231292,
+					29.55423223265114
+				],
+				[
+					106.55739288856157,
+					29.554178828317987
+				],
+				[
+					106.55728363236896,
+					29.554540665507997
+				],
+				[
+					106.55756309985216,
+					29.554599732097895
+				]
+			],
+			"dcrxm": null,
+			"dcrdw": null,
+			"dcrlxdh": null,
+			"dcrsfzh": null,
+			"dcsj": null,
+			"bsm": null,
+			"tbbh": 1
+		},
+		{
+			"name": "项目",
+			"type":2,
+			"fwjzdm": null,
+			"fwpcbh": null,
+			"xqmc": null,
+			"jzmc": null,
+			"cqdw": null,
+			"zzts": null,
+			"xzqhdm_sj": null,
+			"xzqhdm_shj": null,
+			"xzqhdm_xj": null,
+			"xzqhdm_zj": null,
+			"xzqhdm_cj": null,
+			"xxdz_dlmc": null,
+			"xxdz_mph": null,
+			"xxdz_dh": null,
+			"xxdz": null,
+			"sfcqdj": null,
+			"jzcs_ds": null,
+			"jzcs_dx": null,
+			"jzgd": 30.00,
+			"jzmj": null,
+			"jzsj": null,
+			"jglx": null,
+			"jglx_xl": null,
+			"jglx_qtxl": null,
+			"jglx_qtms": null,
+			"jgz_sf": null,
+			"jgz_lb": null,
+			"bhxjz_sf": null,
+			"bhxjz_lb": null,
+			"sfzysjjz": null,
+			"sfqdsgxk": null,
+			"ywbxss": null,
+			"gz_sf": null,
+			"gz_sj": null,
+			"kzjg_sf": null,
+			"kzjg_sj": null,
+			"ywwygl": null,
+			"sfld_y": null,
+			"sfld_x": null,
+			"bz": null,
+			"txxx": [
+				[
+					106.55770643415525,
+					29.554546615490406
+				],
+				[
+					106.55798197969983,
+					29.554575372703304
+				],
+				[
+					106.5579138763392,
+					29.555012787308396
+				],
+				[
+					106.55764009202308,
+					29.55494577676049
+				],
+				[
+					106.55770643415525,
+					29.554546615490406
+				]
+			],
+			"dcrxm": null,
+			"dcrdw": null,
+			"dcrlxdh": null,
+			"dcrsfzh": null,
+			"dcsj": null,
+			"bsm": null,
+			"tbbh": 2
+		},
+		{
+			"name": "项目",
+			"type":0,
+			"fwjzdm": null,
+			"fwpcbh": null,
+			"xqmc": null,
+			"jzmc": null,
+			"cqdw": null,
+			"zzts": null,
+			"xzqhdm_sj": null,
+			"xzqhdm_shj": null,
+			"xzqhdm_xj": null,
+			"xzqhdm_zj": null,
+			"xzqhdm_cj": null,
+			"xxdz_dlmc": null,
+			"xxdz_mph": null,
+			"xxdz_dh": null,
+			"xxdz": null,
+			"sfcqdj": null,
+			"jzcs_ds": null,
+			"jzcs_dx": null,
+			"jzgd": 50.00,
+			"jzmj": null,
+			"jzsj": null,
+			"jglx": null,
+			"jglx_xl": null,
+			"jglx_qtxl": null,
+			"jglx_qtms": null,
+			"jgz_sf": null,
+			"jgz_lb": null,
+			"bhxjz_sf": null,
+			"bhxjz_lb": null,
+			"sfzysjjz": null,
+			"sfqdsgxk": null,
+			"ywbxss": null,
+			"gz_sf": null,
+			"gz_sj": null,
+			"kzjg_sf": null,
+			"kzjg_sj": null,
+			"ywwygl": null,
+			"sfld_y": null,
+			"sfld_x": null,
+			"bz": null,
+			"txxx": [
+				[
+					106.55750707108777,
+					29.554076881804146
+				],
+				[
+					106.55743170564709,
+					29.55389189191175
+				],
+				[
+					106.55749144500027,
+					29.55360835406262
+				],
+				[
+					106.55777430029738,
+					29.553636412283268
+				],
+				[
+					106.55768297056068,
+					29.553934099867366
+				],
+				[
+					106.55762831702187,
+					29.554112050743964
+				],
+				[
+					106.55750707108777,
+					29.554076881804146
+				]
+			],
+			"dcrxm": null,
+			"dcrdw": null,
+			"dcrlxdh": null,
+			"dcrsfzh": null,
+			"dcsj": null,
+			"bsm": null,
+			"tbbh": 3
+		},
+		{
+			"name": "项目",
+			"type":2,
+			"fwjzdm": null,
+			"fwpcbh": null,
+			"xqmc": null,
+			"jzmc": null,
+			"cqdw": null,
+			"zzts": null,
+			"xzqhdm_sj": null,
+			"xzqhdm_shj": null,
+			"xzqhdm_xj": null,
+			"xzqhdm_zj": null,
+			"xzqhdm_cj": null,
+			"xxdz_dlmc": null,
+			"xxdz_mph": null,
+			"xxdz_dh": null,
+			"xxdz": null,
+			"sfcqdj": null,
+			"jzcs_ds": null,
+			"jzcs_dx": null,
+			"jzgd": 30.00,
+			"jzmj": null,
+			"jzsj": null,
+			"jglx": null,
+			"jglx_xl": null,
+			"jglx_qtxl": null,
+			"jglx_qtms": null,
+			"jgz_sf": null,
+			"jgz_lb": null,
+			"bhxjz_sf": null,
+			"bhxjz_lb": null,
+			"sfzysjjz": null,
+			"sfqdsgxk": null,
+			"ywbxss": null,
+			"gz_sf": null,
+			"gz_sj": null,
+			"kzjg_sf": null,
+			"kzjg_sj": null,
+			"ywwygl": null,
+			"sfld_y": null,
+			"sfld_x": null,
+			"bz": null,
+			"txxx": [
+				[
+					106.55826622176129,
+					29.55460546155447
+				],
+				[
+					106.55867564120187,
+					29.554624147258558
+				],
+				[
+					106.558647214223,
+					29.554284471587803
+				],
+				[
+					106.55825614651467,
+					29.554264419171922
+				],
+				[
+					106.55826622176129,
+					29.55460546155447
+				]
+			],
+			"dcrxm": null,
+			"dcrdw": null,
+			"dcrlxdh": null,
+			"dcrsfzh": null,
+			"dcsj": null,
+			"bsm": null,
+			"tbbh": 4
+		}
+	]
+}
