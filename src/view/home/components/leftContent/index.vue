@@ -2,7 +2,7 @@
   <div class="w-[100%] h-[100%] ">
     <!-- 质量监督 -->
     <block class="w-[100%]  h-[100%] text-[50px] text-[#fff]">
-      <PubTit :title="'质量监督'"></PubTit>
+      <PubTit :title="'质量监督'" ></PubTit>
       <div class="flex justify-between w-[100%] mt-[30px]">
         <div class="flex w-[50%] justify-around flex-wrap">
           <div
