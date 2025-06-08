@@ -165,13 +165,19 @@
         <PubTit style="width: 555px" :title="'施工进度'" :width="555"></PubTit>
         <div>
           <div class="flex justify-center mt-[18px]">
-            <div class="flex">
+            <img
+              src="@/assets/sxk-qph/gjjd2x.png"
+              draggable="false"
+              class="w-[400px] h-[50px]"
+              alt=""
+            />
+            <!-- <div class="flex">
               <div v-for="item in KeyProgress" :key="item" class="w-[100px] h-[50px] flex items-center justify-center key-progress-item">
                 <div class="key-progress">
                   {{ item }}
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="h-[276px] w-[100%] mt-[31px]">
             <EcharsWrapper :chartData="coverageData5"></EcharsWrapper>
