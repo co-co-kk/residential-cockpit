@@ -491,14 +491,11 @@
     <!-- <div class="w-[1700px] h-[870px]  z-99 absolute top-[calc(50%-435px)] left-[calc(50%-850px)]">
       <video src="@/assets/sp.mp4" style="width: 100%; height: 100%;" controls autoplay muted></video>
     </div> -->
-     <div class="border-10px border-red-500 box-shadow-2xl z-99999 absolute top-[calc(50%-435px)] left-[calc(50%-1300px)]">
-      <FlowDia ref="flowDiaRef" ></FlowDia> 
-    </div>
+   
 
   </div>
 </template>
 <script setup>
-import FlowDia from "./components/flow/index.vue";
 import Dialog from "../../../../components/Dialog.vue";
 import CustomColumn from "@/components/custom-column/index.vue";
 import CustomTable from "@/components/custom-table/index.vue";
