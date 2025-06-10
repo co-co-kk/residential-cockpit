@@ -58,7 +58,7 @@
           class="mx-[10px] w-[29px] h-[27px]"
           alt=""
         /> -->
-        <div class="w-full p-[20px]">
+        <div class="w-full p-[20px] px-[10px] pt-[10px]">
           <div class="flex w-full">
           <img
           :src="item.params4"
@@ -71,7 +71,7 @@
             {{ item.params1 }}
           </div>
           </div>
-          <div class="flex justify-center">
+          <div class="flex justify-center mt-[22px]">
             <div>
               <span class="tit1">{{
               item.params2
@@ -81,7 +81,7 @@
               style="font-size: 14px"
               >{{ item.params3 }}</span
             >
-            <div class="tit1" style="font-size: 16px">实时</div>
+            <div class="tit1 text-center" style="font-size: 16px">实时</div>
             </div>
             <div class="ml-[50px]">
               <span class="tit1">{{
@@ -92,7 +92,7 @@
               style="font-size: 14px"
               >{{ item.params6 }}</span
             >
-            <div class="tit1" style="font-size: 16px">总计</div>
+            <div class="tit1 text-center" style="font-size: 16px">总计</div>
             </div>
           </div>
          
