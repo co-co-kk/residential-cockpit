@@ -614,7 +614,141 @@ export const coverageData7=ref({
     }
   ]
 })
-export const coverageData8 = ref({
+
+const getPie3D = (pieData, internalDiameterRatio) => {
+    //internalDiameterRatio:透明的空心占比
+    let series = [];
+    let sumValue = 0;
+    let startValue = 0;
+    let endValue = 0;
+    let k = 1;
+    pieData.sort((a, b) => {
+        return b.value - a.value;
+    });
+    // 为每一个饼图数据，生成一个 series-surface 配置
+    for (let i = 0; i < pieData.length; i++) {
+        sumValue += pieData[i].value;
+        let seriesItem = {
+            name: typeof pieData[i].name === 'undefined' ? `series${i}` : pieData[i].name,
+            type: 'surface',
+            parametric: true,
+            wireframe: {
+                show: false,
+            },
+            pieData: pieData[i],
+            pieStatus: {
+                selected: false,
+                hovered: false,
+                k: k,
+            },
+            radius: '50%',
+            center: ['10%', '10%'],
+        };
+
+        if (typeof pieData[i].itemStyle != 'undefined') {
+            let itemStyle = {};
+            typeof pieData[i].itemStyle.color != 'undefined' ? (itemStyle.color = pieData[i].itemStyle.color) : null;
+            typeof pieData[i].itemStyle.opacity != 'undefined'
+                ? (itemStyle.opacity = pieData[i].itemStyle.opacity)
+                : null;
+            seriesItem.itemStyle = itemStyle;
+        }
+        series.push(seriesItem);
+    }
+
+    // 使用上一次遍历时，计算出的数据和 sumValue，调用 getParametricEquation 函数，
+    // 向每个 series-surface 传入不同的参数方程 series-surface.parametricEquation，也就是实现每一个扇形。
+
+    for (let i = 0; i < series.length; i++) {
+        endValue = startValue + series[i].pieData.value;
+        series[i].pieData.startRatio = startValue / sumValue;
+        series[i].pieData.endRatio = endValue / sumValue;
+        series[i].parametricEquation = getParametricEquation(
+            series[i].pieData.startRatio,
+            series[i].pieData.endRatio,
+            false,
+            false,
+            k,
+            series[i].pieData.value
+        );
+        startValue = endValue;
+    }
+    let boxHeight = getHeight3D(series, 25); //通过传参设定3d饼/环的高度，26代表26px
+    // 准备待返回的配置项，把准备好的 legendData、series 传入。
+    let option = {
+        backgroundColor: '#203598',
+        labelLine: {
+            show: true,
+            lineStyle: {
+                color: '#404772',
+            },
+        },
+        label: {
+            show: true,
+            position: 'outside',
+            rich: {
+                b: {
+                    fontSize: 24,
+                    lineHeight: 30,
+                    fontWeight: 'bold',
+                    color: '#fff',
+                },
+                c: {
+                    fontSize: 18,
+                    color: '#fff',
+                },
+            },
+            formatter: '{b|{b}}\n{c|{c}%}',
+        },
+        tooltip: {
+            backgroundColor: '#053A8D',
+            formatter: (params) => {
+                if (params.seriesName !== 'mouseoutSeries' && params.seriesName !== 'pie2d') {
+                    let bfb = (
+                        (option.series[params.seriesIndex].pieData.endRatio -
+                            option.series[params.seriesIndex].pieData.startRatio) *
+                        100
+                    ).toFixed(2);
+                    return (
+                        `${params.seriesName}<br/>` +
+                        `<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${params.color};"></span>` +
+                        `${bfb}%`
+                    );
+                }
+            },
+        },
+        xAxis3D: {
+            min: -1,
+            max: 1,
+        },
+        yAxis3D: {
+            min: -1,
+            max: 1,
+        },
+        zAxis3D: {
+            min: -1,
+            max: 1,
+        },
+        grid3D: {
+            show: false,
+            boxHeight: boxHeight, //圆环的高度
+            left: 0,
+            top: 0, //3d饼图的位置
+            viewControl: {
+                //3d效果可以放大、旋转等，请自己去查看官方配置
+                alpha: 20, //角度
+                distance: 250, //调整视角到主体的距离，类似调整zoom
+                rotateSensitivity: 0, //设置为0无法旋转
+                zoomSensitivity: 0, //设置为0无法缩放
+                panSensitivity: 0, //设置为0无法平移
+                autoRotate: false, //自动旋转
+            },
+        },
+        series: series,
+    };
+    return option;
+};
+export const coverageData9 = ref({
   tooltip: {
     trigger: 'item'
   },
