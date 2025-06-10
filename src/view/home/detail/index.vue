@@ -55,6 +55,53 @@
       >
         <img
           :src="item.params4"
+          class="mx-[10px] w-[29px] h-[27px]"
+          alt=""
+        />
+        <div>
+           <div
+            class="text-[#FFFFFF] text-[18px] font-bold mt-[5px]"
+          >
+            {{ item.params1 }}
+          </div>
+          <div class="flex">
+            <div>
+              <span class="tit1">{{
+              item.params2
+            }}</span>
+            <span
+              class="tit1 ml-[10px]"
+              style="font-size: 14px"
+              >{{ item.params3 }}</span
+            >
+            <div class="tit1" style="font-size: 16px">实时</div>
+            </div>
+            <div>
+              <span class="tit1">{{
+              item.params5
+            }}</span>
+            <span
+              class="tit1 ml-[10px]"
+              style="font-size: 14px"
+              >{{ item.params6 }}</span
+            >
+            <div class="tit1" style="font-size: 16px">总计</div>
+            </div>
+          </div>
+         
+        </div>
+      </div>
+      <!-- <div
+        class="rounded-[5px] w-[200px] flex items-center cursor-pointer"
+        style="
+          border: 4px solid
+            rgba(61, 133, 207, 0.4);
+        "
+        v-for="(item, index) in middleOptions"
+        :key="index"
+      >
+        <img
+          :src="item.params4"
           class="mx-[10px]"
           alt=""
         />
@@ -75,7 +122,7 @@
             {{ item.params1 }}
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <!-- 左 -->
     <div
@@ -110,13 +157,44 @@
     >
       <rightContent />
     </div>
-    <!-- xia -->
-    <img
+    <!-- <img
       class="absolute left-[calc(50%-722px)] top-[850px]"
       src="@/assets/rou/icon54.png"
       draggable="false"
       alt=""
-    />
+    /> -->
+    <div
+    class="absolute right-[calc(50%-500px)] top-[850px] w-[1000px]"
+    >
+      <div
+        class="flex justify-center items-end pb-[20px] pt-[10px]"
+      >
+       <div class="flex flex-col items-center">
+        <img
+          src="@/assets/rou/fangzi.png"
+          class="w-[65px] cursor-pointer h-[65px] mx-[30px]"
+          alt=""
+        />
+        <div class="text-[16px] text-[#fff] mt-[10px]">住建一张图</div>
+       </div>
+       <div class="flex flex-col items-center">
+        <img
+          src="@/assets/rou/guanzhu-act.png"
+          class="w-[94px] h-[92px] cursor-pointer"
+          alt=""
+        />
+        <div class="text-[16px] text-[#fff] mt-[10px]">今日关注</div>
+       </div>
+       <div class="flex flex-col items-center">
+        <img
+          src="@/assets/rou/xianshang.png"
+          class="w-[65px] h-[65px] mx-[30px] cursor-pointer"
+          alt=""
+        />
+        <div class="text-[16px] text-[#fff] mt-[10px]">线上指挥部</div>
+       </div>
+      </div>
+       </div>
     <img
       class="absolute right-[1400px] top-[770px] w-[72px] h-[58px] cursor-pointer"
       src="@/assets/rou/icon59.png"
@@ -724,41 +802,51 @@ import ItemImg5 from "@/assets/image/home/hetong.png";
 import ItemImg6 from "@/assets/image/home/quxian.png";
 const middleOptions = ref([
   {
-    params1: "实名制人数",
-    params2: "2598",
-    params3: "个",
+    params1: "实名人员检测",
+    params2: "80",
+    params3: "人",
+    params5: "2010",
+    params6: "人次",
     params4: ItemImg1,
   },
   {
-    params1: "监测设备总数",
-    params2: "43768",
-    params3: "台",
+    params1: "风险隐患",
+    params2: "2",
+    params3: "个",
+    params5: "32",
+    params6: "个",
     params4: ItemImg2,
   },
   {
-    params1: "发现隐患数量",
-    params2: "33",
-    params3: "个",
+    params1: "风险隐患整改率",
+    params2: "96",
+    params3: "%",
+    params5: "98",
+    params6: "%",
     params4: ItemImg3,
   },
   {
-    params1: "原材料检测报告数",
-    params2: "12",
-    params3: "个",
+    params1: "到场监督次数",
+    params2: "1",
+    params3: "次",
+    params5: "20",
+    params6: "次",
     params4: ItemImg4,
   },
   {
-    params1: "合同履约",
-    params2: "2亿",
-    params3: "人次",
+    params1: "监督到场率",
+    params2: "85",
+    params3: "%",
+    params5: "95",
+    params6: "%",
     params4: ItemImg5,
   },
-  {
-    params1: "合同履约金额",
-    params2: "4",
-    params3: "千亿",
-    params4: ItemImg6,
-  },
+  // {
+  //   params1: "合同履约金额",
+  //   params2: "4",
+  //   params3: "千亿",
+  //   params4: ItemImg6,
+  // },
 ]);
 const videoUrls = {
   camera1:
