@@ -235,14 +235,16 @@
       <div class="w-[555px]">
         <block class="w-[100%] h-[100%] text-[50px] text-[#fff]">
           <PubTit :title="'设备管理'" :width="555"></PubTit>
-          <div class="flex justify-end w-[548px] h-[367px] pl-[3px]">
+          <div class="flex justify-end w-[548px] h-[367px] pl-[3px] relative">
             <img
               src="@/assets/images/staffPng/discharge.png"
-              class="cursor-pointer w-full mt-[11px]"
+              class=" w-full mt-[11px]"
               draggable="false"
               alt=""
-              @click="handleOpenJiqirenTanchuang"
+              
             />
+            <span class="w-[100%]  h-[50%] absolute top-0 left-0" @click="handleOpenJiqirenTanchuang"></span>
+            <span class="w-[100%]  h-[50%] absolute top-[50%] left-0" @click="handleOpenShebeiTanchuang"></span>
           </div>
         </block>
       </div>
@@ -532,10 +534,13 @@ const staffData = ref([
 const activeTab = ref(0);
 
 const { weatherList, tabList, tabList1 } = toRefs(data);
-const emit = defineEmits(["handleEmitJiqirentanchuang"]);
+const emit = defineEmits(["handleEmitJiqirentanchuang","handleEmitShebeiTanchuang"]);
 const handleOpenJiqirenTanchuang = () => {
   emit("handleEmitJiqirentanchuang");
 };
+const handleOpenShebeiTanchuang=()=>{
+  emit("handleEmitShebeiTanchuang");
+}
 const handleDownloadPdf = async () => {
   const response = await fetch(
     "http://lc-F59ERqoe.cn-n1.lcfile.com/YIhaOss6v25jk1JR9LMopz9UpWNjngrX/%E6%95%B0%E6%8D%AE%E5%BA%93%E9%83%A8%E7%BD%B2%E5%89%8D%E6%9C%9F%E7%A1%AE%E8%AE%A4%E5%B7%A5%E4%BD%9C%EF%BC%882025.05.22%EF%BC%89.xlsx"

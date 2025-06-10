@@ -1,6 +1,9 @@
 <template>
-  <div class="w-[100%] bg-[#000] relative " id="isbody" style="height: 1080px;">
-   
+  <div
+    class="w-[100%] bg-[#000] relative"
+    id="isbody"
+    style="height: 1080px"
+  >
     <!-- left -->
     <div
       class="w-[45px] top-[15%] h-[70%] left-0 z-2 absolute is-left-bg animate-pulse"
@@ -11,7 +14,9 @@
     ></div>
     <!-- <Bim
       class="h-[1080px]"
-      @handleEmitShexiangtou="jiankongDialogVisible = true"
+      @handleEmitShexiangtou="
+        jiankongDialogVisible = true
+      "
       @handleEmitYimo="centerDiaShown = true"
       @handleEmitJiqiren="jiqirenDiaShown = true"
     /> -->
@@ -23,32 +28,50 @@
       <span class="ml-[20px]">返回</span>
     </div>
     <!-- 标题 -->
-    <dv-decoration-5 style="width:1000px;height:120px;" class="absolute top-0  right-[calc(50%-500px)]">
+    <dv-decoration-5
+      style="width: 1000px; height: 120px"
+      class="absolute top-0 right-[calc(50%-500px)]"
+    >
     </dv-decoration-5>
     <div
       class="is-title1 absolute top-[0px] right-[calc(50%-750px)] text-[24px] flex items-center w-[1000px] h-[80px] text-[40px]"
     >
-    <span class="text-[#fff] text-[36px]">东南医院二期项目</span>
-    
-      
+      <span class="text-[#fff] text-[36px]"
+        >东南医院二期项目</span
+      >
     </div>
     <!-- 顶部kpi -->
-    <div class="absolute top-[100px]  left-[calc(50%-700px)] grid grid-cols-6 gap-[30px]">
+    <div
+      class="absolute top-[100px] left-[calc(50%-700px)] grid grid-cols-6 gap-[30px]"
+    >
       <div
         class="rounded-[5px] w-[200px] flex items-center cursor-pointer"
-        style="border: 4px solid rgba(61, 133, 207, 0.4)"
+        style="
+          border: 4px solid
+            rgba(61, 133, 207, 0.4);
+        "
         v-for="(item, index) in middleOptions"
         :key="index"
       >
-        <img :src="item.params4" class="mx-[10px]" alt="" />
+        <img
+          :src="item.params4"
+          class="mx-[10px]"
+          alt=""
+        />
         <div>
           <div>
-            <span class="tit1">{{ item.params2 }}</span>
-            <span class="tit1 ml-[10px]" style="font-size: 14px">{{
-              item.params3
+            <span class="tit1">{{
+              item.params2
             }}</span>
+            <span
+              class="tit1 ml-[10px]"
+              style="font-size: 14px"
+              >{{ item.params3 }}</span
+            >
           </div>
-          <div class="text-[#FFFFFF] text-[18px] font-bold mt-[5px]">
+          <div
+            class="text-[#FFFFFF] text-[18px] font-bold mt-[5px]"
+          >
             {{ item.params1 }}
           </div>
         </div>
@@ -65,13 +88,20 @@
         );
       "
     >
-      <leftContent @handleEmitJiqirentanchuang="jiqirentanchuang=true"></leftContent>
+      <leftContent
+        @handleEmitJiqirentanchuang="
+          jiqirentanchuang = true
+        "
+        @handleEmitShebeiTanchuang="
+          shebeiTanchuang = true
+        "
+      ></leftContent>
     </div>
     <!-- 右 -->
     <div
-      class="absolute h-[1080px] pl-[20px] pr-[70px] right-0 top-0  pt-[0px] bg-[rgba(0,0,0,0.6)]"
+      class="absolute h-[1080px] pl-[20px] pr-[20px] right-0 top-0 pt-[0px] bg-[rgba(0,0,0,0.6)]"
       style="
-       background: linear-gradient(
+        background: linear-gradient(
           0deg,
           rgba(4, 29, 60, 0.4) 0%,
           rgba(7, 38, 83, 0.9) 100%
@@ -82,15 +112,15 @@
     </div>
     <!-- xia -->
     <img
-      class="absolute left-[calc(50%-722px)] top-[850px] "
+      class="absolute left-[calc(50%-722px)] top-[850px]"
       src="@/assets/rou/icon54.png"
-       draggable="false"
+      draggable="false"
       alt=""
     />
     <img
       class="absolute right-[1400px] top-[770px] w-[72px] h-[58px] cursor-pointer"
       src="@/assets/rou/icon59.png"
-       draggable="false"
+      draggable="false"
       alt=""
       @click="imgShown = !imgShown"
     />
@@ -119,7 +149,11 @@
       <video
         v-if="centerDialogVisible"
         src="@/assets/video/yiyuan.mp4"
-        style="width: 100%; height: 500px; object-fit: cover"
+        style="
+          width: 100%;
+          height: 500px;
+          object-fit: cover;
+        "
         controls
         autoplay
         muted
@@ -144,7 +178,8 @@
             <span
               class="ml-[50px] nav-item cursor-pointer"
               :class="{
-                'nav-item-act': activeTabIndex == index,
+                'nav-item-act':
+                  activeTabIndex == index,
               }"
               v-for="(item, index) in tabList"
               :key="index"
@@ -152,12 +187,15 @@
               >{{ item.name }}</span
             >
           </div>
-          <template v-if="tabList[activeTabIndex].yitu">
+          <template
+            v-if="tabList[activeTabIndex].yitu"
+          >
             <div class="text-[#fff]">
-              <div class="flex justify-center mt-[20px]">
+              <div
+                class="flex justify-center mt-[20px]"
+              >
                 <div
                   class="h-[85px] w-[495px] title-bg1 text-[18px] flex justify-center pt-[20px] box-border"
-                  
                 >
                   一图到底
                 </div>
@@ -177,10 +215,14 @@
                     alt=""
                   />
                 </div>
-                <div class="h-[332px] overflow-auto hide-scrollbar" >
+                <div
+                  class="h-[332px] overflow-auto hide-scrollbar"
+                >
                   <div
                     class="w-[332px] cursor-pointer h-[63px] is-item-5 text-[16px] pl-[50px] pt-[20px] box-border"
-                    v-for="(itm, idx) in tabList[activeTabIndex].yitu"
+                    v-for="(itm, idx) in tabList[
+                      activeTabIndex
+                    ].yitu"
                     :key="idx"
                     @click="handleChange(item)"
                   >
@@ -190,7 +232,9 @@
               </div>
             </div>
             <div class="text-[#fff]">
-              <div class="flex justify-center mt-[20px]">
+              <div
+                class="flex justify-center mt-[20px]"
+              >
                 <div
                   class="h-[85px] w-[495px] title-bg1 text-[18px] flex justify-center pt-[20px] box-border"
                 >
@@ -198,10 +242,16 @@
                 </div>
               </div>
               <div class="flex justify-center">
-                <div class="w-[692px] h-[365px] is-item-6 mr-[30px] p-[30px]">
+                <div
+                  class="w-[692px] h-[365px] is-item-6 mr-[30px] p-[30px]"
+                >
                   <video
                     :src="videoUrl"
-                    style="width: 100%; height: 100%; object-fit: cover"
+                    style="
+                      width: 100%;
+                      height: 100%;
+                      object-fit: cover;
+                    "
                     controls
                     autoplay
                     muted
@@ -220,8 +270,13 @@
       align-center
       class="video-dialog"
     >
-      <div class="w-[1500px] h-[800px] grid grid-cols-2 gap-[10px] grid-rows-2">
-        <div v-for="(url, key) in videoUrls" :key="key">
+      <div
+        class="w-[1500px] h-[800px] grid grid-cols-2 gap-[10px] grid-rows-2"
+      >
+        <div
+          v-for="(url, key) in videoUrls"
+          :key="key"
+        >
           <video
             :ref="
               (el) => {
@@ -244,10 +299,17 @@
       align-center
       class="video-dialog"
     >
-      <div style="width: 100%; height: 900px" class="relative">
+      <div
+        style="width: 100%; height: 900px"
+        class="relative"
+      >
         <iframe
           src="http://mars3d.cn/editor-vue.html?key=ex_6_3_9&id=graphic/entity/model-moveTo"
-          style="width: 100%; height: 100%; border: none"
+          style="
+            width: 100%;
+            height: 100%;
+            border: none;
+          "
         ></iframe>
         <div
           class="w-[100%] h-[50px] bg-[#fff] absolute top-0 left-0 text-[#000] text-[28px] flex justify-center items-center"
@@ -263,10 +325,17 @@
       align-center
       class="video-dialog"
     >
-      <div style="width: 100%; height: 900px" class="relative">
+      <div
+        style="width: 100%; height: 900px"
+        class="relative"
+      >
         <iframe
           src="http://mars3d.cn/editor-vue.html?key=ex_1_3_10&id=thing/camera/tween"
-          style="width: 100%; height: 100%; border: none"
+          style="
+            width: 100%;
+            height: 100%;
+            border: none;
+          "
         ></iframe>
         <div
           class="w-[100%] h-[50px] bg-[#fff] absolute top-0 left-0 text-[#000] text-[28px] flex justify-center items-center"
@@ -285,29 +354,36 @@
       <video
         v-if="jiqirenDiaShown"
         src="@/assets/video/jiqiren.mp4"
-        style="width: 100%; height: 800px; object-fit: cover"
+        style="
+          width: 100%;
+          height: 800px;
+          object-fit: cover;
+        "
         controls
         autoplay
         muted
       ></video>
     </el-dialog>
-    <div v-show="imgShown" class="absolute top-[1100px] right-[0px]">
-      <div  class="relative">
-      <img
-        class="absolute right-[1300px] bottom-[350px] w-[534px] h-[333px]"
-        src="@/assets/rou/icon60.png"
-         draggable="false"
-        alt=""
-      />
-      <span
-        class="absolute right-[1300px] cursor-pointer bottom-[620px] w-[50px] h-[50px] "
-        @click="imgShown = false"
-      ></span>
-      <span
-        class="absolute right-[1300px] cursor-pointer bottom-[400px] w-[100px] h-[200px] "
-        @click="diaShown = true"
-      ></span>
-    </div>
+    <div
+      v-show="imgShown"
+      class="absolute top-[1100px] right-[0px]"
+    >
+      <div class="relative">
+        <img
+          class="absolute right-[1300px] bottom-[350px] w-[534px] h-[333px]"
+          src="@/assets/rou/icon60.png"
+          draggable="false"
+          alt=""
+        />
+        <span
+          class="absolute right-[1300px] cursor-pointer bottom-[620px] w-[50px] h-[50px]"
+          @click="imgShown = false"
+        ></span>
+        <span
+          class="absolute right-[1300px] cursor-pointer bottom-[400px] w-[100px] h-[200px]"
+          @click="diaShown = true"
+        ></span>
+      </div>
     </div>
     <!-- 右弹窗 -->
     <div
@@ -323,12 +399,15 @@
           @click="diaShown = false"
           alt=""
         />
-        <span class="ml-[50px] nav-item-act cursor-pointer mt-[20px]"
+        <span
+          class="ml-[50px] nav-item-act cursor-pointer mt-[20px]"
           >多人商会</span
         >
       </div>
       <div class="flex flex-col items-center">
-        <div class="flex justify-center mt-[10px]">
+        <div
+          class="flex justify-center mt-[10px]"
+        >
           <div
             class="h-[85px] w-[495px] text-[18px] flex justify-center pt-[20px] box-border"
           >
@@ -339,21 +418,57 @@
           <div
             class="flex w-[300px] h-[125px] bg-[rgba(64,110,169,0.4)] mr-[40px]"
           >
-            <img src="@/assets/rou/ren.png" alt="" />
-            <div class="grid grid-rows-4 p-[10px] text-[20px]">
-              <span class="text-[#E0ECFF] text-[18px]">总指挥</span>
-              <span class="text-[#E0ECFF] text-[14px]">缪剑峰</span>
-              <span class="text-[#E0ECFF] text-[14px]">18996383232</span>
-              <span class="text-[#73FFB1] text-[14px]">在线</span>
+            <img
+              src="@/assets/rou/ren.png"
+              alt=""
+            />
+            <div
+              class="grid grid-rows-4 p-[10px] text-[20px]"
+            >
+              <span
+                class="text-[#E0ECFF] text-[18px]"
+                >总指挥</span
+              >
+              <span
+                class="text-[#E0ECFF] text-[14px]"
+                >缪剑峰</span
+              >
+              <span
+                class="text-[#E0ECFF] text-[14px]"
+                >18996383232</span
+              >
+              <span
+                class="text-[#73FFB1] text-[14px]"
+                >在线</span
+              >
             </div>
           </div>
-          <div class="flex w-[300px] h-[125px] bg-[rgba(64,110,169,0.4)]">
-            <img src="@/assets/rou/ren.png" alt="" />
-            <div class="grid grid-rows-4 p-[10px] text-[20px]">
-              <span class="text-[#E0ECFF] text-[18px]">副总指挥</span>
-              <span class="text-[#E0ECFF] text-[14px]">郑显潮</span>
-              <span class="text-[#E0ECFF] text-[14px]">15696186503</span>
-              <span class="text-[#73FFB1] text-[14px]">在线</span>
+          <div
+            class="flex w-[300px] h-[125px] bg-[rgba(64,110,169,0.4)]"
+          >
+            <img
+              src="@/assets/rou/ren.png"
+              alt=""
+            />
+            <div
+              class="grid grid-rows-4 p-[10px] text-[20px]"
+            >
+              <span
+                class="text-[#E0ECFF] text-[18px]"
+                >副总指挥</span
+              >
+              <span
+                class="text-[#E0ECFF] text-[14px]"
+                >郑显潮</span
+              >
+              <span
+                class="text-[#E0ECFF] text-[14px]"
+                >15696186503</span
+              >
+              <span
+                class="text-[#73FFB1] text-[14px]"
+                >在线</span
+              >
             </div>
           </div>
         </div>
@@ -363,9 +478,11 @@
         v-for="(item, index) in peopleList"
         :key="index"
       >
-        <div class="flex justify-center mt-[10px]">
+        <div
+          class="flex justify-center mt-[10px]"
+        >
           <div
-            class="h-[85px] w-[495px]  text-[18px] flex justify-center pt-[20px] box-border"
+            class="h-[85px] w-[495px] text-[18px] flex justify-center pt-[20px] box-border"
           >
             {{ item.type }}
           </div>
@@ -374,12 +491,29 @@
           <div
             class="flex w-[300px] h-[125px] bg-[rgba(64,110,169,0.4)] mr-[40px]"
           >
-            <img src="@/assets/rou/ren.png" alt="" />
-            <div class="grid grid-rows-4 p-[10px] text-[20px]">
-              <span class="text-[#E0ECFF] text-[18px]">组长</span>
-              <span class="text-[#E0ECFF] text-[14px]">{{ item.zz }}</span>
-              <span class="text-[#E0ECFF] text-[14px]">{{ item.tel }}</span>
-              <span class="text-[#73FFB1] text-[14px]">在线</span>
+            <img
+              src="@/assets/rou/ren.png"
+              alt=""
+            />
+            <div
+              class="grid grid-rows-4 p-[10px] text-[20px]"
+            >
+              <span
+                class="text-[#E0ECFF] text-[18px]"
+                >组长</span
+              >
+              <span
+                class="text-[#E0ECFF] text-[14px]"
+                >{{ item.zz }}</span
+              >
+              <span
+                class="text-[#E0ECFF] text-[14px]"
+                >{{ item.tel }}</span
+              >
+              <span
+                class="text-[#73FFB1] text-[14px]"
+                >在线</span
+              >
             </div>
           </div>
           <div>
@@ -389,10 +523,17 @@
               :key="idx"
             >
               <div>
-                <i class="text-[#79C5FF] font-600 mr-[30px]">{{ itm.type }}</i>
-                <span class="">{{ itm.name }}</span>
+                <i
+                  class="text-[#79C5FF] font-600 mr-[30px]"
+                  >{{ itm.type }}</i
+                >
+                <span class="">{{
+                  itm.name
+                }}</span>
               </div>
-              <div class="text-[13px] ml-[10px] text-[#6BFFAC]">
+              <div
+                class="text-[13px] ml-[10px] text-[#6BFFAC]"
+              >
                 {{ itm.tel }}
               </div>
             </div>
@@ -407,10 +548,48 @@
         </div>
       </div>
     </div>
-     <!-- 机器人弹窗 -->
-     <div
-      class="w-[1117px] h-[1080px] is-left-dialog absolute left-[50px] top-0 z-99 text-[#fff]"
+    <!-- 机器人弹窗 -->
+    <div
+      class="w-[100%] is-robot h-[1080px] is-left-dialog absolute left-[0] top-0 z-99 text-[#fff]"
       v-if="jiqirentanchuang"
+    >
+      <div class="relative w-[100%] h-[100%]">
+        <img
+            src="@/assets/rou/guanbi.png"
+            @click="jiqirentanchuang = false"
+            class="absolute right-[50px] top-[50px] cursor-pointer z-[99]"
+            alt=""
+          />
+        <div
+          class="grid grid-cols-4 gap-[80px] absolute bottom-[50px] left-[50%]"
+        >
+          <img
+            src="@/assets/rou/arrow.png"
+            class="cursor-pointer"
+            alt=""
+          />
+          <img
+            src="@/assets/rou/arrow.png"
+            class="cursor-pointer transform-rotate-90"
+            alt=""
+          />
+          <img
+            src="@/assets/rou/arrow.png"
+            class="cursor-pointer transform-rotate-180"
+            alt=""
+          />
+          <img
+            src="@/assets/rou/arrow.png"
+            class="cursor-pointer transform-rotate-270"
+            alt=""
+          />
+        </div>
+         <video src="http://172.30.41.194:20035/jiqiren1.mp4" class="ml-[1105px] mt-[50px]" style="width: 72%; object-fit: cover;height: 880px;" controls autoplay muted></video>
+      </div>
+    </div>
+    <div
+      class="w-[1217px] h-[1080px] is-left-dialog absolute left-[50px] top-0 z-99 text-[#fff]"
+      v-if="shebeiTanchuang"
     >
       <div
         class="relative after:block after:content-[''] after:absolute after:w-[90%] after:h-[1px] after:bg-[rgba(15,97,203,0.4)] after:bottom-0 after:left-[5%]"
@@ -418,15 +597,19 @@
         <img
           src="@/assets/rou/guanbi.png"
           class="absolute right-[100px] top-[20px] cursor-pointer z-[99]"
-          @click="jiqirentanchuang = false"
+          @click="shebeiTanchuang = false"
           alt=""
         />
-        <span class="ml-[50px] nav-item-act cursor-pointer mt-[20px]"
+        <span
+          class="ml-[50px] nav-item-act cursor-pointer mt-[20px]"
           >设备总览</span
         >
       </div>
       <div class="pl-[50px]">
-        <img src="@/assets/rou/icon645.png" alt="">
+        <img
+          src="@/assets/rou/icon645.png"
+          alt=""
+        />
       </div>
     </div>
   </div>
@@ -434,7 +617,14 @@
 
 <script setup>
 import Bim from "@/components/map/Bim.vue";
-import { ref, reactive, onMounted, watch, onUnmounted, nextTick } from "vue";
+import {
+  ref,
+  reactive,
+  onMounted,
+  watch,
+  onUnmounted,
+  nextTick,
+} from "vue";
 import autofit from "autofit.js";
 import leftContent from "./components/leftContent/index.vue";
 import rightContent from "./components/rightContent/index.vue";
@@ -450,7 +640,8 @@ const centerDiaShown = ref(false);
 const floorVisible = ref(false);
 const feijiVisible = ref(false);
 const jiqirenDiaShown = ref(false);
-const jiqirentanchuang=ref(false)
+const jiqirentanchuang = ref(false);
+const shebeiTanchuang = ref(false);
 const imgShown = ref(true);
 const diaShown = ref(false);
 const activeTabIndex = ref(1);
@@ -579,7 +770,9 @@ const videoUrls = {
   camera4:
     "https://open.ys7.com/openlive/269f64a09d2741288c713248042f672e.m3u8",
 };
-const videoUrl = ref("http://172.30.41.194:20035/2.mp4");
+const videoUrl = ref(
+  "http://172.30.41.194:20035/2.mp4"
+);
 const peopleList = ref([
   {
     zz: "周洋",
@@ -649,70 +842,93 @@ const peopleList = ref([
   },
 ]);
 const handleActNav = (index, item) => {
-  console.log("🚀 ~ handleActNav ~ item:", item.yimodel);
+  console.log(
+    "🚀 ~ handleActNav ~ item:",
+    item.yimodel
+  );
   videoUrl.value = item.yimodel;
   activeTabIndex.value = index;
 };
 const initHls = () => {
-  Object.entries(videoUrls).forEach(([key, url]) => {
-    const video = videoRefs.value[key];
-    if (!video) return;
+  Object.entries(videoUrls).forEach(
+    ([key, url]) => {
+      const video = videoRefs.value[key];
+      if (!video) return;
 
-    if (Hls.isSupported()) {
-      const hls = new Hls({
-        debug: false,
-        enableWorker: true,
-        lowLatencyMode: true,
-        backBufferLength: 90,
-      });
-
-      hls.loadSource(url);
-      hls.attachMedia(video);
-      hlsInstances.value.push(hls);
-
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        isLoading.value = false;
-        video.play().catch((e) => {
-          console.error("视频播放失败:", e);
-          // 尝试重新加载
-          hls.startLoad();
+      if (Hls.isSupported()) {
+        const hls = new Hls({
+          debug: false,
+          enableWorker: true,
+          lowLatencyMode: true,
+          backBufferLength: 90,
         });
-      });
 
-      hls.on(Hls.Events.ERROR, (event, data) => {
-        console.error("HLS错误:", data);
-        if (data.fatal) {
-          switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR:
-              console.log("网络错误，尝试重新加载");
-              hls.startLoad();
-              break;
-            case Hls.ErrorTypes.MEDIA_ERROR:
-              console.log("媒体错误，尝试恢复");
-              hls.recoverMediaError();
-              break;
-            default:
-              console.log("致命错误，重新初始化");
-              hls.destroy();
-              initHls();
-              break;
+        hls.loadSource(url);
+        hls.attachMedia(video);
+        hlsInstances.value.push(hls);
+
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          isLoading.value = false;
+          video.play().catch((e) => {
+            console.error("视频播放失败:", e);
+            // 尝试重新加载
+            hls.startLoad();
+          });
+        });
+
+        hls.on(
+          Hls.Events.ERROR,
+          (event, data) => {
+            console.error("HLS错误:", data);
+            if (data.fatal) {
+              switch (data.type) {
+                case Hls.ErrorTypes.NETWORK_ERROR:
+                  console.log(
+                    "网络错误，尝试重新加载"
+                  );
+                  hls.startLoad();
+                  break;
+                case Hls.ErrorTypes.MEDIA_ERROR:
+                  console.log(
+                    "媒体错误，尝试恢复"
+                  );
+                  hls.recoverMediaError();
+                  break;
+                default:
+                  console.log(
+                    "致命错误，重新初始化"
+                  );
+                  hls.destroy();
+                  initHls();
+                  break;
+              }
+            }
           }
-        }
-      });
-    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = url;
-      video.addEventListener("loadedmetadata", () => {
-        isLoading.value = false;
-        video.play().catch((e) => {
-          console.error("视频播放失败:", e);
-          // 尝试重新加载
-          video.load();
-        });
-      });
-    } else {
-      console.error("当前浏览器不支持 HLS 播放");
+        );
+      } else if (
+        video.canPlayType(
+          "application/vnd.apple.mpegurl"
+        )
+      ) {
+        video.src = url;
+        video.addEventListener(
+          "loadedmetadata",
+          () => {
+            isLoading.value = false;
+            video.play().catch((e) => {
+              console.error("视频播放失败:", e);
+              // 尝试重新加载
+              video.load();
+            });
+          }
+        );
+      } else {
+        console.error(
+          "当前浏览器不支持 HLS 播放"
+        );
+      }
     }
-  });
+  );
 };
 
 watch(
@@ -757,7 +973,8 @@ onUnmounted(() => {
   letter-spacing: 25px;
 }
 .is-left-dialog {
-  background: url("@/assets/rou/maDia.png") no-repeat 100% 100% / cover;
+  background: url("@/assets/rou/maDia.png")
+    no-repeat 100% 100% / cover;
 }
 
 .nav-item-act {
@@ -766,7 +983,8 @@ onUnmounted(() => {
   width: 200px;
   display: block;
   text-align: center;
-  background: url("@/assets/rou/icon61.png") no-repeat center center;
+  background: url("@/assets/rou/icon61.png")
+    no-repeat center center;
   background-size: 100% 100%;
   font-size: 21px;
 }
@@ -781,7 +999,8 @@ onUnmounted(() => {
 .is-faqi {
   width: 182px;
   height: 54px;
-  background: url("@/assets/rou/icon66.png") no-repeat center center;
+  background: url("@/assets/rou/icon66.png")
+    no-repeat center center;
   background-size: 100% 100%;
 }
 .tit1 {
@@ -789,7 +1008,11 @@ onUnmounted(() => {
   font-weight: bold;
   font-size: 24px;
   color: #17b99a;
-  background: linear-gradient(0deg, #eefdff 0%, #6bffac 100%);
+  background: linear-gradient(
+    0deg,
+    #eefdff 0%,
+    #6bffac 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -814,10 +1037,17 @@ onUnmounted(() => {
 }
 
 .is-item-6 {
-  background: url("@/assets/rou/icon68.png") no-repeat center center;
+  background: url("@/assets/rou/icon68.png")
+    no-repeat center center;
   background-size: 100% 100%;
 }
-.title-bg1{
-  background: url("@/assets/rou/icon62.png") no-repeat 100% 100% / cover;
+.title-bg1 {
+  background: url("@/assets/rou/icon62.png")
+    no-repeat 100% 100% / cover;
+}
+.is-robot {
+  background: url("@/assets/rou/jiqiren.png")
+    no-repeat center center;
+  background-size: 100% 100%;
 }
 </style>

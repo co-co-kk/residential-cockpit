@@ -30,11 +30,10 @@
                   </div>
                 </div>
               </div>
-              <div class="h-[260px]">
-                <EcharsWrapper
-                  :chartData="coverageData3"
-                ></EcharsWrapper>
-              </div>
+             
+              <div class="h-[260px] w-[100%] mt-[31px]">
+            <EcharsWrapper :chartData="coverageData3"></EcharsWrapper>
+          </div>
               <div class="h-[78px]">
                 <img src="@/assets/sxk-qph/bhgs.png" draggable="false" alt="" />
               </div>

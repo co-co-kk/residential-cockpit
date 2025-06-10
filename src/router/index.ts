@@ -11,7 +11,9 @@ import Flow from "../view/test/flow.vue"
 const routes = [
   {
     path: '/',
-    component: Home,
+    // component: Home,
+    // component: Detail,
+    component: Test,
     children: [
       {
         path: 'child', // 子路由的路径
