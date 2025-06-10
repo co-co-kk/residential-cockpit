@@ -379,6 +379,7 @@ const addEntity2 = () => {
     const height = 100 + index * 1.5;
     const glbEntity = new Cesium.Entity({
       id: "Floor" + (index + 1),
+      floor:index+1,
       url: item.url,
       position: Cesium.Cartesian3.fromDegrees(
         106.650952,
@@ -387,8 +388,8 @@ const addEntity2 = () => {
       ), // 更新位置
       model: {
         uri: item.url,
-        minimumPixelSize: 128,
-        maximumScale: 20000,
+        minimumPixelSize: 200,
+        maximumScale: 1500,
         scale: 1.0,
         heightReference:
           Cesium.HeightReference
@@ -398,44 +399,9 @@ const addEntity2 = () => {
     });
     agFeatureLayer.addEntity(glbEntity);
   });
-  // 将实体添加到视图中
-  // // 添加一栋楼
-  // for (let i = 0; i < 4; i++) {
-  //   // 计算每层楼的高度，假设每层高10单位
-  //   const height = 100 + i * 10;
-  //   // 判断最后一层
-  //   const modelUri =
-  //     i < 4
-  //       ? "http://lc-F59ERqoe.cn-n1.lcfile.com/rATKUMJsjlerMEaULsVtg02rxbtcz7LV/6.glb"
-  //       : "https://data.mars3d.cn/gltf/mars/floor/top.glb"; // 最后一层使用top.glb
-
-  //   //  const modelUri =
-  //   //   i < 14
-  //   //     ? `http://172.30.41.194:20035/glb/1.glb`
-  //   //     : "http://172.30.41.194:20035/glb/table.glb"; // 最后一层使用top.glb
-  //   // 创建每层楼的实体
-  //   const imageEntity = new Cesium.Entity({
-  //     id: `myEntity_${i}`, // 设置唯一ID
-  //     position: Cesium.Cartesian3.fromDegrees(
-  //       106.650952,
-  //       29.504009, // 增加高度来拉远视距
-  //       height
-  //     ), // 更新位置
-  //     model: {
-  //       uri: modelUri,
-  //       minimumPixelSize: 128,
-  //       maximumScale: 20000,
-  //       scale: 1.0,
-  //       heightReference:
-  //         Cesium.HeightReference
-  //           .RELATIVE_TO_GROUND,
-  //       // height: height 不需要单独设置，因为位置已经包含高度
-  //     },
-  //   });
-  //   // 将实体添加到视图中
-  //   agFeatureLayer.addEntity(imageEntity);
-  // }
 };
+let lastCopiedEntityId = null; // 存储上一个复制实体的 ID
+
 const initMap = async () => {
   try {
     isLoading.value = true;
@@ -718,23 +684,40 @@ const initMap = async () => {
       ) {
         // feature.id._id
         // feature.id._url
-        let lastCopiedEntityId = null; // 存储上一个复制实体的 ID
         // 移除上一个复制的实体
+        // viewer.entities.remove(agFeatureLayer._entities[19]);
         if (lastCopiedEntityId) {
-          // agFeatureLayer.removeEntity(lastCopiedEntityId);
-          viewer.entities.remove(lastCopiedEntityId);
+          viewer.entities.remove(
+            lastCopiedEntityId
+          );
+          // console.log(
+          //   "🚀 ~ _pickerHelper.on ~ lastCopiedEntityId:",
+          //   lastCopiedEntityId
+          // );
+          // const entity = viewer.entities.getById(
+          //   lastCopiedEntityId
+          // ); // 根据 ID 获取 Entity
+          // if (entity) {
+          //   viewer.entities.remove(entity); // 移除 Entity
+          // }
         }
+
         console.log(
           feature.id._id,
           feature.id._url
         );
         // alert("点击了模型",feature.id._id,feature.id._url);
-         const drawerPosition = Cesium.Cartesian3.fromDegrees(
-          106.650952 + 0.00150, // 平移500米（经度约0.0045）
-          29.504009,
-          cartographic.height + 10 // 抽屉效果的高度
-        );
-        
+        const m=feature.id._floor>5?0.0009:0.00130;
+        console.log("🚀 ~ _pickerHelper.on ~ m:",feature.id.floor, m)
+        // console.log("gaodu",cartographic.height)
+        const drawerPosition =
+          Cesium.Cartesian3.fromDegrees(
+            106.650952 + m, // 平移500米（经度约0.0045）
+            29.504009,
+            125
+            // (cartographic.height-100) // 抽屉效果的高度
+          );
+
         const copiedEntity = new Cesium.Entity({
           id: "Copy_" + feature.id._id,
           url: feature.id._url,
@@ -742,13 +725,34 @@ const initMap = async () => {
           model: {
             uri: feature.id._url,
             minimumPixelSize: 128,
-            maximumScale: 20000,
+            maximumScale: 1500,
             scale: 1.0,
-            heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
+            heightReference:
+              Cesium.HeightReference
+                .RELATIVE_TO_GROUND,
           },
         });
         agFeatureLayer.addEntity(copiedEntity);
-        lastCopiedEntityId=copiedEntity.id;
+        // lastCopiedEntityId = copiedEntity._id;
+        console.log(
+          "suoyourtuceng",
+          agFeatureLayer._entities
+        );
+        lastCopiedEntityId =
+          agFeatureLayer._entities.find(
+            (item) =>
+              (item._id = copiedEntity._id)
+          );
+        console.log(
+          "🚀 ~ _pickerHelper.on ~ lastCopiedEntityId:",
+          lastCopiedEntityId
+        );
+        // lastCopiedEntityId = copiedEntity;
+
+        console.log(
+          "🚀 ~ _pickerHelper.on ~ copiedEntity:",
+          copiedEntity._id
+        );
       } else {
         return;
       }
