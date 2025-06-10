@@ -505,3 +505,139 @@ export const coverageData5 = ref( {
       
   ]
 });
+
+export const coverageData6 = ref({
+  legend: {
+    data: ["支付人数", "支付金额"],
+    top: 0,
+    // right: 80,
+    left: 0,
+    textStyle: {
+      fontSize: 16,
+      color: "#fff",
+    },
+  },
+  grid: {
+    left: "5%",
+    // right: '10%',
+    bottom: "10%",
+  },
+  xAxis: {
+    type: "category",
+    data: ['第一季度', '第二季度', '第三季度', '第四季度'],
+  },
+  yAxis: {
+    type: "value",
+    splitLine: {
+      lineStyle: {
+        type: 'dashed', // 设置为虚线
+        // color: 'rgba(128, 164, 229, 0.4)', // 可设置颜色
+        color: '#fff', // 可设置颜色
+        width: 1 // 可设置宽度
+      }
+    }
+  },
+
+  series: [
+    {
+      name: "支付人数",
+      data: [80, 74, 65, 99, 78, 90],
+      type: "bar",
+      color: "#406EA9",
+      stack: "Total",
+      areaStyle: {},
+      smooth: false,
+      showSymbol: false,
+      itemStyle: {
+        normal: {
+          barBorderRadius: 5 // 设置柱子的圆角
+        }
+      },
+      barWidth: '30%'
+    },
+    {
+      name: "支付金额",
+      data: [53, 62, 71, 84, 90, 80],
+      type: "line",
+      color: "#FFBF5B",
+    },
+  ],
+});
+export const coverageData7=ref({
+  
+  color: ['#39CAFB','#4CAFF9','#49DECA','#0271F4'],
+  toolbox: {
+    show: true,
+    feature: {
+      mark: { show: true },
+      dataView: { show: true, readOnly: false },
+      restore: { show: true },
+      saveAsImage: { show: true }
+    },
+    
+  },
+  series: [
+    {
+      name: 'Nightingale Chart',
+      type: 'pie',
+      radius: [0, '80%'],
+      center: ['50%', '50%'],
+      // roseType: 'area',
+      itemStyle: {
+        borderRadius: 0
+      },
+      data: [
+        { value: 6, name: '剩余' },
+        { value: 24, name: '合同总月数' },
+      ],
+      label: {
+        show: true,
+        formatter: function(params) {
+          return `{b|${params.name}}\n{c|${params.value}}`;
+        },
+        rich: {
+          b: {
+            color: '#fff', // 设置名称颜色为白色
+            fontSize: 16,
+            align: 'center'
+          },
+          c: {
+            color: '#0370F2', // 设置数量颜色
+            fontSize: 14,
+            align: 'center'
+          }
+        }
+      },
+      labelLine: {
+        show: true // 显示引导线
+      }
+    }
+  ]
+})
+export const coverageData8 = ref({
+  tooltip: {
+    trigger: 'item'
+  },
+  // legend: {
+  //   top: '5%',
+  //   left: 'center'
+  // },
+  series: [
+    {
+      name: '示例数据',
+      type: 'pie',
+      radius: '70%',
+      data: [
+        { value: 1120, name: '已履约' },
+        { value: 4120, name: '履约' },
+      ],
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
+        }
+      }
+    }
+  ]
+});
