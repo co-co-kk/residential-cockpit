@@ -11,8 +11,8 @@ import Flow from "../view/test/flow.vue"
 const routes = [
   {
     path: '/',
-    // component: Home,
-    component: Detail,
+    component: Home,
+    // component: Detail,
     // component: Test,
     children: [
       {

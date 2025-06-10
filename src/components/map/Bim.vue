@@ -8,7 +8,7 @@
       id="containCesium"
       class="containCesium"
     ></div>
-     <!-- <button
+    <!-- <button
       @click="handleClick"
       class="bg-[red] absolute top-[40%] left-[1250px] z-9 text-[50px]"
     >
@@ -16,17 +16,25 @@
     </button> -->
     <button
       @click="handleClick"
-      class="bg-[red] absolute top-[20%] left-[1250px] z-9 text-[50px]"
+      class="bg-[red] absolute top-[20%] text-[#fff] left-[1250px] z-9 text-[50px]"
     >
       点击风险图层
     </button>
 
-    <button
+    <!-- <button
       @click="handleManyou"
       class="bg-[red] absolute top-[30%] left-[1250px] z-9 text-[50px]"
     >
       开始漫游
-    </button>
+    </button> -->
+    <div class="absolute top-[30%] flex items-center text-[#fff] left-[1250px] scale-[0.7] z-9 text-[50px] cursor-pointer animate-pulse">
+      <img
+      src="@/assets/rou/feiji.png"
+       @click="handleManyou"
+      alt=""
+    />
+    <span>开始巡查</span>
+    </div>
     <!-- 添加视角信息显示控件 -->
     <!-- <div class="view-info-panel">
       <p>视角位置</p>
@@ -334,7 +342,7 @@ const handleClick = () => {
     destination: Cesium.Cartesian3.fromDegrees(
       106.649611,
       29.507842,
-     429.66
+      429.66
     ),
     orientation: {
       heading: Cesium.Math.toRadians(0),
@@ -522,6 +530,20 @@ const addEntity2 = () => {
   });
 };
 let lastCopiedEntityId = null; // 存储上一个复制实体的 ID
+
+// 移除添加图层
+const removeLayer = (list) => {
+  delList=agFeatureLayer._entities.forEach(
+    (item) => (item._id = copiedEntity._id)
+  );
+  if (lastCopiedEntityId) {
+    viewer.entities.remove(lastCopiedEntityId);
+  }
+  // 移除所有实体
+  // agFeatureLayer._entities.removeAll();
+  // 移除所有图层
+  // CIM.layerTree.removeAll();
+};
 
 const initMap = async () => {
   try {
@@ -792,7 +814,11 @@ const initMap = async () => {
         emit("handleEmitJiqiren");
       } else if (feature.id._id === "bim1") {
         emit("handleEmitYimo");
-      } else if (feature.id._id === "fengxian1" || feature.id._id === "fengxian2" || feature.id._id === "fengxian3") {
+      } else if (
+        feature.id._id === "fengxian1" ||
+        feature.id._id === "fengxian2" ||
+        feature.id._id === "fengxian3"
+      ) {
         // 显示风险信息弹窗
         showRiskPopup.value = true;
         // 设置弹窗位置

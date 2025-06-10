@@ -204,19 +204,19 @@
     />
     <!-- 图标 -->
     <!-- 楼层切换 -->
-    <img
+    <!-- <img
       class="absolute top-[328px] w-[100px] h-[100px] right-[1255px] cursor-pointer animate-pulse"
       src="@/assets/rou/floor.png"
       @click="floorVisible = true"
       alt=""
-    />
+    /> -->
     <!-- 飞机 -->
-    <img
+    <!-- <img
       class="absolute top-[228px] w-[100px] h-[100px] right-[1255px] cursor-pointer animate-pulse"
       src="@/assets/rou/feiji.png"
       @click="feijiVisible = true"
       alt=""
-    />
+    /> -->
     <!-- 弹窗1 -->
     <el-dialog
       v-model="centerDialogVisible"
@@ -720,7 +720,7 @@ const feijiVisible = ref(false);
 const jiqirenDiaShown = ref(false);
 const jiqirentanchuang = ref(false);
 const shebeiTanchuang = ref(false);
-const imgShown = ref(true);
+const imgShown = ref(false);
 const diaShown = ref(false);
 const activeTabIndex = ref(1);
 const isLoading = ref(true);
