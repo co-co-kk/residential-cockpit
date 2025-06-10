@@ -318,9 +318,7 @@
                               已履约金额与人员总金额占比
                             </div>
                             <div class="w-[100%] h-[60px] box-border">
-                                    <EcharsWrapper
-                                :chartData="coverageData9"
-                              ></EcharsWrapper>
+                              <xuanzhaun></xuanzhaun>
                             </div>
                           </div>
                           <div class="h-[50%]">
@@ -362,6 +360,7 @@
 import { ref } from "vue";
 import PubTit from "@/components/public/PubTit.vue";
 import EcharsWrapper from "@/components/echars/EcharsWrapper.vue";
+import xuanzhaun from "@/view/home/detail/components/rightContent/xuanzhaun.vue";
 import {
   coverageData,
   coverageData3,
@@ -369,7 +368,6 @@ import {
   coverageData5,
   coverageData6,
   coverageData7,
-  coverageData9,
 } from "./echarsOptions.js";
 import SeamlessScroll from "@/components/SeamlessScroll.vue";
 const KeyProgress = ["关键进度一", "关键进度二", "关键进度三", "关键进度四"];
