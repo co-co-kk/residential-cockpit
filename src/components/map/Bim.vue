@@ -8,20 +8,27 @@
       id="containCesium"
       class="containCesium"
     ></div>
+     <!-- <button
+      @click="handleClick"
+      class="bg-[red] absolute top-[40%] left-[1250px] z-9 text-[50px]"
+    >
+      点击感知图层
+    </button> -->
     <button
       @click="handleClick"
-      class="bg-[red] absolute top-[20%] left-[40%] z-9 text-[50px]"
+      class="bg-[red] absolute top-[20%] left-[1250px] z-9 text-[50px]"
     >
       点击风险图层
     </button>
-    <!-- <button
+
+    <button
       @click="handleManyou"
-      class="bg-[red] absolute top-[30%] left-[40%] z-9 text-[50px]"
+      class="bg-[red] absolute top-[30%] left-[1250px] z-9 text-[50px]"
     >
       开始漫游
-    </button> -->
+    </button>
     <!-- 添加视角信息显示控件 -->
-    <div class="view-info-panel">
+    <!-- <div class="view-info-panel">
       <p>视角位置</p>
       <div class="info-item">
         <span class="label">经度：</span>
@@ -41,15 +48,15 @@
           >{{ currentView.height }}米</span
         >
       </div>
-    </div>
+    </div> -->
     <!-- 添加点击信息显示控件 -->
-    <div class="absolute z-999 right-0 bottom-0">
+    <!-- <div class="absolute z-999 right-0 bottom-0">
       <p>点击位置</p>
       <textarea
         class="w-[400px] h-[300px]"
         :value="clickPositionInfo"
       ></textarea>
-    </div>
+    </div> -->
     <!-- 风险信息弹窗 -->
     <div
       v-if="showRiskPopup"
@@ -107,6 +114,7 @@ import jiqiren from "@/assets/rou/icon55.png";
 import bim1 from "@/assets/rou/BIM.png";
 import bim2 from "@/assets/rou/BIM.png";
 import fengxian from "@/assets/rou/fengxian.gif";
+import ganzhi from "@/assets/rou/ganzhi.png";
 const emit = defineEmits([
   "handleEmitShexiangtou",
   "handleEmitJiqiren",
@@ -129,6 +137,55 @@ const informationShow = ref(false);
 const overlayInformation = ref({
   type: null,
 });
+const handleManyou = () => {
+  // 定义室内漫游的多个点
+  const indoorPoints = [
+    {
+      lon: 106.651317,
+      lat: 29.509315,
+      height: 300, // 设置较低的高度以适应室内
+    },
+    {
+      lon: 106.650404,
+      lat: 29.509315,
+      height: 300,
+    },
+    // {
+    //   lon: 106.650404,
+    //   lat: 29.509000,
+    //   height: 300,
+    // },
+  ];
+
+  // 漫游函数
+  const roamToIndoorPoints = (index) => {
+    if (index < indoorPoints.length) {
+      const position = indoorPoints[index];
+      viewer.camera.flyTo({
+        destination:
+          Cesium.Cartesian3.fromDegrees(
+            position.lon,
+            position.lat,
+            position.height + 1 // 稍微拉高视角，适合室内
+          ),
+        orientation: {
+          heading: Cesium.Math.toRadians(0),
+          pitch: Cesium.Math.toRadians(-10), // 适当调整俯仰角度
+          roll: 0,
+        },
+        duration: 5,
+        complete: () => {
+          // 等待飞行完成后，继续下一个点
+          roamToIndoorPoints(index + 1);
+        },
+      });
+    }
+  };
+
+  // 开始漫游
+  roamToIndoorPoints(0);
+};
+
 // 当前视角
 const currentView = ref({
   longitude: "0.000000",
@@ -200,15 +257,45 @@ const fengxianList = ref([
   {
     id: "fengxian1",
     type: "fengxian",
-    lon: 106.647562,
-    lng: 29.511047,
+    lon: 106.648762,
+    lng: 29.510208,
     img: fengxian,
   },
   {
     id: "fengxian2",
     type: "fengxian",
-    lon: 106.64764,
-    lng: 29.516131,
+    lon: 106.650136,
+    lng: 29.509099,
+    img: fengxian,
+  },
+  {
+    id: "fengxian3",
+    type: "fengxian",
+    lon: 106.649468,
+    lng: 29.510137,
+    img: fengxian,
+  },
+]);
+const ganzhiList = ref([
+  {
+    id: "fengxian1",
+    type: "fengxian",
+    lon: 106.648762,
+    lng: 29.510208,
+    img: fengxian,
+  },
+  {
+    id: "fengxian2",
+    type: "fengxian",
+    lon: 106.650136,
+    lng: 29.509099,
+    img: fengxian,
+  },
+  {
+    id: "fengxian2",
+    type: "fengxian",
+    lon: 106.649468,
+    lng: 29.510137,
     img: fengxian,
   },
 ]);
@@ -220,7 +307,7 @@ const handleClick = () => {
       position: Cesium.Cartesian3.fromDegrees(
         item.lon,
         item.lng,
-        300
+        50
       ),
       billboard: {
         image: item.img,
@@ -243,23 +330,36 @@ const handleClick = () => {
     agFeatureLayer.addEntity(imageEntity);
   });
 
+  viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(
+      106.649611,
+      29.507842,
+     429.66
+    ),
+    orientation: {
+      heading: Cesium.Math.toRadians(0),
+      pitch: Cesium.Math.toRadians(-20), // 适当调整俯仰角度
+      roll: 0,
+    },
+    duration: 2,
+  });
   // 调整相机视角到第一个风险点
-  if (fengxianList.value.length > 0) {
-    const firstPoint = fengxianList.value[0];
-    viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(
-        106.647817,
-        29.494957,
-        2150
-      ),
-      orientation: {
-        heading: Cesium.Math.toRadians(0),
-        pitch: Cesium.Math.toRadians(-45),
-        roll: 0,
-      },
-      duration: 2,
-    });
-  }
+  // if (fengxianList.value.length > 0) {
+  //   const firstPoint = fengxianList.value[0];
+  //   viewer.camera.flyTo({
+  //     destination: Cesium.Cartesian3.fromDegrees(
+  //       106.648916,
+  //       29.508106,
+  //       455.98
+  //     ),
+  //     orientation: {
+  //       heading: Cesium.Math.toRadians(0),
+  //       pitch: Cesium.Math.toRadians(-45),
+  //       roll: 0,
+  //     },
+  //     duration: 2,
+  //   });
+  // }
 };
 // 添加bim图片
 const imgList = ref([
@@ -318,10 +418,7 @@ const addImageMarker = () => {
     agFeatureLayer.addEntity(imageEntity);
   });
 };
-import tiles1 from "./tiles/tileset.json";
-import tiles2 from "./tiles/tileset2.json";
-import tiles3 from "./tiles/tileset3.json";
-import tiles4 from "./tiles/tileset4.json";
+
 const glbList = ref([
   {
     url: "http://lc-F59ERqoe.cn-n1.lcfile.com/7ElXOSoNL8YgTE4nVlED7yfRMTrJSx2S/1.glb",
@@ -373,23 +470,47 @@ const glbList = ref([
     url: "http://lc-F59ERqoe.cn-n1.lcfile.com/rD9jQ0e6DuH9CaJkA8I56OpuFKnFWC5z/table.glb",
   },
 ]);
-
+const position = {
+  lng: 106.651155,
+  lat: 29.509141,
+};
 const addEntity2 = () => {
   glbList.value.forEach((item, index) => {
-    const height = 100 + index * 1.5;
+    // {"id":"bim1","lon":"106.651279","lng":"29.509190","height":100,"img":"/src/assets/rou/BIM.png"}
+
+    const height = 35 + index * 1.5;
+
+    const heading = Cesium.Math.toRadians(35); // 90度旋转
+    const pitch = 0;
+    const roll = 0;
+    const orientation =
+      Cesium.Transforms.headingPitchRollQuaternion(
+        Cesium.Cartesian3.fromDegrees(
+          position.lng,
+          position.lat,
+          height
+        ),
+        new Cesium.HeadingPitchRoll(
+          heading,
+          pitch,
+          roll
+        )
+      );
+
     const glbEntity = new Cesium.Entity({
       id: "Floor" + (index + 1),
-      floor:index+1,
+      floor: index + 1,
       url: item.url,
+      orientation: orientation,
       position: Cesium.Cartesian3.fromDegrees(
-        106.650952,
-        29.504009, // 增加高度来拉远视距
-        height
+        position.lng,
+        position.lat,
+        height // 增加高度来拉远视距
       ), // 更新位置
       model: {
         uri: item.url,
-        minimumPixelSize: 200,
-        maximumScale: 1500,
+        // minimumPixelSize: 200,
+        // maximumScale: 1500,
         scale: 1.0,
         heightReference:
           Cesium.HeightReference
@@ -440,11 +561,11 @@ const initMap = async () => {
       "https://data.mars3d.cn/3dtiles/bim-daxue/tileset.json",
       // bim给的demo
       // "http://172.30.41.194:20035/qxsy_tiles/bim_zzkxjd_test/tileset.json",
-      // "http://172.30.41.194:20035/qxsy_tiles/qx_dnyy_250526/tileset.json",
+      "http://172.30.41.194:20035/qxsy_tiles/qx_dnyy_250526/tileset.json",
       // "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_1/tileset.json",
-      // "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_2/tileset.json",
-      // "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_3/tileset.json",
-      // "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_4/tileset.json",
+      "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_2/tileset.json",
+      "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_3/tileset.json",
+      "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_4/tileset.json",
       // 首页的
       // "http://172.30.41.194:20035/models-rest/rest/models/preview/czzz_zxcq/tileset.json",
       // "http://172.30.41.194:20035/models-rest/rest/models/preview/czfzz_zxcq/tileset.json",
@@ -500,9 +621,9 @@ const initMap = async () => {
     // };
     // 东南医院的
     let positionInfo = {
-      longitude: 106.650952,
-      latitude: 29.504009,
-      height: 649.75, // 增加高度来拉远视距
+      longitude: 106.651183,
+      latitude: 29.504846,
+      height: 614.3, // 增加高度来拉远视距
     };
 
     camera.setView({
@@ -671,7 +792,7 @@ const initMap = async () => {
         emit("handleEmitJiqiren");
       } else if (feature.id._id === "bim1") {
         emit("handleEmitYimo");
-      } else if (feature.id._id === "fengxian1") {
+      } else if (feature.id._id === "fengxian1" || feature.id._id === "fengxian2" || feature.id._id === "fengxian3") {
         // 显示风险信息弹窗
         showRiskPopup.value = true;
         // 设置弹窗位置
@@ -707,25 +828,47 @@ const initMap = async () => {
           feature.id._url
         );
         // alert("点击了模型",feature.id._id,feature.id._url);
-        const m=feature.id._floor>5?0.0009:0.00130;
-        console.log("🚀 ~ _pickerHelper.on ~ m:",feature.id.floor, m)
+        const m =
+          feature.id._floor > 5 ? 0.0009 : 0.0013;
+        console.log(
+          "🚀 ~ _pickerHelper.on ~ m:",
+          feature.id.floor,
+          m
+        );
         // console.log("gaodu",cartographic.height)
         const drawerPosition =
           Cesium.Cartesian3.fromDegrees(
-            106.650952 + m, // 平移500米（经度约0.0045）
-            29.504009,
-            125
+            // 106.651186 + m, // 平移500米（经度约0.0045）
+            position.lng + m,
+            position.lat,
+            50
             // (cartographic.height-100) // 抽屉效果的高度
           );
-
+        const heading = Cesium.Math.toRadians(35); // 90度旋转
+        const pitch = 0;
+        const roll = 0;
+        const orientation2 =
+          Cesium.Transforms.headingPitchRollQuaternion(
+            Cesium.Cartesian3.fromDegrees(
+              position.lng,
+              position.lat,
+              50
+            ),
+            new Cesium.HeadingPitchRoll(
+              heading,
+              pitch,
+              roll
+            )
+          );
         const copiedEntity = new Cesium.Entity({
           id: "Copy_" + feature.id._id,
           url: feature.id._url,
+          orientation: orientation2,
           position: drawerPosition,
           model: {
             uri: feature.id._url,
-            minimumPixelSize: 128,
-            maximumScale: 1500,
+            // minimumPixelSize: 128,
+            // maximumScale: 1500,
             scale: 1.0,
             heightReference:
               Cesium.HeightReference

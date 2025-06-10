@@ -12,8 +12,8 @@ const routes = [
   {
     path: '/',
     // component: Home,
-    // component: Detail,
-    component: Test,
+    component: Detail,
+    // component: Test,
     children: [
       {
         path: 'child', // 子路由的路径
