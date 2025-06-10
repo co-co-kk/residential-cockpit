@@ -45,7 +45,7 @@
       class="absolute top-[100px] left-[calc(50%-700px)] grid grid-cols-6 gap-[30px]"
     >
       <div
-        class="rounded-[5px] w-[200px] flex items-center cursor-pointer"
+        class="rounded-[5px] w-[200px] flex items-center cursor-pointer w-[220px]"
         style="
           border: 4px solid
             rgba(61, 133, 207, 0.4);
@@ -53,18 +53,25 @@
         v-for="(item, index) in middleOptions"
         :key="index"
       >
-        <img
+        <!-- <img
           :src="item.params4"
           class="mx-[10px] w-[29px] h-[27px]"
           alt=""
+        /> -->
+        <div class="w-full p-[20px]">
+          <div class="flex w-full">
+          <img
+          :src="item.params4"
+          class="mx-[10px] w-[32px] h-[34px]"
+          alt=""
         />
-        <div>
-           <div
+            <div
             class="text-[#FFFFFF] text-[18px] font-bold mt-[5px]"
-          >
+            >
             {{ item.params1 }}
           </div>
-          <div class="flex">
+          </div>
+          <div class="flex justify-center">
             <div>
               <span class="tit1">{{
               item.params2
@@ -76,7 +83,7 @@
             >
             <div class="tit1" style="font-size: 16px">实时</div>
             </div>
-            <div>
+            <div class="ml-[50px]">
               <span class="tit1">{{
               item.params5
             }}</span>

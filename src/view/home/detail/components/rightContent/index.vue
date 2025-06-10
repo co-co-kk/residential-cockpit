@@ -319,7 +319,7 @@
                             </div>
                             <div class="w-[100%] h-[60px] box-border">
                                     <EcharsWrapper
-                                :chartData="coverageData8"
+                                :chartData="coverageData9"
                               ></EcharsWrapper>
                             </div>
                           </div>
@@ -369,7 +369,7 @@ import {
   coverageData5,
   coverageData6,
   coverageData7,
-  coverageData8,
+  coverageData9,
 } from "./echarsOptions.js";
 import SeamlessScroll from "@/components/SeamlessScroll.vue";
 const KeyProgress = ["关键进度一", "关键进度二", "关键进度三", "关键进度四"];
