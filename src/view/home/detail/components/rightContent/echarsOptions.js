@@ -748,30 +748,3 @@ const getPie3D = (pieData, internalDiameterRatio) => {
     };
     return option;
 };
-export const coverageData9 = ref({
-  tooltip: {
-    trigger: 'item'
-  },
-  // legend: {
-  //   top: '5%',
-  //   left: 'center'
-  // },
-  series: [
-    {
-      name: '示例数据',
-      type: 'pie',
-      radius: '70%',
-      data: [
-        { value: 1120, name: '已履约' },
-        { value: 4120, name: '履约' },
-      ],
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 0, 0, 0.5)'
-        }
-      }
-    }
-  ]
-});
