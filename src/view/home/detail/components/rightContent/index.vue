@@ -45,7 +45,7 @@
         </div>
       </div>
       <div>
-        <PubTit style="width: 555px" :title="'安全监测'" :width="555"></PubTit>
+        <PubTit style="width: 555px" :title="'安全监管'" :width="555"></PubTit>
         <div class="mt-[20px] mr-[29px]">
           <img
             src="@/assets/sxk-qph/qnjc.png"

@@ -86,7 +86,7 @@
         <PubTit :title="'参建单位'" :width="555"></PubTit>
         <div class="mt-[18px]">
           <div class="flex mb-[4px]" v-for="(ite, ind) in unitsData" :key="ind">
-            <div class="flex cursor-pointer">
+            <div class="flex ">
               <div class="w-[3px] bg-[#1F82F5]"></div>
               <div
                 class="ml-[4px] pl-[7px] bg-[#07284D] text-[#6BB6ED] w-[170px] h-full flex items-center"
@@ -95,7 +95,7 @@
               </div>
             </div>
             <div
-              class="flex flex-1 ml-[4px] pl-[14px] cursor-pointer items-center bg-[#07284D]"
+              class="flex flex-1 ml-[4px] pl-[14px]  items-center bg-[#07284D]"
             >
               <div class="pr-[12px] triangle"></div>
               <div class="flex-1 flex items-center text-[#6BB6ED]">
@@ -243,8 +243,8 @@
               alt=""
               
             />
-            <span class="w-[100%]  h-[50%] absolute top-0 left-0" @click="handleOpenJiqirenTanchuang"></span>
-            <span class="w-[100%]  h-[50%] absolute top-[50%] left-0" @click="handleOpenShebeiTanchuang"></span>
+            <span class="w-[100%] cursor-pointer h-[50%] absolute top-0 left-0" @click="handleOpenJiqirenTanchuang"></span>
+            <span class="w-[100%] cursor-pointer  h-[50%] absolute top-[50%] left-0" @click="handleOpenShebeiTanchuang"></span>
           </div>
         </block>
       </div>

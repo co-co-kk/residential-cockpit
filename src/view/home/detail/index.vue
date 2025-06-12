@@ -12,14 +12,46 @@
     <div
       class="w-[45px] top-[15%] h-[70%] right-0 z-2 absolute is-right-bg animate-pulse"
     ></div>
-    <Bim
+    <!-- top -->
+    <div
+      class="w-[100%] h-[125px] top-0 z-1 absolute px-[54px] w-[calc(100%-108px)] is-top-bg"
+    >
+      <div class="title_container">
+        <div class="is-title1 mt-[5px] pl-[80px] ml-[1800px]">
+          东南医院二期
+        </div>
+        <div
+          class="w-[1600px] h-[100%] font-400 flex mt-[20px] justify-end text-[24px] text-[#B1EAFF]"
+        >
+          <div class="mr-[20px]">
+            <span>
+              {{ formattedDate }}
+            </span>
+          </div>
+          <div class="flex h-[100%] ml-[50px]">
+            <img
+              src="@/assets/image/home/sun.gif"
+              class="w-[30px] h-[30px] mr-[10px]"
+              alt=""
+            />
+            <span>晴</span>
+            <span> 30-38℃ </span>
+          </div>
+        </div>
+      </div>
+    </div>
+     <!-- bottom -->
+    <div
+      class="w-[1900px] bottom-0 h-[76px] z-11 right-[calc(50%-950px)] absolute is-bottom-bg animate-pulse"
+    ></div>
+    <!-- <Bim
       class="h-[1080px]"
       @handleEmitShexiangtou="
         jiankongDialogVisible = true
       "
       @handleEmitYimo="centerDiaShown = true"
       @handleEmitJiqiren="jiqirenDiaShown = true"
-    />
+    /> -->
     <div
       class="absolute z-99 text-[#fff] top-[20px] left-[50px] text-[24px] flex items-center cursor-pointer"
       @click="router.back()"
@@ -27,19 +59,7 @@
       <img src="@/assets/rou/back.png" alt="" />
       <span class="ml-[20px]">返回</span>
     </div>
-    <!-- 标题 -->
-    <dv-decoration-5
-      style="width: 1000px; height: 120px"
-      class="absolute top-0 right-[calc(50%-500px)]"
-    >
-    </dv-decoration-5>
-    <div
-      class="is-title1 absolute top-[0px] right-[calc(50%-750px)] text-[24px] flex items-center w-[1000px] h-[80px] text-[40px]"
-    >
-      <span class="text-[#fff] text-[36px]"
-        >东南医院二期项目</span
-      >
-    </div>
+   
     <!-- 顶部kpi -->
     <div
       class="absolute top-[100px] left-[calc(50%-700px)] grid grid-cols-6 gap-[30px]"
@@ -153,7 +173,7 @@
     </div>
     <!-- 右 -->
     <div
-      class="absolute h-[1080px] pl-[20px] pr-[20px] right-0 top-0 pt-[0px] bg-[rgba(0,0,0,0.6)]"
+      class="absolute h-[1080px] pt-[60px] box-border pl-[20px] pr-[20px] right-0 top-0 pt-[0px] bg-[rgba(0,0,0,0.6)]"
       style="
         background: linear-gradient(
           0deg,
@@ -192,7 +212,7 @@
         />
         <div class="text-[16px] text-[#fff] mt-[10px]">今日关注</div>
        </div>
-       <div class="flex flex-col items-center">
+       <div class="flex flex-col items-center cursor-pointer" @click="diaShown=true">
         <img
           src="@/assets/rou/xianshang.png"
           class="w-[65px] h-[65px] mx-[30px] cursor-pointer"
@@ -455,17 +475,17 @@
     >
       <div class="relative">
         <img
-          class="absolute right-[1300px] bottom-[350px] w-[534px] h-[333px]"
+          class="absolute z-999 right-[1300px] bottom-[350px] w-[534px] h-[333px]"
           src="@/assets/rou/icon60.png"
           draggable="false"
           alt=""
         />
         <span
-          class="absolute right-[1300px] cursor-pointer bottom-[620px] w-[50px] h-[50px]"
+          class="absolute z-999 right-[1300px] cursor-pointer bottom-[620px] w-[50px] h-[50px]"
           @click="imgShown = false"
         ></span>
         <span
-          class="absolute right-[1300px] cursor-pointer bottom-[400px] w-[100px] h-[200px]"
+          class="absolute z-999 right-[1300px] cursor-pointer bottom-[400px] w-[100px] h-[200px]"
           @click="diaShown = true"
         ></span>
       </div>
@@ -709,6 +729,7 @@ import {
   watch,
   onUnmounted,
   nextTick,
+  computed
 } from "vue";
 import autofit from "autofit.js";
 import leftContent from "./components/leftContent/index.vue";
@@ -717,7 +738,26 @@ import { useRouter } from "vue-router";
 import Icon55 from "@/assets/rou/icon55.png";
 import Icon56 from "@/assets/rou/icon56.png";
 import Hls from "hls.js";
+import { useNow } from "@vueuse/core";
+const now = useNow();
+// 格式化日期的函数
+const formatDate = (date) => {
+  const pad = (num) =>
+    String(num).padStart(2, "0");
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1); // 月份从 0 开始8860
+  const day = pad(date.getDate());
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  const seconds = pad(date.getSeconds());
 
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
+// 使用计算属性
+const formattedDate = computed(() => {
+  return formatDate(now.value);
+});
 const router = useRouter();
 const centerDialogVisible = ref(false);
 const jiankongDialogVisible = ref(false);
@@ -1065,7 +1105,7 @@ onUnmounted(() => {
   font-weight: bold;
   font-size: 48px;
   line-height: 26px;
-  letter-spacing: 25px;
+  letter-spacing: 40px;
 }
 .is-left-dialog {
   background: url("@/assets/rou/maDia.png")
@@ -1144,5 +1184,24 @@ onUnmounted(() => {
   background: url("@/assets/rou/jiqiren.png")
     no-repeat center center;
   background-size: 100% 100%;
+}
+.is-top-bg {
+  background: url("@/assets/rou/top-bg.png")
+    no-repeat center center;
+  background-size: 100% 100%;
+}
+.title_container {
+  text-align: center;
+  font-size: 60px;
+  // width: 100%;
+  display: flex;
+  // justify-content: center;
+  // justify-content: space-between;
+  align-items: center;
+  height: 90px;
+  font-weight: 800;
+  background: linear-gradient(to top, #adbecc, #ffffff);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 </style>

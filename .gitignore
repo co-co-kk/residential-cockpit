@@ -11,6 +11,7 @@ node_modules
 .history
 dist
 dist-ssr
+dist.tar.gz
 *.local
 
 # Editor directories and files

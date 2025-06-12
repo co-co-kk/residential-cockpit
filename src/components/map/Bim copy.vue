@@ -5,20 +5,30 @@
       @loadingComplete="handleLoadingComplete"
     />
     <div id="containCesium" class="containCesium"></div>
-    <!-- <button
-      @click="handleClick"
-      class="bg-[red] absolute top-[20%] left-[40%] z-9 text-[50px]"
+    <div
+      class="absolute top-[30%] right-[1250px] z-9 flex flex-col space-y-2xl"
     >
-      点击风险图层
-    </button> -->
-    <button
-      @click="handleManyou"
-      class="bg-[red] absolute top-[30%] left-[40%] z-999 text-[50px]"
-    >
-      开始漫游
-    </button>
+      <div
+        class="is-btn-bg w-[180px] h-[44px] cursor-pointer text-[#fff] flex justify-center items-center"
+        @click="handleClick"
+      >
+        风险图层
+      </div>
+      <div
+        class="is-btn-bg w-[180px] h-[44px] cursor-pointer text-[#fff] flex justify-center items-center"
+        @click="handleClickGanzhi"
+      >
+        感知图层
+      </div>
+      <div
+        class="is-btn-bg w-[180px] h-[44px] cursor-pointer text-[#fff] flex justify-center items-center"
+        @click="handleManyou"
+      >
+        漫游巡查
+      </div>
+    </div>
     <!-- 添加视角信息显示控件 -->
-    <!-- <div class="view-info-panel">
+    <div class="view-info-panel">
       <p>视角位置</p>
       <div class="info-item">
         <span class="label">经度：</span>
@@ -32,15 +42,27 @@
         <span class="label">高度：</span>
         <span class="value">{{ currentView.height }}米</span>
       </div>
-    </div> -->
+      <div class="info-item">
+        <span class="label">Heading：</span>
+        <span class="value">{{ currentView.heading }}°</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Pitch：</span>
+        <span class="value">{{ currentView.pitch }}°</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Roll：</span>
+        <span class="value">{{ currentView.roll }}°</span>
+      </div>
+    </div>
     <!-- 添加点击信息显示控件 -->
-    <!-- <div class="absolute z-999 right-0 bottom-0">
+    <div class="absolute z-999 right-0 bottom-0">
       <p>点击位置</p>
       <textarea
         class="w-[400px] h-[300px]"
         :value="clickPositionInfo"
       ></textarea>
-    </div> -->
+    </div>
     <!-- 风险信息弹窗 -->
     <div v-if="showRiskPopup" class="risk-popup" :style="popupStyle">
       <div class="risk-popup-header">
@@ -82,12 +104,17 @@ import jiqiren from "@/assets/rou/icon55.png";
 import bim1 from "@/assets/rou/BIM.png";
 import bim2 from "@/assets/rou/BIM.png";
 import fengxian from "@/assets/rou/fengxian.gif";
+import ganzhi from "@/assets/rou/ganzhi.png";
+
 const emit = defineEmits([
   "handleEmitShexiangtou",
   "handleEmitJiqiren",
   "handleEmitYimo",
 ]);
-
+const position = {
+  lng: 106.651155,
+  lat: 29.509141,
+};
 const isLoading = ref(true);
 const loading = ref(false);
 const options = ref([]);
@@ -104,11 +131,105 @@ const informationShow = ref(false);
 const overlayInformation = ref({
   type: null,
 });
+const handleManyou = () => {
+  // 定义室内漫游的多个点
+  const indoorPoints = [
+    {
+      lon: "106.651266",
+      lat: "29.509373",
+      height: 292,
+      heading: -45,
+      pitch: 0,
+      roll: 0,
+    },
+    {
+      lon: "106.651072",
+      lat: "29.509487",
+      height: 292,
+      heading: -45,
+      pitch: 0,
+      roll: 0,
+    },
+    {
+      lon: "106.650880",
+      lat: "29.509605",
+      height: 292,
+      heading: -45,
+      pitch: 0,
+      roll: 0,
+    },
+    {
+      lon: "106.650589",
+      lat: "29.509787",
+      height: 292,
+      heading: 223.62,
+      pitch: -30.31,
+      roll: 0,
+    },
+    {
+      lon: "106.650465",
+      lat: "29.509445",
+      height: 292,
+      heading: 123.85,
+      pitch: -26.99,
+      roll: 0,
+    },
+    {
+      lon: "106.651384",
+      lat: "29.508870",
+      height: 317.71,
+      heading: 279.01,
+      pitch: -10.18,
+      roll: 0,
+    },
+    {
+      lon: "106.651093",
+      lat: "29.508991",
+      height: 323.83,
+      heading: 281.5,
+      pitch: -12.83,
+      roll: 0,
+    },
+  ];
+
+  // 漫游函数
+  const roamToIndoorPoints = (index) => {
+    if (index < indoorPoints.length) {
+      const position = indoorPoints[index];
+      viewer.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(
+          position.lon,
+          position.lat,
+          position.height // 稍微拉高视角，适合室内
+        ),
+        orientation: {
+          // heading: Cesium.Math.toRadians(-45),
+          heading: Cesium.Math.toRadians(position.heading),
+          // pitch: Cesium.Math.toRadians(0), // 适当调整俯仰角度
+          pitch: Cesium.Math.toRadians(position.roll), // 适当调整俯仰角度
+          roll: 0,
+        },
+        duration: 5,
+        complete: () => {
+          // 等待飞行完成后，继续下一个点
+          roamToIndoorPoints(index + 1);
+        },
+      });
+    }
+  };
+
+  // 开始漫游
+  roamToIndoorPoints(0);
+};
+
 // 当前视角
 const currentView = ref({
   longitude: "0.000000",
   latitude: "0.000000",
   height: "0.00",
+  heading: "0.00",
+  pitch: "0.00",
+  roll: "0.00",
 });
 
 // 添加点击位置信息
@@ -173,26 +294,47 @@ const fengxianList = ref([
   {
     id: "fengxian1",
     type: "fengxian",
-    lon: 106.647562,
-    lng: 29.511047,
+    lon: 106.648762,
+    lng: 29.510208,
     img: fengxian,
   },
   {
     id: "fengxian2",
     type: "fengxian",
-    lon: 106.64764,
-    lng: 29.516131,
+    lon: 106.650136,
+    lng: 29.509099,
+    img: fengxian,
+  },
+  {
+    id: "fengxian3",
+    type: "fengxian",
+    lon: 106.649468,
+    lng: 29.510137,
     img: fengxian,
   },
 ]);
-
-// 添加风险图层
+const ganzhiList = ref([
+  {
+    id: "ganzhi1",
+    type: "fengxian",
+    lon: 106.649149,
+    lng: 29.510044,
+    img: ganzhi,
+  },
+  {
+    id: "ganzhi2",
+    type: "fengxian",
+    lon: 106.650598,
+    lng: 29.510701,
+    img: ganzhi,
+  },
+]);
+// 循环添加风险图层图片
 const handleClick = () => {
-  // 循环添加风险图层图片
   fengxianList.value.forEach((item) => {
     const imageEntity = new Cesium.Entity({
       id: item.id,
-      position: Cesium.Cartesian3.fromDegrees(item.lon, item.lng, 300),
+      position: Cesium.Cartesian3.fromDegrees(item.lon, item.lng, 50),
       billboard: {
         image: item.img,
         type: "fengxian",
@@ -211,77 +353,80 @@ const handleClick = () => {
     });
     agFeatureLayer.addEntity(imageEntity);
   });
+  addRedPlane();
 
+  viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(106.649611, 29.507842, 429.66),
+    orientation: {
+      heading: Cesium.Math.toRadians(0),
+      pitch: Cesium.Math.toRadians(-20), // 适当调整俯仰角度
+      roll: 0,
+    },
+    duration: 2,
+  });
   // 调整相机视角到第一个风险点
-  if (fengxianList.value.length > 0) {
-    const firstPoint = fengxianList.value[0];
-    viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(106.647817, 29.494957, 2150),
-      orientation: {
-        heading: Cesium.Math.toRadians(0),
-        pitch: Cesium.Math.toRadians(-45),
-        roll: 0,
+  // if (fengxianList.value.length > 0) {
+  //   const firstPoint = fengxianList.value[0];
+  //   viewer.camera.flyTo({
+  //     destination: Cesium.Cartesian3.fromDegrees(
+  //       106.648916,
+  //       29.508106,
+  //       455.98
+  //     ),
+  //     orientation: {
+  //       heading: Cesium.Math.toRadians(0),
+  //       pitch: Cesium.Math.toRadians(-45),
+  //       roll: 0,
+  //     },
+  //     duration: 2,
+  //   });
+  // }
+};
+// 循环添加感知图层图片
+const handleClickGanzhi = () => {
+  ganzhiList.value.forEach((item) => {
+    const imageEntity = new Cesium.Entity({
+      id: item.id,
+      position: Cesium.Cartesian3.fromDegrees(item.lon, item.lng, 50),
+      billboard: {
+        image: item.img,
+        type: "ganzhi",
+        heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
+        zIndex: 1000,
+        height: 100,
+        width: 100,
       },
-      duration: 2,
+      properties: {
+        type: "ganzhi",
+        name: "感知",
+        lon: item.lon,
+        lat: item.lng,
+        height: 50,
+      },
     });
-  }
-};
-const handleManyou = () => {
-  // 定义室内漫游的多个点
-  const indoorPoints = [
-    {
-      lon: 117.248733,
-      lat: 31.847104,
-      height: 3, // 设置较低的高度以适应室内
-    },
-    {
-      lon: 117.248637,
-      lat: 31.847103,
-      height: 3,
-    },
-    {
-      lon: 117.248078,
-      lat: 31.847074,
-      height: 3,
-    },
-  ];
+    agFeatureLayer.addEntity(imageEntity);
+  });
 
-  // 漫游函数
-  const roamToIndoorPoints = (index) => {
-    if (index < indoorPoints.length) {
-      const position = indoorPoints[index];
-      viewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(
-          position.lon,
-          position.lat,
-          position.height + 1 // 稍微拉高视角，适合室内
-        ),
-        orientation: {
-          heading: Cesium.Math.toRadians(0),
-          pitch: Cesium.Math.toRadians(-10), // 适当调整俯仰角度
-          roll: 0,
-        },
-        duration: 2,
-        complete: () => {
-          // 等待飞行完成后，继续下一个点
-          roamToIndoorPoints(index + 1);
-        },
-      });
-    }
-  };
-
-  // 开始漫游
-  roamToIndoorPoints(0);
+  viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(106.649611, 29.507842, 429.66),
+    orientation: {
+      heading: Cesium.Math.toRadians(0),
+      pitch: Cesium.Math.toRadians(-20), // 适当调整俯仰角度
+      roll: 0,
+    },
+    duration: 2,
+  });
 };
 
-// 添加bim图片
+// maker列表
 const imgList = ref([
   {
     id: "shexiangtou",
     lon: "106.650808",
     lng: "29.509416",
     img: shexiangtou,
-    height: 100,
+    name: "摄像头",
+    height: 150,
   },
   {
     id: "jiqiren",
@@ -297,12 +442,25 @@ const imgList = ref([
     height: 50,
     img: bim1,
   },
+  // ceshigaodu
+  {
+    id: "ceshigaodu",
+    lon: "106.651173",
+    lng: "29.509430",
+    height: 38,
+    img: bim1,
+  },
+  {
+    id: "ceshigaodu2",
+    lon: "106.651222",
+    lng: "29.509396",
+    height: 38,
+    img: bim1,
+  },
 ]);
 
-// 添加点击事件监听
-
+// 初始化添加marker
 const addImageMarker = () => {
-  // let agFeatureLayer = new agcim.layer.FeatureLayer(CIM.viewer);
   imgList.value.forEach((ele) => {
     const imageEntity = new Cesium.Entity({
       id: ele.id,
@@ -326,138 +484,297 @@ const addImageMarker = () => {
   });
 };
 
-import tiles1 from "./tiles/tileset.json";
-import tiles2 from "./tiles/tileset2.json";
-import tiles3 from "./tiles/tileset3.json";
-import tiles4 from "./tiles/tileset4.json";
+const glbList = ref([
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/7ElXOSoNL8YgTE4nVlED7yfRMTrJSx2S/1.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/JQ937DuMvhffLtraY7o9ktIlt66niYLT/2.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/ybw4H9PwNMjSJpTPTC7xBN8bdgF1ib8o/3.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/m01jXtgoRu2Jo9Js9nburMrAF2SeTlHB/4.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/5QfJRKUhyL5f7YOFrP8twGKYkXTwlkkd/5.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/UCFKcdNgNmWPlnupG7Oh5PswBPLLdQij/6.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/778wRfzfOGHFo5LNeXeb6GJzJmg3ePup/7.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/izmNuNUbWseC4L2xi6CleFKWWUGv02Og/8.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/pJgOdy78Jny0SSS6uG0EiJUgRqvTXect/9.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/J7zg5BmmWhiD4vOsG36Xm8SN51qBW0tc/10.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/QsK5hywNTvrHaXhmQ7pPiNzjigRz63Yv/11.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/FJOajYkiYvg3BnsrtojO7YCySUaDOi4U/12.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/2Pcu0jEzSutCbg4fLsJuB6WOBuci8e4d/13.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/YQIIIuVeaxsH6qCCpujGMa3b0goXIB5m/14.glb",
+  },
+  {
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/DC6EudvbMk2mkVAaNLVUyzQMBIbWnUMv/15.glb",
+  },
+  {
+    floor: "top",
+    url: "http://lc-F59ERqoe.cn-n1.lcfile.com/rD9jQ0e6DuH9CaJkA8I56OpuFKnFWC5z/table.glb",
+  },
+]);
 
-// 在其他 ref 声明后添加
-const ag3DTilesLayer = ref(null); // 添加3D Tiles图层引用
-
-// 1. 在 setup 里添加
-let selectedBatchId = ref(null);
-let drawerAnimation = {
-  progress: 0,
-  target: 30,
-  running: false,
+// 添加红色平面
+const addRedPlane = () => {
+  const rectangle = new Cesium.Entity({
+    id: "redPlane",
+    rectangle: {
+      coordinates: Cesium.Rectangle.fromDegrees(
+        106.649468 - 0.0002, // 左边界
+        29.510137 - 0.001, // 下边界
+        106.649468 + 0.0005, // 右边界
+        29.510137 + 0.0002 // 上边界
+      ),
+      material: new Cesium.ColorMaterialProperty(
+        Cesium.Color.RED.withAlpha(0.2)
+      ),
+      height: 50, // 设置高度
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
+    },
+  });
+  agFeatureLayer.addEntity(rectangle);
 };
 
+// 添加bim-glb
+const addEntityBimGlb = () => {
+  glbList.value.forEach((item, index) => {
+    // {"id":"bim1","lon":"106.651279","lng":"29.509190","height":100,"img":"/src/assets/rou/BIM.png"}
+    const height = index > 3 ? 35 + index * 0.7 : 35 + index * 0.9;
+    const heading = Cesium.Math.toRadians(35); // 90度旋转
+    const pitch = 0;
+    const roll = 0;
+    const orientation = Cesium.Transforms.headingPitchRollQuaternion(
+      Cesium.Cartesian3.fromDegrees(position.lng, position.lat, height),
+      new Cesium.HeadingPitchRoll(heading, pitch, roll)
+    );
 
+    const glbEntity = new Cesium.Entity({
+      id: "Floor" + (index + 1),
+      floor: index + 1,
+      url: item.url,
+      orientation: orientation,
+      position: Cesium.Cartesian3.fromDegrees(
+        position.lng,
+        position.lat,
+        height // 增加高度来拉远视距
+      ), // 更新位置
+      model: {
+        uri: item.url,
+        // minimumPixelSize: 200,
+        // maximumScale: 1500,
+        scale: 1.0,
+        heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
+        // height: height 不需要单独设置，因为位置已经包含高度
+      },
+    });
+    agFeatureLayer.addEntity(glbEntity);
+  });
+};
+let lastCopiedEntityId = null; // 存储上一个复制实体的 ID
+
+// 移除添加图层
+const removeLayer = (list) => {
+  delList = agFeatureLayer._entities.forEach(
+    (item) => (item._id = copiedEntity._id)
+  );
+  if (lastCopiedEntityId) {
+    viewer.entities.remove(lastCopiedEntityId);
+  }
+  // 移除所有实体
+  // agFeatureLayer._entities.removeAll();
+  // 移除所有图层
+  // CIM.layerTree.removeAll();
+};
+
+// 常量配置
+const CONSTANTS = {
+  POSITION: {
+    DEFAULT: {
+      lng: 106.651155,
+      lat: 29.509141,
+    },
+    CAMERA: {
+      longitude: 106.651183,
+      latitude: 29.504846,
+      height: 614.3,
+    },
+  },
+  LAYERS: {
+    TERRAIN_URL: "http://172.30.41.194:20035/dem/ChongQingCIM_DEM",
+    WMTS_URL: "http://172.30.41.194:20035/agserver/gwc/service/wmts",
+    WMTS_LAYER: "dzdt_lll_fdcjyzx",
+    WMTS_MATRIX: "EPSG:4490_dzdt_lll_fdcjyzx",
+  },
+};
+
+// 图层管理
+const LayerManager = {
+  // 初始化地形图层
+  initTerrainLayer() {
+    return new agcim.layer.AgTerrainLayer({
+      url: CONSTANTS.LAYERS.TERRAIN_URL,
+    });
+  },
+
+  // 初始化 WMTS 图层
+  initWMTSLayer() {
+    const options = {
+      url: CONSTANTS.LAYERS.WMTS_URL,
+      layerTable: CONSTANTS.LAYERS.WMTS_LAYER,
+      tileMatrixSet: CONSTANTS.LAYERS.WMTS_MATRIX,
+    };
+    return new agcim.layer.AgWMTSLayer(options);
+  },
+
+  // 初始化 3D Tiles 图层
+  init3DTilesLayer() {
+    const urls = [
+      "https://data.mars3d.cn/3dtiles/bim-daxue/tileset.json",
+      "http://172.30.41.194:20035/qxsy_tiles/qx_dnyy_250526/tileset.json",
+      "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_2/tileset.json",
+      "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_3/tileset.json",
+      "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_4/tileset.json",
+    ];
+    return new agcim.layer.Ag3DTilesLayer({
+      urls,
+    });
+  },
+};
+
+// 事件处理
+const EventHandler = {
+  // 处理点击事件
+  handleClick(feature, movement, viewer, agFeatureLayer) {
+    console.log("🚀 ~ handleClick ~ feature:", feature);
+    if (!feature.id) {
+      if (lastCopiedEntityId) {
+        viewer.entities.remove(lastCopiedEntityId);
+      }
+      return;
+    }
+    if (feature.id._id === "shexiangtou") {
+      emit("handleEmitShexiangtou");
+    } else if (feature.id._id === "jiqiren") {
+      emit("handleEmitJiqiren");
+    } else if (feature.id._id === "bim1") {
+      emit("handleEmitYimo");
+    } else if (
+      ["fengxian1", "fengxian2", "fengxian3"].includes(feature.id._id)
+    ) {
+      this.showRiskPopup(movement);
+    } else if (feature.detail?.model?.type === "GLTF") {
+      this.handleModelClick(feature, viewer, agFeatureLayer);
+    }
+  },
+
+  // 显示风险弹窗
+  showRiskPopup(movement) {
+    showRiskPopup.value = true;
+    popupStyle.value = {
+      left: movement.position.x + 10 + "px",
+      top: movement.position.y + 10 + "px",
+    };
+  },
+
+  // 处理模型点击
+  handleModelClick(feature, viewer, agFeatureLayer) {
+    if (lastCopiedEntityId) {
+      viewer.entities.remove(lastCopiedEntityId);
+    }
+
+    // 设置glb模型偏移位置
+    const m = feature.id._floor > 5 ? (80 / 111320) : (117 / 111320);
+    const n = feature.id._floor > 5 ? (50 / 111320) : (71 / 111320);
+    
+    const position = {
+      lng: 106.651155,
+      lat: 29.509141,
+    };
+    const drawerPosition = Cesium.Cartesian3.fromDegrees(
+      CONSTANTS.POSITION.DEFAULT.lng + m,
+      CONSTANTS.POSITION.DEFAULT.lat - n,
+      46
+    );
+
+    const heading = Cesium.Math.toRadians(35);
+    const orientation = Cesium.Transforms.headingPitchRollQuaternion(
+      Cesium.Cartesian3.fromDegrees(
+        CONSTANTS.POSITION.DEFAULT.lng,
+        CONSTANTS.POSITION.DEFAULT.lat,
+        46
+      ),
+      new Cesium.HeadingPitchRoll(heading, 0, 0)
+    );
+
+    const copiedEntity = new Cesium.Entity({
+      id: "Copy_" + feature.id._id,
+      url: feature.id._url,
+      orientation: orientation,
+      position: drawerPosition,
+      model: {
+        uri: feature.id._url,
+        scale: 1.0,
+        heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
+      },
+    });
+
+    agFeatureLayer.addEntity(copiedEntity);
+    lastCopiedEntityId = agFeatureLayer._entities.find(
+      (item) => item._id === copiedEntity._id
+    );
+  },
+};
+
+// 初始化地图
 const initMap = async () => {
   try {
     isLoading.value = true;
     await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // 初始化地图
     await agcim.scene.mapInit.initMap("containCesium");
-
-    // 添加点击事件监听
     viewer = CIM.viewer;
     scene = viewer.scene;
     camera = scene.camera;
-    // 添加鼠标点击事件
-    viewer.screenSpaceEventHandler.setInputAction((movement) => {
-      let pickObj = viewer.scene.pick(movement.position);
-      if (Cesium.defined(pickObj)) {
-        if (pickObj.id && pickObj.id instanceof Cesium.Entity) {
-          //点击entity
-        }
-        if (pickObj instanceof Cesium.Cesium3DTileFeature) {
-          // alert("点击了3dtiles")
-          console.log(
-            "🚀 ~ viewer.screenSpaceEventHandler.setInputAction ~ pickObj:",
-            pickObj
-          );
-          // let propertyNames = pickObj.getPropertyNames();
-          // propertyNames.forEach((item) => {
-          //   console.log(item); //属性名
-          //   console.log(pickObj.getProperty(item)); //属性值
-          // });
-        }
-      }
-    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-    // // 添加地形图层
-    let agTerrainLayer = new agcim.layer.AgTerrainLayer({
-      url: "http://172.30.41.194:20035/dem/ChongQingCIM_DEM",
-    });
-    CIM.layerTree.add(agTerrainLayer);
 
-    // 添加 WMTS 图层
-    // let options = {
-    //   // url: "http://25.26.26.42:8080/agserver/cqcim/wms",
-    //   url: "http://172.30.41.194:20035/agserver/gwc/service/wmts", //服务链接
-    //   layerTable: "dzdt_lll_fdcjyzx",
-    //   tileMatrixSet: "EPSG:4490_dzdt_lll_fdcjyzx",
-    // };
-    // let agWMTSLayer = new agcim.layer.AgWMTSLayer(options);
-    // CIM.layerTree.add(agWMTSLayer);
+    // 添加图层
+    const terrainLayer = LayerManager.initTerrainLayer();
+    const wmtsLayer = LayerManager.initWMTSLayer();
+    const tilesLayer = LayerManager.init3DTilesLayer();
 
-    let urls = [
-      // tiles1,tiles2,tiles3,tiles4,
+    CIM.layerTree.add(terrainLayer);
+    CIM.layerTree.add(wmtsLayer);
+    CIM.layerTree.add(tilesLayer);
+    await tilesLayer.loadDataPromise;
 
-      // "https://data.mars3d.cn/3dtiles/bim-daxue/tileset.json",
-      // bim给的demo
-      // "http://172.30.41.194:20035/qxsy_tiles/bim_zzkxjd_test/tileset.json",
-      "http://172.30.41.194:20035/qxsy_tiles/qx_dnyy_250526/tileset.json",
-      "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_1/tileset.json",
-      // "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_2/tileset.json",
-      // "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_3/tileset.json",
-      // "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_4/tileset.json",
-      // 首页的
-      // "http://172.30.41.194:20035/models-rest/rest/models/preview/czzz_zxcq/tileset.json",
-      // "http://172.30.41.194:20035/models-rest/rest/models/preview/czfzz_zxcq/tileset.json",
-      // "http://172.30.41.194:20035/models-rest/rest/models/preview/ncdlzz_zxcq/tileset.json",
-      // "http://172.30.41.194:20035/models-rest/rest/models/preview/ncjhzz_zxcq/tileset.json",
-      // "http://172.30.41.194:20035/models-rest/rest/models/preview/ncfzz_zxcq/tileset.json",
-      // "http://172.30.41.194:20035/models-rest/rest/models/preview/gczlaq_fwjztest/tileset.json",
-    ];
-    let optionsJsons = {
-      urls: urls,
-    };
-    let ag3DTilesLayer = new agcim.layer.Ag3DTilesLayer(optionsJsons);
-    // 创建样式
-
-    CIM.layerTree.add(ag3DTilesLayer);
-
-    await ag3DTilesLayer.loadDataPromise;
-    // 修改白膜颜色
-    // ag3DTilesLayer.loadDataPromise.then(() => {
-    //   let conditions = [];
-    //   conditions.push(["true", "rgba(45,208,255,1)"]);
-    //   ag3DTilesLayer.setStyle({
-    //     color: {
-    //       conditions: conditions,
-    //     },
-    //   });
-    // });
-    viewer = CIM.viewer;
-    scene = viewer.scene;
-    camera = scene.camera;
-    viewer.scene.globe.depthTestAgainstTerrain = true;
-    agFeatureLayer = new agcim.layer.FeatureLayer(viewer);
-
-    // hsl/que/coco
-    // let positionInfo = {
-    //   longitude: 117.248583,
-    //   latitude: 31.844709,
-    //   height: 163, // 增加高度来拉远视距
-    // };
-    // bim给的demo
-    let positionInfo = {
-      longitude: 112.99948457,
-      latitude: 22.99928826,
-      height: 63, // 增加高度来拉远视距
-    };
-    // 东南医院的
-    // let positionInfo = {
-    //   longitude: 106.650952,
-    //   latitude: 29.504009,
-    //   height: 649.75, // 增加高度来拉远视距
-    // };
-
+    // 设置相机视角
     camera.setView({
       destination: Cesium.Cartesian3.fromDegrees(
-        positionInfo.longitude,
-        positionInfo.latitude,
-        positionInfo.height
+        CONSTANTS.POSITION.CAMERA.longitude,
+        CONSTANTS.POSITION.CAMERA.latitude,
+        CONSTANTS.POSITION.CAMERA.height
       ),
       orientation: {
         heading: 6.2831853071795765,
@@ -466,184 +783,72 @@ const initMap = async () => {
       },
     });
 
+    // 初始化特征图层
+    agFeatureLayer = new agcim.layer.FeatureLayer(viewer);
+    viewer.scene.globe.depthTestAgainstTerrain = true;
+
+    // 添加实体
     addImageMarker();
-
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    // 添加bimGlb
+    addEntityBimGlb();
+    // 添加事件监听
+    setupEventListeners();
     isLoading.value = false;
-    // 添加相机移动事件监听
-    CIM.viewer.camera.changed.addEventListener(() => {
-      const center = CIM.viewer.camera.position;
-      const cartographic = Cesium.Cartographic.fromCartesian(center);
-      const longitude = Cesium.Math.toDegrees(cartographic.longitude);
-      const latitude = Cesium.Math.toDegrees(cartographic.latitude);
-      const height = cartographic.height;
-
-      currentView.value = {
-        longitude: longitude.toFixed(6),
-        latitude: latitude.toFixed(6),
-        height: height.toFixed(2),
-      };
-    });
-    // 添加点击事件监听
-    let highlightHelper = new agcim.renderer.HighlightHelper();
-    let _pickerHelper = new agcim.interactive.PickerHelper(CIM.viewer);
-    _pickerHelper.on("LEFT_CLICK", (movement) => {
-      let feature = _pickerHelper.getPickObject(movement.position);
-      let cartesian = _pickerHelper.getPickPosition(movement.position);
-      var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
-      var lon = Cesium.Math.toDegrees(cartographic.longitude);
-      var lat = Cesium.Math.toDegrees(cartographic.latitude);
-      clickPosition.value = {
-        longitude: lon.toFixed(6),
-        latitude: lat.toFixed(6),
-      };
-      console.log(
-        "🚀 ~ _pickerHelper.on ~ feature11111111:",
-      );
-
-      debugger;
-      if (cartesian) {
-        viewer.entities.removeAll()
-        // {"id":"bim1","lon":"106.651249","lng":"29.509274","height":100,"img":"/src/assets/rou/BIM.png"}
-        console.log("🚀 ~ _pickerHelper.on ~ cartesian:", cartesian);
-        const offset = new Cesium.Cartesian3(10, 10, 0); // 可以根据需要调整偏移量
-        const position = Cesium.Cartesian3.add(
-          cartesian,
-          offset,
-          new Cesium.Cartesian3()
-        );
-        // 添加一栋楼
-        // for (let i = 0; i < 5; i++) {
-        //   // 计算每层楼的高度，假设每层高10单位
-        //   const height = 100 + i * 3;
-        //   // 判断最后一层
-        //   const modelUri =
-        //     i < 4
-        //       ? "https://data.mars3d.cn/gltf/mars/floor/floor.glb"
-        //       : "https://data.mars3d.cn/gltf/mars/floor/top.glb"; // 最后一层使用top.glb
-
-        //   // 创建每层楼的实体
-        //   const imageEntity = new Cesium.Entity({
-        //     id: `myEntity_${i}`, // 设置唯一ID
-        //     position: Cesium.Cartesian3.fromDegrees(106.651249, 29.509274, height), // 更新位置
-        //     model: {
-        //       uri: modelUri,
-        //       minimumPixelSize: 128,
-        //       maximumScale: 20000,
-        //       scale: 1.0,
-        //       heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
-        //       // height: height 不需要单独设置，因为位置已经包含高度
-        //     },
-        //   });
-        //   // 将实体添加到视图中
-        //   agFeatureLayer.addEntity(imageEntity);
-        // }
-        // 获取点击位置的经纬度和高度
-          const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
-          const lon = Cesium.Math.toDegrees(cartographic.longitude);
-          const lat = Cesium.Math.toDegrees(cartographic.latitude);
-          const height = cartographic.height;
-
-          // 设置旋转角度（单位为弧度，绕Z轴旋转）
-          const heading = Cesium.Math.toRadians(90); // 90度旋转
-          const pitch = 0;
-          const roll = 0;
-          const orientation = Cesium.Transforms.headingPitchRollQuaternion(
-            Cesium.Cartesian3.fromDegrees(lon, lat, height),
-            new Cesium.HeadingPitchRoll(heading, pitch, roll)
-          );
-        const imageEntity = new Cesium.Entity({
-            id: `myEntity_1f}`, // 设置唯一ID
-            orientation: orientation, // 设置旋转
-            // 117.248735
-            position: Cesium.Cartesian3.fromDegrees(106.651854, 29.509959, 100), // 东南医院更新位置
-            // position: Cesium.Cartesian3.fromDegrees(117.248735, 31.847059, height), // 更新位置
-            // position: Cesium.Cartesian3.fromDegrees(lon, lat, height),
-            model: {
-              uri: "https://data.mars3d.cn/gltf/mars/floor/floor.glb",
-              minimumPixelSize: 128,
-              maximumScale: 20000,
-              scale: 1.0,
-              heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
-              // height: height 不需要单独设置，因为位置已经包含高度
-            },
-          });
-          // 将实体添加到视图中
-          agFeatureLayer.addEntity(imageEntity);
-      }
-      if (feature && feature._batchId) {
-        selectedBatchId.value = feature._batchId;
-        // 添加显示隐藏楼层
-        // ag3DTilesLayer.setStyle({
-        //   // color: {
-        //   //   conditions: [
-        //   //     [
-        //   //       "${标高} ==='" + "F1" + "' || ${底部约束} ==='" + "F1" + "'",
-        //   //       "rgb(255, 255, 255)",
-        //   //     ],
-        //   //     ["true", "rgba(255, 255,255,0.03)"],
-        //   //   ],
-        //   // },
-        //   // modelMatrix: {
-        //   //   conditions: [
-        //   //     [
-        //   //       `${feature._batchId} === ${selectedBatchId.value}`,
-        //   //       "modelMatrix * matrix4(translation(0, 0, 50))",
-        //   //     ],
-        //   //     ["true", "modelMatrix"],
-        //   //   ],
-        //   // },
-        // });
-        // 添加glb文件
-        // console.log("🚀 ~ _pickerHelper.on ~ selectedBatchId---------m:", m);
-        // feature.content._model.modelMatrix = m;
-        // startDrawerAnimation();
-      }
-
-      // console.log("🚀 ~ _pickerHelper.on ~ feature:", style);
-
-      var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
-      var lon = Cesium.Math.toDegrees(cartographic.longitude);
-      var lat = Cesium.Math.toDegrees(cartographic.latitude);
-
-      // 更新点击位置信息
-      clickPosition.value = {
-        longitude: lon.toFixed(6),
-        latitude: lat.toFixed(6),
-        height: cartographic.height.toFixed(2),
-      };
-      clickPositionInfo.value = JSON.stringify({
-        id: "bim1",
-        lon: lon.toFixed(6),
-        lng: lat.toFixed(6),
-        height: 100,
-        img: bim1,
-      });
-      // console.log("🚀 ~ _pickerHelper.on ~ lat:", lat);
-      // console.log("🚀 ~ _pickerHelper.on ~ feature:", feature);
-      // if (feature.id._id === "shexiangtou") {
-      //   emit("handleEmitShexiangtou");
-      // } else if (feature.id._id === "jiqiren") {
-      //   emit("handleEmitJiqiren");
-      // } else if (feature.id._id === "bim1") {
-      //   emit("handleEmitYimo");
-      // } else if (feature.id._id === "fengxian1") {
-      //   // 显示风险信息弹窗
-      //   showRiskPopup.value = true;
-      //   // 设置弹窗位置
-      //   popupStyle.value = {
-      //     left: movement.position.x + 10 + "px",
-      //     top: movement.position.y + 10 + "px",
-      //   };
-      // }else{
-
-      // }
-    });
   } catch (error) {
     console.error("地图初始化失败:", error);
     ElMessage.error("地图加载失败，请刷新重试");
     isLoading.value = false;
   }
+};
+
+// 设置事件监听
+const setupEventListeners = () => {
+  // 相机移动事件
+  viewer.camera.changed.addEventListener(() => {
+    const center = viewer.camera.position;
+    const cartographic = Cesium.Cartographic.fromCartesian(center);
+    const heading = Cesium.Math.toDegrees(viewer.camera.heading);
+    const pitch = Cesium.Math.toDegrees(viewer.camera.pitch);
+    const roll = Cesium.Math.toDegrees(viewer.camera.roll);
+
+    currentView.value = {
+      longitude: Cesium.Math.toDegrees(cartographic.longitude).toFixed(6),
+      latitude: Cesium.Math.toDegrees(cartographic.latitude).toFixed(6),
+      height: cartographic.height.toFixed(2),
+      heading: heading.toFixed(2),
+      pitch: pitch.toFixed(2),
+      roll: roll.toFixed(2),
+    };
+  });
+
+  // 点击事件
+  const highlightHelper = new agcim.renderer.HighlightHelper();
+  const _pickerHelper = new agcim.interactive.PickerHelper(viewer);
+  _pickerHelper.on("LEFT_CLICK", (movement) => {
+    const feature = _pickerHelper.getPickObject(movement.position);
+    const cartesian = _pickerHelper.getPickPosition(movement.position);
+
+    if (cartesian) {
+      const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+      const lon = Cesium.Math.toDegrees(cartographic.longitude);
+      const lat = Cesium.Math.toDegrees(cartographic.latitude);
+
+      clickPosition.value = {
+        longitude: lon.toFixed(6),
+        latitude: lat.toFixed(6),
+        height: cartographic.height.toFixed(2),
+      };
+
+      clickPositionInfo.value = JSON.stringify({
+        lon: lon.toFixed(6),
+        lng: lat.toFixed(6),
+      });
+
+      if (feature) {
+        EventHandler.handleClick(feature, movement, viewer, agFeatureLayer);
+      }
+    }
+  });
 };
 
 const closeRiskPopup = () => {
@@ -885,5 +1090,9 @@ onMounted(() => {
 
 .risk-popup-content::-webkit-scrollbar-thumb:hover {
   background: rgba(45, 208, 255, 0.7);
+}
+.is-btn-bg {
+  background: url("@/assets/rou/fxbtn.png") no-repeat center center;
+  background-size: 100% 100%;
 }
 </style>
