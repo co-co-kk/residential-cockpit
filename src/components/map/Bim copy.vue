@@ -10,13 +10,13 @@
     >
       <div
         class="is-btn-bg w-[180px] h-[44px] cursor-pointer text-[#fff] flex justify-center items-center"
-        @click="handleClick"
+        @click="handleRiskClick"
       >
         风险图层
       </div>
       <div
         class="is-btn-bg w-[180px] h-[44px] cursor-pointer text-[#fff] flex justify-center items-center"
-        @click="handleClickGanzhi"
+        @click="handlePerceptionClick"
       >
         感知图层
       </div>
@@ -24,11 +24,11 @@
         class="is-btn-bg w-[180px] h-[44px] cursor-pointer text-[#fff] flex justify-center items-center"
         @click="handleManyou"
       >
-        漫游巡查
+        AI巡视
       </div>
     </div>
     <!-- 添加视角信息显示控件 -->
-    <div class="view-info-panel">
+    <!-- <div class="view-info-panel">
       <p>视角位置</p>
       <div class="info-item">
         <span class="label">经度：</span>
@@ -54,15 +54,15 @@
         <span class="label">Roll：</span>
         <span class="value">{{ currentView.roll }}°</span>
       </div>
-    </div>
+    </div> -->
     <!-- 添加点击信息显示控件 -->
-    <div class="absolute z-999 right-0 bottom-0">
+    <!-- <div class="absolute z-999 right-0 bottom-0">
       <p>点击位置</p>
       <textarea
         class="w-[400px] h-[300px]"
         :value="clickPositionInfo"
       ></textarea>
-    </div>
+    </div> -->
     <!-- 风险信息弹窗 -->
     <div v-if="showRiskPopup" class="risk-popup" :style="popupStyle">
       <div class="risk-popup-header">
@@ -119,7 +119,7 @@ const isLoading = ref(true);
 const loading = ref(false);
 const options = ref([]);
 const value = ref(null);
-
+const layersType = ref("");
 let viewer = ref(null);
 let scene = ref(null);
 let camera = ref(null);
@@ -290,7 +290,7 @@ const riskInfo = ref([
 const handleLoadingComplete = () => {
   isLoading.value = false;
 };
-const fengxianList = ref([
+const riskList = ref([
   {
     id: "fengxian1",
     type: "fengxian",
@@ -313,25 +313,90 @@ const fengxianList = ref([
     img: fengxian,
   },
 ]);
-const ganzhiList = ref([
+const perceptionList = ref([
   {
     id: "ganzhi1",
-    type: "fengxian",
     lon: 106.649149,
     lng: 29.510044,
     img: ganzhi,
   },
   {
     id: "ganzhi2",
-    type: "fengxian",
     lon: 106.650598,
     lng: 29.510701,
     img: ganzhi,
   },
 ]);
+// 雷达感知
+const handlePerceptionCircle = () => {
+  const radarLine = new Cesium.Entity({
+    id: "radar_line",
+    position: Cesium.Cartesian3.fromDegrees(106.649149, 29.510044, 50),
+    polyline: {
+      positions: new Cesium.CallbackProperty(() => {
+        const center = Cesium.Cartesian3.fromDegrees(106.649149, 29.510044, 50);
+        const radius = 100.0;
+        const time = Date.now() / 1000;
+        const angle = time % (2 * Math.PI);
+        const endPoint = Cesium.Cartesian3.fromDegrees(
+          106.649149 + (radius * Math.cos(angle)) / 111320,
+          29.510044 + (radius * Math.sin(angle)) / 111320,
+          50
+        );
+        return [center, endPoint];
+      }, false),
+      width: 8,
+      zIndex:999,
+      material: new Cesium.PolylineGlowMaterialProperty({
+        glowPower: 0.2,
+        color: Cesium.Color.BLUE.withAlpha(0.6),
+      }),
+    },
+  });
+
+  // 创建雷达圆环
+  const radarCircle = new Cesium.Entity({
+    id: "radar_circle",
+    position: Cesium.Cartesian3.fromDegrees(106.649149, 29.510044, 50),
+    ellipse: {
+      semiMajorAxis: 100.0,
+      semiMinorAxis: 100.0,
+      material: new Cesium.ColorMaterialProperty(
+        Cesium.Color.BLUE.withAlpha(0.3)
+      ),
+      outline: true,
+      outlineColor: Cesium.Color.BLUE,
+      height: 50,
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
+    },
+  });
+
+  agFeatureLayer.addEntity(radarLine);
+  agFeatureLayer.addEntity(radarCircle);
+};
+const handleRiskRedCircle = () => {
+  const riskRedEntity = new Cesium.Entity({
+    id: "risk_red_circle",
+    position: Cesium.Cartesian3.fromDegrees(106.649468, 29.510137, 40),
+    ellipse: {
+      semiMajorAxis: 30.0, // 半径
+      semiMinorAxis: 30.0,
+      material: new Cesium.ColorMaterialProperty(
+        Cesium.Color.RED.withAlpha(0.4)
+      ),
+      outline: true,
+      outlineColor: Cesium.Color.RED,
+      height: 40,
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
+    },
+  });
+  agFeatureLayer.addEntity(riskRedEntity);
+};
 // 循环添加风险图层图片
-const handleClick = () => {
-  fengxianList.value.forEach((item) => {
+const handleRiskClick = () => {
+  layersType.value = "risk";
+  removeLayer()
+  riskList.value.forEach((item) => {
     const imageEntity = new Cesium.Entity({
       id: item.id,
       position: Cesium.Cartesian3.fromDegrees(item.lon, item.lng, 50),
@@ -354,7 +419,7 @@ const handleClick = () => {
     agFeatureLayer.addEntity(imageEntity);
   });
   addRedPlane();
-
+  // handleRiskRedCircle();
   viewer.camera.flyTo({
     destination: Cesium.Cartesian3.fromDegrees(106.649611, 29.507842, 429.66),
     orientation: {
@@ -365,8 +430,8 @@ const handleClick = () => {
     duration: 2,
   });
   // 调整相机视角到第一个风险点
-  // if (fengxianList.value.length > 0) {
-  //   const firstPoint = fengxianList.value[0];
+  // if (riskList.value.length > 0) {
+  //   const firstPoint = riskList.value[0];
   //   viewer.camera.flyTo({
   //     destination: Cesium.Cartesian3.fromDegrees(
   //       106.648916,
@@ -383,8 +448,12 @@ const handleClick = () => {
   // }
 };
 // 循环添加感知图层图片
-const handleClickGanzhi = () => {
-  ganzhiList.value.forEach((item) => {
+const handlePerceptionClick = () => {
+  layersType.value = "perception";
+  // 移除风险图层
+  removeLayer();
+  handlePerceptionCircle();
+  perceptionList.value.forEach((item) => {
     const imageEntity = new Cesium.Entity({
       id: item.id,
       position: Cesium.Cartesian3.fromDegrees(item.lon, item.lng, 50),
@@ -418,6 +487,43 @@ const handleClickGanzhi = () => {
   });
 };
 
+// 移除添加图层
+const removeLayer = () => {
+  switch (layersType.value) {
+    // redPlane risk_red_circle
+    case "perception":
+      const riskEntity = agFeatureLayer._entities.find(
+        (itm) => (itm._id = "redPlane")
+      );
+      viewer.entities.remove(riskEntity);
+      riskList.value.forEach((item) => {
+        const entity = agFeatureLayer._entities.find(
+          (itm) => (itm._id = item.id)
+        );
+        console.log("🚀 ~ riskList.value.forEach ~ entity:", entity);
+        viewer.entities.remove(entity);
+      });
+      break;
+    case "risk":
+      const perceptionEntity1 = agFeatureLayer._entities.find(
+        (itm) => (itm._id = "radar_line")
+      );
+      viewer.entities.remove(perceptionEntity1);
+      const perceptionEntity2 = agFeatureLayer._entities.find(
+        (itm) => (itm._id = "radar_circle")
+      );
+      viewer.entities.remove(perceptionEntity2);
+      perceptionList.value.forEach((item) => {
+        const entity = agFeatureLayer._entities.find(
+          (itm) => (itm._id = item.id)
+        );
+        viewer.entities.remove(entity);
+      });
+      break;
+    default:
+      break;
+  }
+};
 // maker列表
 const imgList = ref([
   {
@@ -426,7 +532,7 @@ const imgList = ref([
     lng: "29.509416",
     img: shexiangtou,
     name: "摄像头",
-    height: 150,
+    height: 120,
   },
   {
     id: "jiqiren",
@@ -442,7 +548,7 @@ const imgList = ref([
     height: 50,
     img: bim1,
   },
-  // ceshigaodu
+  // 漫游测试的点
   {
     id: "ceshigaodu",
     lon: "106.651173",
@@ -469,8 +575,8 @@ const addImageMarker = () => {
         image: ele.img,
         heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
         zIndex: 1000,
-        height: 50,
-        width: 50,
+        height: 70,
+        width: 70,
       },
       properties: {
         id: ele.id,
@@ -594,20 +700,6 @@ const addEntityBimGlb = () => {
 };
 let lastCopiedEntityId = null; // 存储上一个复制实体的 ID
 
-// 移除添加图层
-const removeLayer = (list) => {
-  delList = agFeatureLayer._entities.forEach(
-    (item) => (item._id = copiedEntity._id)
-  );
-  if (lastCopiedEntityId) {
-    viewer.entities.remove(lastCopiedEntityId);
-  }
-  // 移除所有实体
-  // agFeatureLayer._entities.removeAll();
-  // 移除所有图层
-  // CIM.layerTree.removeAll();
-};
-
 // 常量配置
 const CONSTANTS = {
   POSITION: {
@@ -651,7 +743,6 @@ const LayerManager = {
   // 初始化 3D Tiles 图层
   init3DTilesLayer() {
     const urls = [
-      "https://data.mars3d.cn/3dtiles/bim-daxue/tileset.json",
       "http://172.30.41.194:20035/qxsy_tiles/qx_dnyy_250526/tileset.json",
       "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_2/tileset.json",
       "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_3/tileset.json",
@@ -705,9 +796,9 @@ const EventHandler = {
     }
 
     // 设置glb模型偏移位置
-    const m = feature.id._floor > 5 ? (80 / 111320) : (117 / 111320);
-    const n = feature.id._floor > 5 ? (50 / 111320) : (71 / 111320);
-    
+    const m = feature.id._floor > 5 ? 80 / 111320 : 117 / 111320;
+    const n = feature.id._floor > 5 ? 50 / 111320 : 71 / 111320;
+
     const position = {
       lng: 106.651155,
       lat: 29.509141,

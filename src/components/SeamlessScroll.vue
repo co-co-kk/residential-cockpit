@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="scroll">
-      <div class="absolute z-2 bg-[#0C2A62]" :style="{ width }">
+      <div class="absolute z-2 bg-[#0C2A62] is-header" :style="{ width }">
         <div
           class="flex justify-around items-center h-[43px] leading-[43px] text-[#C9ECFF] text-[14px]"
         >
@@ -14,7 +14,7 @@
           </span>
         </div>
       </div>
-      <vue3-seamless-scroll :list="initData" :singleHeight="30"   :classOptions="classOptions" hover>
+      <vue3-seamless-scroll class="pt-[100px] box-border" :list="initData" :singleHeight="30"   :classOptions="classOptions" hover>
         <template v-for="(item, index) in initData" :key="index">
           <div
             class="item flex justify-around items-center h-[43px] leading-[43px] text-[#C9ECFF] text-[14px]"
@@ -126,5 +126,9 @@ const hideTooltip = () => {
     overflow: hidden;
     text-overflow: ellipsis;
     padding: 5px;
+}
+.is-header{
+  background: url("@/assets/xulei/icon2.png") no-repeat center center;
+  background-size: 100% 100%;
 }
 </style>

@@ -7,7 +7,7 @@
         <div class="flex items-center pt-[20px] px-[30px] box-border">
           <div class="flex">
             <div class="flex flex-col text-[18px]">
-              <div class="leading-[54px] w-[360px] flex items-center">
+              <div class="leading-[50px] w-[360px] flex items-center">
                 <span class="text-[#6BB6ED]">安全施工</span>
                 <div class="pl-[18px] flex items-center gap-[5px]">
                   <div
@@ -28,33 +28,37 @@
                   <span class="pl-[13px]">天</span>
                 </div>
               </div>
-              <div class="leading-[54px] w-[360px]">
+              <div class="leading-[50px] w-[360px]">
                 <span class="text-[#6BB6ED]">项目名称：</span>
                 <span>重庆市东南医院二期建设项目</span>
               </div>
-              <div class="leading-[54px]">
+              <div class="leading-[50px]">
                 <span class="text-[#6BB6ED]">统一项目编码：</span>
                 <span class="">2104-500108-04-01-439202</span>
               </div>
-              <div class="leading-[54px]">
+              <div class="leading-[50px]">
                 <span class="text-[#6BB6ED]">建设单位：</span>
                 <span>中建八局第四建设有限公司</span>
               </div>
-              <div class="leading-[54px]">
+              <div class="leading-[50px]">
                 <span class="text-[#6BB6ED]">项目地点：</span>
                 <span>重庆市南岸区通江大道 </span>
               </div>
-              <div class="leading-[54px]">
+              <div class="leading-[50px]">
                 <span class="text-[#6BB6ED]">项目总面积：</span>
                 <span>72077平方米</span>
               </div>
-              <div class="leading-[54px] line-[50px]">
+              <div class="leading-[50px] line-[50px]">
                 <span class="text-[#6BB6ED]">项目总投资：</span>
                 <span>64557万元</span>
               </div>
-              <div class="leading-[54px] line-[50px]">
-                <span class="text-[#6BB6ED]">是否是市级重大项目：</span>
-                <span>是</span>
+              <div class="leading-[50px] line-[50px]">
+                <span class="text-[#6BB6ED]">工程类型：</span>
+                <span>设计牵头的EPC试点工程</span>
+              </div>
+              <div class="leading-[50px] line-[50px]">
+                <span class="text-[#6BB6ED]">是否为“低价项目”：</span>
+                <span>否</span>
               </div>
             </div>
             <div class="">
