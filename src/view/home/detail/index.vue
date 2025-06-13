@@ -12,10 +12,15 @@
     <div
       class="w-[100%] h-[125px] top-0 z-1 absolute px-[54px] w-[calc(100%-108px)] is-top-bg"
     >
-      <div class="title_container">
-        <div class="is-title1 mt-[5px] pl-[80px] ml-[1800px]">东南医院二期</div>
+      <div class="relative ">
         <div
-          class="w-[1600px] h-[100%] font-400 flex mt-[20px] justify-end text-[24px] text-[#B1EAFF]"
+          class="absolute top-[20px] left-[calc(50%-260px)]  is-title1 mt-[5px]"
+        >
+          东南医院二期
+        </div>
+
+        <div
+          class="w-[1600px] bg-[red] absolute right-0 h-[100%] font-400 flex mt-[10px] justify-end text-[24px] text-[#B1EAFF]"
         >
           <div class="mr-[30px] text-[18px] leading-[30px]">
             <span>
@@ -59,14 +64,14 @@
     <div
       class="w-[1900px] bottom-0 h-[76px] z-11 right-[calc(50%-950px)] absolute is-bottom-bg animate-pulse"
     ></div>
-    <!-- <Bim
+    <Bim
       class="h-[1080px]"
       @handleEmitShexiangtou="
         jiankongDialogVisible = true
       "
       @handleEmitYimo="centerDiaShown = true"
       @handleEmitJiqiren="jiqirenDiaShown = true"
-    /> -->
+    />
     <div
       class="absolute z-99 text-[#fff] top-[20px] left-[50px] text-[24px] flex items-center cursor-pointer"
       @click="router.back()"
@@ -170,7 +175,7 @@
     </div>
     <!-- 右 -->
     <div
-      class="absolute h-[1080px] pt-[60px] box-border pl-[20px] pr-[20px] right-0 top-0 pt-[0px] bg-[rgba(0,0,0,0.6)]"
+      class="absolute h-[1080px] pt-[60px] box-border pl-[20px]  right-0 top-0 pt-[0px] bg-[rgba(0,0,0,0.6)]"
       style="
         background: linear-gradient(
           0deg,
@@ -198,8 +203,8 @@
           {{ item }}
         </div>
       </div>
-      <div class="is-rig-con ml-[20px]" v-if="currentBotIndex==0">
-        <div class="ml-[320px] mt-[60px] w-[540px] flex flex-col">
+      <div class="is-rig-con ml-[20px]" v-if="currentBotIndex == 0">
+        <div class="ml-[280px] mt-[60px] w-[540px] flex flex-col">
           <div class="flex space-x-[10px]">
             <button
               class="bg-[#21C0BD] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
@@ -283,11 +288,11 @@
               搜索
             </button>
           </div>
-          <div class="w-[100%] h-[180px] px-[10px] box-border mt-[20px]">
+          <div class="w-[94%] h-[180px]  box-border mt-[20px]">
             <SeamlessScroll
               :initData="scrollTableList"
               :initHeader="scrollTableListHeader"
-              :width="'530px'"
+              :width="'510px'"
               width="50%"
               class="h-[100%]"
             >
@@ -295,8 +300,8 @@
           </div>
         </div>
       </div>
-      <div class="is-rig-con2 ml-[20px]" v-if="currentBotIndex==1">
-        <div class="ml-[320px] mt-[60px] w-[540px] flex flex-col">
+      <div class="is-rig-con2 ml-[20px]" v-if="currentBotIndex == 1">
+        <div class="ml-[280px] mt-[60px] w-[540px] flex flex-col">
           <div class="flex space-x-[10px]">
             <button
               class="bg-[#21C0BD] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
@@ -380,11 +385,11 @@
               搜索
             </button>
           </div>
-          <div class="w-[100%] h-[180px] px-[10px] box-border mt-[20px]">
+          <div class="w-[94%] h-[180px]  box-border mt-[20px]">
             <SeamlessScroll
               :initData="scrollTableList"
               :initHeader="scrollTableListHeader"
-              :width="'530px'"
+              :width="'510px'"
               width="50%"
               class="h-[100%]"
             >
@@ -392,8 +397,8 @@
           </div>
         </div>
       </div>
-      <div class="is-rig-con3 ml-[20px]" v-if="currentBotIndex==2">
-        <div class="ml-[320px] mt-[60px] w-[540px] flex flex-col">
+      <div class="is-rig-con3 ml-[20px]" v-if="currentBotIndex == 2">
+        <div class="ml-[280px] mt-[60px] w-[540px] flex flex-col">
           <div class="flex space-x-[10px]">
             <button
               class="bg-[#21C0BD] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
@@ -477,11 +482,11 @@
               搜索
             </button>
           </div>
-          <div class="w-[100%] h-[180px] px-[10px] box-border mt-[20px]">
+          <div class="w-[94%] h-[180px]  box-border mt-[20px]">
             <SeamlessScroll
               :initData="scrollTableList"
               :initHeader="scrollTableListHeader"
-              :width="'530px'"
+              :width="'510px'"
               width="50%"
               class="h-[100%]"
             >
@@ -703,11 +708,11 @@
           alt=""
         />
         <span
-          class="absolute z-999 bg-[red] right-[1300px] cursor-pointer bottom-[620px] w-[50px] h-[50px]"
+          class="absolute z-999  right-[1300px] cursor-pointer bottom-[780px] w-[50px] h-[50px]"
           @click="imgShown = false"
         ></span>
         <span
-          class="absolute z-999 right-[1300px] cursor-pointer bottom-[400px] w-[100px] h-[200px]"
+          class="absolute z-999  right-[1300px] cursor-pointer bottom-[550px] w-[100px] h-[200px]"
           @click="diaShown = true"
         ></span>
       </div>
@@ -823,8 +828,14 @@
           alt=""
         />
         <!-- 悬浮大按钮 -->
-        <div class="absolute left-[50px] top-[400px] cursor-pointer  cursor-pointer w-[1000px] h-[300px] z-[19]" @click="showRobatMp4=2"></div>
-        <div class="absolute left-[50px] top-[50px] cursor-pointer  cursor-pointer w-[1000px] h-[300px] z-[19]" @click="showRobatMp4=1"></div>
+        <div
+          class="absolute left-[50px] top-[400px] cursor-pointer cursor-pointer w-[1000px] h-[300px] z-[19]"
+          @click="showRobatMp4 = 2"
+        ></div>
+        <div
+          class="absolute left-[50px] top-[50px] cursor-pointer cursor-pointer w-[1000px] h-[300px] z-[19]"
+          @click="showRobatMp4 = 1"
+        ></div>
         <div
           class="grid grid-cols-4 gap-[80px] absolute bottom-[50px] left-[50%]"
         >
@@ -846,19 +857,19 @@
           />
         </div>
         <video
-        v-if="showRobatMp4==1"
+          v-if="showRobatMp4 == 1"
           :src="robat1"
           class="ml-[1105px] mt-[50px]"
-          style="width: 72%; object-fit: cover; height: 880px"
+          style="width: calc(100% - 1200px); object-fit: cover; height: 880px"
           controls
           autoplay
           muted
         ></video>
         <video
-        v-else
+          v-else
           :src="robat2"
           class="ml-[1105px] mt-[50px]"
-          style="width: 72%; object-fit: cover; height: 880px"
+          style="width: calc(100% - 1200px); object-fit: cover; height: 880px"
           controls
           autoplay
           muted
@@ -910,9 +921,9 @@ import Hls from "hls.js";
 import { useNow } from "@vueuse/core";
 const now = useNow();
 import SeamlessScroll from "@/components/SeamlessScroll.vue";
-import robat1 from "@/assets/video/robat1.mp4"
-import robat2 from "@/assets/video/robat2.mp4"
-const showRobatMp4=ref(1)
+import robat1 from "@/assets/video/robat1.mp4";
+import robat2 from "@/assets/video/robat2.mp4";
+const showRobatMp4 = ref(1);
 const scrollTableList = ref([
   {
     b: "一殿",
@@ -960,8 +971,7 @@ const scrollTableListHeader = ref([
 ]);
 // 格式化日期的函数
 const formatDate = (date) => {
-  const pad = (num) =>
-    String(num).padStart(2, "0");
+  const pad = (num) => String(num).padStart(2, "0");
   const weekdays = ["日", "一", "二", "三", "四", "五", "六"]; // 星期数组
   const year = date.getFullYear();
   const month = pad(date.getMonth() + 1); // 月份从 0 开始8860
@@ -1412,19 +1422,19 @@ onUnmounted(() => {
   box-shadow: 0px 0px 12px NaNpx rgba(64, 110, 169, 0.5) inset;
 }
 .is-rig-con {
-  width: 1400px;
+  width: 1350px;
   height: 360px;
   background: url("@/assets/xulei/icon1.png") no-repeat center center;
   background-size: 100% 100%;
 }
 .is-rig-con2 {
-  width: 1400px;
+  width: 1350px;
   height: 360px;
   background: url("@/assets/xulei/icon3.png") no-repeat center center;
   background-size: 100% 100%;
 }
 .is-rig-con3 {
-  width: 1400px;
+  width: 1350px;
   height: 360px;
   background: url("@/assets/xulei/icon4.png") no-repeat center center;
   background-size: 100% 100%;
