@@ -23,19 +23,40 @@
         <div
           class="w-[1600px] h-[100%] font-400 flex mt-[20px] justify-end text-[24px] text-[#B1EAFF]"
         >
-          <div class="mr-[20px]">
+          <div class="mr-[30px] text-[18px] leading-[30px]">
             <span>
               {{ formattedDate }}
             </span>
           </div>
-          <div class="flex h-[100%] ml-[50px]">
+          <div class="flex">
+            <img class="w-[30px] h-[30px]" src="@/assets/images/PM10.png" />
+            <div class="text-[14px] leading-[14px] text-left">
+              <div class="text-[#FF855B]">PM10</div>
+              <div class="text-[#FFFFFF]">32.7ug/m³</div>
+            </div>
+          </div>
+          <div class="flex ml-[30px]">
+            <img class="w-[30px] h-[30px]" src="@/assets/images/pm2.5.png" />
+            <div class="text-[14px] leading-[14px] text-left">
+              <div class="text-[#FF855B]">PM2.5</div>
+              <div class="text-[#FFFFFF]">18.7ug/m³</div>
+            </div>
+          </div>
+          <div class="flex ml-[30px]">
+            <img class="w-[30px] h-[30px]" src="@/assets/images/noise.png" />
+            <div class="text-[14px] leading-[14px] text-left">
+              <div class="text-[#FF855B]">噪音</div>
+              <div class="text-[#FFFFFF]">64db</div>
+            </div>
+          </div>
+          <div class="flex h-[100%] ml-[40px]">
             <img
               src="@/assets/image/home/sun.gif"
               class="w-[30px] h-[30px] mr-[10px]"
               alt=""
             />
-            <span>晴</span>
-            <span> 30-38℃ </span>
+            <!-- <span>晴</span> -->
+            <span class="leading-[34px]"> 27℃ </span>
           </div>
         </div>
       </div>
@@ -744,14 +765,16 @@ const now = useNow();
 const formatDate = (date) => {
   const pad = (num) =>
     String(num).padStart(2, "0");
+  const weekdays = ["日", "一", "二", "三", "四", "五", "六"]; // 星期数组
   const year = date.getFullYear();
   const month = pad(date.getMonth() + 1); // 月份从 0 开始8860
   const day = pad(date.getDate());
   const hours = pad(date.getHours());
   const minutes = pad(date.getMinutes());
   const seconds = pad(date.getSeconds());
+  const weekday = weekdays[date.getDay()];
 
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  return `${year}年${month}月${day}日 星期${weekday} ${hours}:${minutes}:${seconds}`;
 };
 
 // 使用计算属性
