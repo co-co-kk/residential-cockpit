@@ -68,13 +68,13 @@
       </div>
     </div> -->
     <!-- 添加点击信息显示控件 -->
-    <div class="absolute z-999 right-0 bottom-0">
+    <!-- <div class="absolute z-999 right-0 bottom-0">
       <p>点击位置</p>
       <textarea
         class="w-[400px] h-[300px]"
         :value="clickPositionInfo"
       ></textarea>
-    </div>
+    </div> -->
     <!-- 风险信息弹窗 -->
     <div v-if="showRiskPopup" class="risk-popup" :style="popupStyle">
       <div class="risk-popup-header">
@@ -141,6 +141,7 @@ const emit = defineEmits([
   "handleEmitJiqiren",
   "handleEmitYimo",
   "handleEmitJianCeBaoGao",
+  "handleEmitJiqirenTan"
 ]);
 const position = {
   lng: 106.651155,
@@ -368,20 +369,19 @@ const riskList = ref([
 // 感知 ganzhilist
 const perceptionList = ref([
   {
-    id: "ganzhi1",
+    id: "ganzhi",
     lon: 106.651352,
     lng: 29.509372,
     img: ganzhi,
     height: 10,
   },
-  // {
-  //   id: "ganzhi2",
-  //   lon: 106.650598,
-  //   lng: 29.510701,
-  //   img: ganzhi,
-  //   height:20
-
-  // },
+  {
+    id: "ganzhi2",
+    lon: 106.650598,
+    lng: 29.510701,
+    img: ganzhi,
+    height:20
+  },
 ]);
 // 雷达感知
 const handlePerceptionCircle = () => {
@@ -632,6 +632,13 @@ const jiqirenList = ref([
     height: 115,
     img: jiqiren,
   },
+  {
+    id: "jiqiren2",
+    lon: "106.651336",
+    lng: "29.509270",
+    height: 115,
+    img: jiqiren,
+  },
 ]);
 // 孪生图层
 const luanshengList = ref([
@@ -852,10 +859,11 @@ const EventHandler = {
       }
       return;
     }
-    if (feature.id._id === "shexiangtou") {
+    if (feature.id._id === "shexiangtou" || feature.id._id === "ganzhi2") {
       emit("handleEmitShexiangtou");
-    } else if (feature.id._id === "jiqiren") {
-      emit("handleEmitJiqiren");
+    } else if (feature.id._id === "jiqiren" || feature.id._id === "jiqiren2") {
+      // emit("handleEmitJiqiren");
+      emit("handleEmitJiqirenTan");
     } else if (feature.id._id === "bim1") {
       emit("handleEmitYimo");
     } else if (
@@ -947,13 +955,14 @@ const EventHandler = {
     );
     if (feature.id._id == "Floor16") {
       addImageMarker(jiqirenList.value);
-    } else {
-      topEntityId = agFeatureLayer._entities.find(
-        (item) => item._id === "jiqiren"
-      );
-      console.log("🚀 ~ topEntityId:", topEntityId);
-      viewer.entities.remove(topEntityId);
-    }
+    } 
+    // else {
+    //   topEntityId = agFeatureLayer._entities.find(
+    //     (item) => item._id === "jiqiren"
+    //   );
+    //   console.log("🚀 ~ topEntityId:", topEntityId);
+    //   viewer.entities.remove(topEntityId);
+    // }
   },
 };
 

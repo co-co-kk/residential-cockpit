@@ -461,13 +461,15 @@
     >
     <div class="relative">
       <img :src="currentDiaImg" alt="" draggable="false"  />
-      <div class="absolute top-[50px] left-[30px] w-[160px] h-[250px] bg-[#021631] flex flex-col justify-center items-center">
+      <div  v-if="xiangmufuzeren=='项目负责人'" >
+        <div class="absolute top-[50px] left-[30px] w-[160px] h-[250px] bg-[#021631] flex flex-col justify-center items-center">
         <img src="@/assets/xulei/ren1.png" class="w-[160px] h-[200px]" alt="">
         <span class="text-[22px] text-[#A0C4E1] mt-[10px]">缪剑峰</span>
       </div>
       <span class="text-[22px] absolute top-[62px] left-[386px] bg-[#07284D] text-[#A0C4E1] mt-[10px]">项目经理</span>
       <span class="text-[22px] absolute top-[0] left-[30px] pr-[10px] bg-[#07284D] text-[#A0C4E1] mt-[10px]">人员信息</span>
-
+      </div>
+     
     </div>
       <!-- <img src="@/assets/xulei/diaicon1.png" alt=""> -->
     </el-dialog>
@@ -507,8 +509,10 @@ const centerDialogVisible = ref(false);
 const diaImg = ref(null);
 const diaImgWidth = ref(530);
 // 打开弹窗
+const xiangmufuzeren=ref("")
 const handleDia = (item) => {
   console.log("🚀 ~ handleDia ~ item:", item)
+  xiangmufuzeren.value=item.name
   if (item.url) {
     centerDialogVisible.value = true;
     currentDiaImg.value = item.url;

@@ -1435,7 +1435,7 @@ const staffData = ref([
   background-size: 105% 107%;
 }
 .material-bg {
-  background: url("@/assets/images/shield-bg.png");
+  // background: url("@/assets/images/shield-bg.png");
   background-size: 100% 100%;
 }
 .frame-bg {

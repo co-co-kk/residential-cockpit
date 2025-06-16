@@ -65,14 +65,15 @@
       class="w-[1900px] cursor-pointer bottom-0 h-[76px] z-11 right-[calc(50%-950px)] absolute is-bottom-bg animate-pulse"
       @click="isBotCon = !isBotCon"
     ></div>
-    <!-- <Bim
+    <Bim
       ref="bimRef"
       class="h-[1080px]"
       @handleEmitShexiangtou="jiankongDialogVisible = true"
       @handleEmitYimo="centerDiaShown = true"
       @handleEmitJiqiren="jiqirenDiaShown = true"
       @handleEmitJianCeBaoGao="xunjianDiaShown = true"
-    /> -->
+      @handleEmitJiqirenTan="jiqirentanchuang=true"
+    />
     <div
       class="absolute z-99 text-[#fff] top-[20px] left-[50px] text-[24px] flex items-center cursor-pointer"
       @click="router.back()"
@@ -1097,35 +1098,35 @@ const scrollTableList = ref([
   {
     b: "一殿",
     c: "施工员未戴安全帽",
-    d: "治安总站",
+    d: "质安总站",
     e: "感知设备",
     f: "已办结",
   },
   {
     b: "一殿",
     c: "施工员未戴安全帽",
-    d: "治安总站",
+    d: "质安总站",
     e: "感知设备",
     f: "已办结",
   },
   {
     b: "一殿",
     c: "施工员未戴安全帽",
-    d: "治安总站",
+    d: "质安总站",
     e: "感知设备",
     f: "已办结",
   },
   {
     b: "一殿",
     c: "施工员未戴安全帽",
-    d: "治安总站",
+    d: "质安总站",
     e: "感知设备",
     f: "已办结",
   },
   {
     b: "一殿",
     c: "施工员未戴安全帽",
-    d: "治安总站",
+    d: "质安总站",
     e: "感知设备",
     f: "已办结",
   },
