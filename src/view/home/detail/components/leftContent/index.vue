@@ -461,7 +461,7 @@
     >
     <div class="relative">
       <img :src="currentDiaImg" alt="" draggable="false"  />
-      <div  v-if="xiangmufuzeren=='项目负责人'" >
+      <div  v-if="xiangmufuzeren=='项目经理'" >
         <div class="absolute top-[50px] left-[30px] w-[160px] h-[250px] bg-[#021631] flex flex-col justify-center items-center">
         <img src="@/assets/xulei/ren1.png" class="w-[160px] h-[200px]" alt="">
         <span class="text-[22px] text-[#A0C4E1] mt-[10px]">缪剑峰</span>
@@ -742,7 +742,7 @@ const staffData = ref([
         name: "项目负责人",
         value: "1人",
         img: projectLeader,
-        url:idcon6
+        // url:idcon6
       },
       {
         name: "工程管理工程师",
@@ -774,6 +774,7 @@ const staffData = ref([
         name: "项目经理",
         value: "1人",
         img: projectLeader,
+        url:idcon6
       },
       {
         name: "土建/机电工程师",

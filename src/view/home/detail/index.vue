@@ -65,7 +65,7 @@
       class="w-[1900px] cursor-pointer bottom-0 h-[76px] z-11 right-[calc(50%-950px)] absolute is-bottom-bg animate-pulse"
       @click="isBotCon = !isBotCon"
     ></div>
-    <Bim
+    <!-- <Bim
       ref="bimRef"
       class="h-[1080px]"
       @handleEmitShexiangtou="jiankongDialogVisible = true"
@@ -73,7 +73,7 @@
       @handleEmitJiqiren="jiqirenDiaShown = true"
       @handleEmitJianCeBaoGao="xunjianDiaShown = true"
       @handleEmitJiqirenTan="jiqirentanchuang=true"
-    />
+    /> -->
     <div
       class="absolute z-99 text-[#fff] top-[20px] left-[50px] text-[24px] flex items-center cursor-pointer"
       @click="router.back()"
@@ -1358,7 +1358,7 @@ const peopleList = ref([
     ],
   },
   {
-    zz: "常国强",
+    zz: "甘红",
     tel: "13883569294",
     type: "物资保障组",
     img:ren5,

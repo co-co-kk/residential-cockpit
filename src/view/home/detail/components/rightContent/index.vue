@@ -65,7 +65,7 @@
                         class="flex items-end text-[rgba(86,209,146,1)]"
                       >
                         <span class="text-[30px]"
-                          >99.43</span
+                          >83.33</span
                         >
                         <span
                           class="text-[18px] ml-[5px]"
@@ -136,6 +136,7 @@
                   </div>
                   <div
                     class="flex justify-between px-[20px]"
+                    @click="handleCailiao"
                   >
                     <div
                       class="flex my-[20px]"
@@ -143,7 +144,7 @@
                     >
                       <img
                         class="w-[50px] h-[50px] cursor-pointer"
-                        @click="handleCailiao"
+                        
                         src="@/assets/images/shield.png"
                       />
                       <div class="ml-[10px]">
@@ -1101,7 +1102,7 @@ const scrollTableListHeader = ref([
 const listData = ref([
   {
     name: "问题总数",
-    value: 350,
+    value: 6,
   },
   {
     name: "严重问题",
@@ -1109,7 +1110,7 @@ const listData = ref([
   },
   {
     name: "已整改",
-    value: 348,
+    value: 5,
   },
 ]);
 const listData1 = ref([
