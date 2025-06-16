@@ -25,6 +25,8 @@
               class="flex-1 flex items-center justify-center overflow-hidden text-[red] whitespace-nowrap"
               @mouseenter="showTooltip(itm, $event)"
               @mouseleave="hideTooltip"
+              @click="handleChuzhi"
+
             >
               <el-tooltip
                 v-if="tooltipVisible && tooltipItem === itm"
@@ -52,7 +54,11 @@
 
 <script setup>
 import { defineProps, ref } from "vue";
-
+const emit=defineEmits(['handleEmitOpenChuzhi'])
+const handleChuzhi=()=>{
+  console.log("dinajile")
+  emit('handleEmitOpenChuzhi')
+}
 const props = defineProps({
   initData: {
     type: Array,

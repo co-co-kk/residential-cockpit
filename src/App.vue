@@ -18,6 +18,6 @@
   overflow: hidden; // 隐藏溢出
   width: 100vw;
   height: 100vh;
-  // background: #0C2A62;  
+  background: #0C2A62;  
 }
 </style>

@@ -12,11 +12,11 @@
     <div
       class="w-[100%] h-[125px] top-0 z-1 absolute px-[54px] w-[calc(100%-108px)] is-top-bg"
     >
-      <div class="relative ">
+      <div class="relative">
         <div
-          class="absolute top-[20px] left-[calc(50%-260px)]  is-title1 mt-[5px]"
+          class="absolute top-[20px] left-[calc(50%-300px)] is-title1 mt-[5px]"
         >
-          东南医院二期
+          东南医院二期项目
         </div>
 
         <div
@@ -62,16 +62,17 @@
     </div>
     <!-- bottom -->
     <div
-      class="w-[1900px] bottom-0 h-[76px] z-11 right-[calc(50%-950px)] absolute is-bottom-bg animate-pulse"
+      class="w-[1900px] cursor-pointer bottom-0 h-[76px] z-11 right-[calc(50%-950px)] absolute is-bottom-bg animate-pulse"
+      @click="isBotCon = !isBotCon"
     ></div>
-    <Bim
+    <!-- <Bim
+      ref="bimRef"
       class="h-[1080px]"
-      @handleEmitShexiangtou="
-        jiankongDialogVisible = true
-      "
+      @handleEmitShexiangtou="jiankongDialogVisible = true"
       @handleEmitYimo="centerDiaShown = true"
       @handleEmitJiqiren="jiqirenDiaShown = true"
-    />
+      @handleEmitJianCeBaoGao="xunjianDiaShown = true"
+    /> -->
     <div
       class="absolute z-99 text-[#fff] top-[20px] left-[50px] text-[24px] flex items-center cursor-pointer"
       @click="router.back()"
@@ -82,31 +83,52 @@
 
     <!-- 顶部kpi -->
     <div
-      class="absolute top-[100px] left-[calc(50%-600px)] grid grid-cols-6 gap-[30px]"
+      class="absolute top-[100px] left-[calc(50%-710px)] grid grid-cols-5 gap-[10px]"
     >
       <div
-        class="rounded-[5px] w-[200px] flex items-center cursor-pointer w-[220px]"
-        style="border: 4px solid rgba(61, 133, 207, 0.4)"
+        class="rounded-[5px] w-[270px] flex items-center cursor-pointer"
+        style="
+          border: 4px solid rgba(61, 133, 207, 0.4);
+          background: rgba(5, 24, 51, 0.95);
+        "
         v-for="(item, index) in middleOptions"
         :key="index"
       >
-        <!-- <img
-          :src="item.params4"
-          class="mx-[10px] w-[29px] h-[27px]"
-          alt=""
-        /> -->
-        <div class="w-full p-[20px] px-[10px] pt-[10px]">
-          <div class="flex w-full">
+        <div class="w-full p-[10px]">
+          <div class="flex w-full justify-center">
             <img
               :src="item.params4"
               class="mx-[10px] w-[32px] h-[34px]"
               alt=""
             />
-            <div class="text-[#FFFFFF] text-[18px] font-bold mt-[5px]">
+            <div
+              class="text-[#FFFFFF] text-[18px] font-bold mt-[5px] tracking-[5px]"
+            >
               {{ item.params1 }}
             </div>
           </div>
-          <div class="flex justify-center mt-[22px]">
+          <div class="text-[#fff]">
+            <div class="flex my-[20px] justify-between items-center">
+              <span class="is-span1">实时</span>
+              <p>
+                <span
+                  class="is-span2 pt-[10px] pl-[10px] mx-[10px] animate-number"
+                  v-for="(num, index) in String(item.currentValue).split('')"
+                  :key="index"
+                  >{{ num }}</span
+                >
+                <span class="is-span3">{{ item.params3 }}</span>
+              </p>
+            </div>
+            <div class="flex justify-between">
+              <span class="is-span1">总计</span>
+              <p class="is-span3">
+                <span class="font-bold">{{ item.params5 }}</span>
+                <span class="text-[14px]">{{ item.params6 }}</span>
+              </p>
+            </div>
+          </div>
+          <!-- <div class="flex justify-center mt-[22px]">
             <div>
               <span class="tit1">{{ item.params2 }}</span>
               <span class="tit1 ml-[10px]" style="font-size: 14px">{{
@@ -121,7 +143,7 @@
               }}</span>
               <div class="tit1 text-center" style="font-size: 16px">总计</div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- <div
@@ -159,7 +181,7 @@
     </div>
     <!-- 左 -->
     <div
-      class="absolute h-[1080px] left-0 pl-[55px] top-0 box-border pt-[40px] bg-[rgba(0,0,0,0.6)]"
+      class="absolute h-[1080px] left-0 pl-[25px] top-0 box-border pt-[40px] bg-[rgba(0,0,0,0.6)]"
       style="
         background: linear-gradient(
           0deg,
@@ -175,7 +197,7 @@
     </div>
     <!-- 右 -->
     <div
-      class="absolute h-[1080px] pt-[60px] box-border pl-[20px]  right-0 top-0 pt-[0px] bg-[rgba(0,0,0,0.6)]"
+      class="absolute h-[1080px] pt-[60px] box-border pl-[20px] right-0 top-0 pt-[0px] bg-[rgba(0,0,0,0.6)]"
       style="
         background: linear-gradient(
           0deg,
@@ -192,312 +214,328 @@
       draggable="false"
       alt=""
     /> -->
-    <div class="absolute left-[calc(50%-700px)] bottom-[30px] text-[#fff] flex">
-      <div class="flex flex-col space-y-[20px]">
-        <div
-          class="is-bot-item cursor-pointer"
-          v-for="(item, index) in ['事件', '风险', '任务']"
-          @click="currentBotIndex = index"
-          :class="{ 'is-bot-act': currentBotIndex == index }"
-        >
-          {{ item }}
-        </div>
-      </div>
-      <div class="is-rig-con ml-[20px]" v-if="currentBotIndex == 0">
-        <div class="ml-[280px] mt-[60px] w-[540px] flex flex-col">
-          <div class="flex space-x-[10px]">
-            <button
-              class="bg-[#21C0BD] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              一般
-            </button>
-            <button
-              class="bg-[#CDCA52] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              较大
-            </button>
-            <button
-              class="bg-[#CE6228] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              重大
-            </button>
-            <button
-              class="bg-[#DA2C24] text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              特别重大
-            </button>
-            <button
-              style="margin-left: 50px; background: rgba(43, 118, 226, 0.29)"
-              class="text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              物联感知
-            </button>
-            <button
-              style="background: rgba(5, 24, 51, 0.29)"
-              class="text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              特征指标
-            </button>
-          </div>
-          <div class="flex space-x-[10px] mt-[10px]">
-            <el-input
-              v-model="biaoti"
-              style="width: 150px"
-              placeholder="请输入标题"
-              size="normal"
-              clearable
-              @change=""
-            ></el-input>
-            <el-select
-              v-model="biaoti"
-              value-key=""
-              placeholder="处置处室（单位）"
-              style="width: 170px"
-              clearable
-              filterable
-              @change=""
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-            <el-select
-              v-model="biaoti"
-              value-key=""
-              placeholder="状态"
-              style="width: 100px"
-              clearable
-              filterable
-              @change=""
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-            <button
-              class="bg-[#2B76E2] text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              搜索
-            </button>
-          </div>
-          <div class="w-[94%] h-[180px]  box-border mt-[20px]">
-            <SeamlessScroll
-              :initData="scrollTableList"
-              :initHeader="scrollTableListHeader"
-              :width="'510px'"
-              width="50%"
-              class="h-[100%]"
-            >
-            </SeamlessScroll>
+    <template v-if="isBotCon">
+      <div
+        class="absolute left-[calc(50%-700px)] bottom-[30px] text-[#fff] flex"
+      >
+        <div class="flex flex-col space-y-[20px]">
+          <div
+            class="is-bot-item cursor-pointer"
+            v-for="(item, index) in ['事件', '风险', '任务']"
+            @click="currentBotIndex = index"
+            :class="{
+              'is-bot-act': currentBotIndex == index,
+            }"
+          >
+            {{ item }}
           </div>
         </div>
-      </div>
-      <div class="is-rig-con2 ml-[20px]" v-if="currentBotIndex == 1">
-        <div class="ml-[280px] mt-[60px] w-[540px] flex flex-col">
-          <div class="flex space-x-[10px]">
-            <button
-              class="bg-[#21C0BD] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              一般
-            </button>
-            <button
-              class="bg-[#CDCA52] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              较大
-            </button>
-            <button
-              class="bg-[#CE6228] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              重大
-            </button>
-            <button
-              class="bg-[#DA2C24] text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              特别重大
-            </button>
-            <button
-              style="margin-left: 50px; background: rgba(43, 118, 226, 0.29)"
-              class="text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              物联感知
-            </button>
-            <button
-              style="background: rgba(5, 24, 51, 0.29)"
-              class="text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              特征指标
-            </button>
-          </div>
-          <div class="flex space-x-[10px] mt-[10px]">
-            <el-input
-              v-model="biaoti"
-              style="width: 150px"
-              placeholder="请输入标题"
-              size="normal"
-              clearable
-              @change=""
-            ></el-input>
-            <el-select
-              v-model="biaoti"
-              value-key=""
-              placeholder="处置处室（单位）"
-              style="width: 170px"
-              clearable
-              filterable
-              @change=""
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+        <div class="is-rig-con ml-[20px]" v-if="currentBotIndex == 0">
+          <div class="ml-[280px] mt-[60px] w-[540px] flex flex-col">
+            <div class="flex space-x-[10px]">
+              <button
+                class="bg-[#21C0BD] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
               >
-              </el-option>
-            </el-select>
-            <el-select
-              v-model="biaoti"
-              value-key=""
-              placeholder="状态"
-              style="width: 100px"
-              clearable
-              filterable
-              @change=""
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                一般
+              </button>
+              <button
+                class="bg-[#CDCA52] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
               >
-              </el-option>
-            </el-select>
-            <button
-              class="bg-[#2B76E2] text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              搜索
-            </button>
-          </div>
-          <div class="w-[94%] h-[180px]  box-border mt-[20px]">
-            <SeamlessScroll
-              :initData="scrollTableList"
-              :initHeader="scrollTableListHeader"
-              :width="'510px'"
-              width="50%"
-              class="h-[100%]"
-            >
-            </SeamlessScroll>
+                较大
+              </button>
+              <button
+                class="bg-[#CE6228] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                重大
+              </button>
+              <button
+                class="bg-[#DA2C24] text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                特别重大
+              </button>
+              <button
+                style="margin-left: 50px; background: rgba(43, 118, 226, 0.29)"
+                class="text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                物联感知
+              </button>
+              <button
+                style="background: rgba(5, 24, 51, 0.29)"
+                class="text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                特征指标
+              </button>
+            </div>
+            <div class="flex space-x-[10px] mt-[10px]">
+              <el-input
+                v-model="biaoti"
+                style="width: 150px"
+                placeholder="请输入标题"
+                size="normal"
+                clearable
+                @change=""
+              ></el-input>
+              <el-select
+                v-model="biaoti"
+                value-key=""
+                placeholder="处置处室（单位）"
+                style="width: 170px"
+                clearable
+                filterable
+                @change=""
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+              <el-select
+                v-model="biaoti"
+                value-key=""
+                placeholder="状态"
+                style="width: 100px"
+                clearable
+                filterable
+                @change=""
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+              <button
+                class="bg-[#2B76E2] text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                搜索
+              </button>
+            </div>
+            <div class="w-[94%] h-[180px] box-border mt-[20px]">
+              <SeamlessScroll
+                :initData="scrollTableList"
+                :initHeader="scrollTableListHeader"
+                :width="'510px'"
+                width="50%"
+                class="h-[100%]"
+                @handleEmitOpenChuzhi="chuzhiDiaShown = true"
+              >
+              </SeamlessScroll>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="is-rig-con3 ml-[20px]" v-if="currentBotIndex == 2">
-        <div class="ml-[280px] mt-[60px] w-[540px] flex flex-col">
-          <div class="flex space-x-[10px]">
-            <button
-              class="bg-[#21C0BD] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              一般
-            </button>
-            <button
-              class="bg-[#CDCA52] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              较大
-            </button>
-            <button
-              class="bg-[#CE6228] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              重大
-            </button>
-            <button
-              class="bg-[#DA2C24] text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              特别重大
-            </button>
-            <button
-              style="margin-left: 50px; background: rgba(43, 118, 226, 0.29)"
-              class="text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              物联感知
-            </button>
-            <button
-              style="background: rgba(5, 24, 51, 0.29)"
-              class="text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              特征指标
-            </button>
-          </div>
-          <div class="flex space-x-[10px] mt-[10px]">
-            <el-input
-              v-model="biaoti"
-              style="width: 150px"
-              placeholder="请输入标题"
-              size="normal"
-              clearable
-              @change=""
-            ></el-input>
-            <el-select
-              v-model="biaoti"
-              value-key=""
-              placeholder="处置处室（单位）"
-              style="width: 170px"
-              clearable
-              filterable
-              @change=""
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+        <div class="is-rig-con2 ml-[20px]" v-if="currentBotIndex == 1">
+          <div class="ml-[280px] mt-[60px] w-[540px] flex flex-col">
+            <div class="flex space-x-[10px]">
+              <button
+                class="bg-[#21C0BD] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
               >
-              </el-option>
-            </el-select>
-            <el-select
-              v-model="biaoti"
-              value-key=""
-              placeholder="状态"
-              style="width: 100px"
-              clearable
-              filterable
-              @change=""
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                一般
+              </button>
+              <button
+                class="bg-[#CDCA52] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
               >
-              </el-option>
-            </el-select>
-            <button
-              class="bg-[#2B76E2] text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
-            >
-              搜索
-            </button>
-          </div>
-          <div class="w-[94%] h-[180px]  box-border mt-[20px]">
-            <SeamlessScroll
-              :initData="scrollTableList"
-              :initHeader="scrollTableListHeader"
-              :width="'510px'"
-              width="50%"
-              class="h-[100%]"
-            >
-            </SeamlessScroll>
+                较大
+              </button>
+              <button
+                class="bg-[#CE6228] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                重大
+              </button>
+              <button
+                class="bg-[#DA2C24] text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                特别重大
+              </button>
+              <button
+                style="margin-left: 50px; background: rgba(43, 118, 226, 0.29)"
+                class="text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                物联感知
+              </button>
+              <button
+                style="background: rgba(5, 24, 51, 0.29)"
+                class="text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                特征指标
+              </button>
+            </div>
+            <div class="flex space-x-[10px] mt-[10px]">
+              <el-input
+                v-model="biaoti"
+                style="width: 150px"
+                placeholder="请输入标题"
+                size="normal"
+                clearable
+                @change=""
+              ></el-input>
+              <el-select
+                v-model="biaoti"
+                value-key=""
+                placeholder="处置处室（单位）"
+                style="width: 170px"
+                clearable
+                filterable
+                @change=""
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+              <el-select
+                v-model="biaoti"
+                value-key=""
+                placeholder="状态"
+                style="width: 100px"
+                clearable
+                filterable
+                @change=""
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+              <button
+                class="bg-[#2B76E2] text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                搜索
+              </button>
+            </div>
+            <div class="w-[94%] h-[180px] box-border mt-[20px]">
+              <SeamlessScroll
+                :initData="scrollTableList"
+                :initHeader="scrollTableListHeader"
+                :width="'510px'"
+                width="50%"
+                class="h-[100%]"
+              >
+              </SeamlessScroll>
+            </div>
           </div>
         </div>
+        <div class="is-rig-con3 ml-[20px]" v-if="currentBotIndex == 2">
+          <div class="ml-[280px] mt-[60px] w-[540px] flex flex-col">
+            <div class="flex space-x-[10px]">
+              <button
+                class="bg-[#21C0BD] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                一般
+              </button>
+              <button
+                class="bg-[#CDCA52] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                较大
+              </button>
+              <button
+                class="bg-[#CE6228] text-[16px] text-[#fff] w-[63px] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                重大
+              </button>
+              <button
+                class="bg-[#DA2C24] text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                特别重大
+              </button>
+              <button
+                style="margin-left: 50px; background: rgba(43, 118, 226, 0.29)"
+                class="text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                物联感知
+              </button>
+              <button
+                style="background: rgba(5, 24, 51, 0.29)"
+                class="text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                特征指标
+              </button>
+            </div>
+            <div class="flex space-x-[10px] mt-[10px]">
+              <el-input
+                v-model="biaoti"
+                style="width: 150px"
+                placeholder="请输入标题"
+                size="normal"
+                clearable
+                @change=""
+              ></el-input>
+              <el-select
+                v-model="biaoti"
+                value-key=""
+                placeholder="处置处室（单位）"
+                style="width: 170px"
+                clearable
+                filterable
+                @change=""
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+              <el-select
+                v-model="biaoti"
+                value-key=""
+                placeholder="状态"
+                style="width: 100px"
+                clearable
+                filterable
+                @change=""
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+              <button
+                class="bg-[#2B76E2] text-[16px] text-[#fff] h-[33px] hover:bg-sky-700 rounded-[5px]"
+              >
+                搜索
+              </button>
+            </div>
+            <div class="w-[94%] h-[180px] box-border mt-[20px]">
+              <SeamlessScroll
+                :initData="scrollTableList"
+                :initHeader="scrollTableListHeader"
+                :width="'510px'"
+                width="50%"
+                class="h-[100%]"
+              >
+              </SeamlessScroll>
+            </div>
+          </div>
+        </div>
+        <!-- <img src="@/assets/xulei/icon1.png"  class="ml-[20px]" alt=""> -->
       </div>
-      <!-- <img src="@/assets/xulei/icon1.png"  class="ml-[20px]" alt=""> -->
-    </div>
+    </template>
     <img
       class="absolute right-[1400px] top-[600px] w-[72px] h-[58px] cursor-pointer"
+      src="@/assets/xulei/cicon4.png"
+      draggable="false"
+      alt=""
+      @click="imgShown2 = !imgShown2"
+    />
+    <!-- src="@/assets/rou/icon59.png" -->
+    <!-- src="@/assets/xulei/cicon4.png" -->
+    <img
+      class="absolute right-[1400px] top-[500px] w-[72px] h-[58px] cursor-pointer"
       src="@/assets/rou/icon59.png"
       draggable="false"
       alt=""
@@ -699,7 +737,7 @@
         muted
       ></video>
     </el-dialog>
-    <div v-show="imgShown" class="absolute top-[1100px] right-[0px]">
+    <div v-show="imgShown" class="absolute top-[1000px] right-[0px]">
       <div class="relative">
         <img
           class="absolute z-999 right-[1300px] bottom-[500px] w-[534px] h-[333px]"
@@ -708,12 +746,41 @@
           alt=""
         />
         <span
-          class="absolute z-999  right-[1300px] cursor-pointer bottom-[780px] w-[50px] h-[50px]"
+          class="absolute z-999 right-[1300px] cursor-pointer bottom-[780px] w-[50px] h-[50px]"
           @click="imgShown = false"
         ></span>
         <span
-          class="absolute z-999  right-[1300px] cursor-pointer bottom-[550px] w-[100px] h-[200px]"
+          class="absolute z-999 right-[1300px] cursor-pointer bottom-[550px] w-[100px] h-[200px]"
           @click="diaShown = true"
+        ></span>
+      </div>
+    </div>
+    <div v-show="imgShown2" class="absolute top-[1200px] right-[150px]">
+      <div class="relative">
+        <img
+          class="absolute z-9 right-[1300px] bottom-[500px]"
+          src="@/assets/xulei/cicon5.png"
+          draggable="false"
+          alt=""
+        />
+        <span
+          class="absolute z-9 right-[1330px] cursor-pointer bottom-[580px] w-[25px] h-[25px]"
+          @click="imgShown2 = false"
+        ></span>
+        <!-- ai巡检 -->
+        <span
+          class="absolute z-9 right-[1700px] cursor-pointer bottom-[530px] w-[100px] h-[30px]"
+          @click="handleXunshi"
+        ></span>
+        <!-- 图斑落图 -->
+        <span
+          class="absolute z-9 right-[1560px] cursor-pointer bottom-[530px] w-[120px] h-[30px]"
+          @click="handleTuban"
+        ></span>
+        <!-- 5g -->
+        <span
+          class="absolute z-9 right-[1300px] cursor-pointer bottom-[530px] w-[220px] h-[30px]"
+          @click="handleJump5g"
         ></span>
       </div>
     </div>
@@ -747,7 +814,7 @@
           <div
             class="flex w-[300px] h-[125px] bg-[rgba(64,110,169,0.4)] mr-[40px]"
           >
-            <img src="@/assets/rou/ren.png" alt="" />
+            <img src="@/assets/xulei/ren1.png" class="w-[129px] h-[125px]" alt="" />
             <div class="grid grid-rows-4 p-[10px] text-[20px]">
               <span class="text-[#E0ECFF] text-[18px]">总指挥</span>
               <span class="text-[#E0ECFF] text-[14px]">缪剑峰</span>
@@ -756,7 +823,7 @@
             </div>
           </div>
           <div class="flex w-[300px] h-[125px] bg-[rgba(64,110,169,0.4)]">
-            <img src="@/assets/rou/ren.png" alt="" />
+            <img src="@/assets/xulei/ren2.png" class="w-[129px] h-[125px]" alt="" />
             <div class="grid grid-rows-4 p-[10px] text-[20px]">
               <span class="text-[#E0ECFF] text-[18px]">副总指挥</span>
               <span class="text-[#E0ECFF] text-[14px]">郑显潮</span>
@@ -782,7 +849,7 @@
           <div
             class="flex w-[300px] h-[125px] bg-[rgba(64,110,169,0.4)] mr-[40px]"
           >
-            <img src="@/assets/rou/ren.png" alt="" />
+            <img :src="item.img" alt="" class="w-[129px] h-[125px]" />
             <div class="grid grid-rows-4 p-[10px] text-[20px]">
               <span class="text-[#E0ECFF] text-[18px]">组长</span>
               <span class="text-[#E0ECFF] text-[14px]">{{ item.zz }}</span>
@@ -837,30 +904,15 @@
           @click="showRobatMp4 = 1"
         ></div>
         <div
-          class="grid grid-cols-4 gap-[80px] absolute bottom-[50px] left-[50%]"
+          class="absolute bottom-[0px] left-[calc(50%-960px)]"
         >
-          <img src="@/assets/rou/arrow.png" class="cursor-pointer" alt="" />
-          <img
-            src="@/assets/rou/arrow.png"
-            class="cursor-pointer transform-rotate-90"
-            alt=""
-          />
-          <img
-            src="@/assets/rou/arrow.png"
-            class="cursor-pointer transform-rotate-180"
-            alt=""
-          />
-          <img
-            src="@/assets/rou/arrow.png"
-            class="cursor-pointer transform-rotate-270"
-            alt=""
-          />
+          <img src="@/assets/xulei/bicon1.png" draggable="false" alt="">
         </div>
         <video
           v-if="showRobatMp4 == 1"
           :src="robat1"
-          class="ml-[1105px] mt-[50px]"
-          style="width: calc(100% - 1200px); object-fit: cover; height: 880px"
+          class="ml-[977px] mt-[50px]"
+          style="width: 1887px; object-fit: cover; height: 850px"
           controls
           autoplay
           muted
@@ -868,8 +920,8 @@
         <video
           v-else
           :src="robat2"
-          class="ml-[1105px] mt-[50px]"
-          style="width: calc(100% - 1200px); object-fit: cover; height: 880px"
+          class="ml-[977px] mt-[50px]"
+          style="width: 1887px; object-fit: cover; height: 850px"
           controls
           autoplay
           muted
@@ -897,6 +949,74 @@
         <img src="@/assets/rou/icon645.png" alt="" />
       </div>
     </div>
+    <!-- 漫游巡检报告 -->
+    <el-dialog
+      v-model="xunjianDiaShown"
+      title=""
+      :width="diaImgWidth"
+      align-center
+    >
+      <img :src="cicon1" alt="" draggable="false" />
+    </el-dialog>
+    <!-- 处置 -->
+    <el-dialog v-model="chuzhiDiaShown" title="" width="1590" align-center>
+      <div class="text-[#fff] is-form-bg pt-[543px] pl-[20px] box-border">
+        <el-form
+          :model="formData"
+          ref="form"
+          :rules="rules"
+          label-width="auto"
+          :inline="false"
+          size="normal"
+        >
+          <el-form-item label="处置人">
+            <el-select
+              v-model="formData.chuzhiren"
+              placeholder="请选择处置人"
+              style="width: 840px"
+              clearable
+              multiple
+            >
+              <template #label="{ label, value }">
+                <span>{{ label }}: </span>
+                <span style="font-weight: bold">{{ value }}</span>
+              </template>
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="办理意见">
+            <el-input
+              v-model="textarea1"
+              style="width: 840px"
+              autosize
+              type="textarea"
+              placeholder="请输入"
+            />
+          </el-form-item>
+          <el-form-item label="签收处室（单位）：">
+            <el-input
+              v-model="textarea1"
+              style="width: 840px"
+              autosize
+              placeholder="请输入"
+            />
+          </el-form-item>
+          <div class="flex justify-center w-[70%] mt-[20px]">
+            <el-button
+              type="primary"
+              size="default"
+              @click="chuzhiDiaShown = false"
+              >签收</el-button
+            >
+          </div>
+        </el-form>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -923,39 +1043,88 @@ const now = useNow();
 import SeamlessScroll from "@/components/SeamlessScroll.vue";
 import robat1 from "@/assets/video/robat1.mp4";
 import robat2 from "@/assets/video/robat2.mp4";
+import cicon1 from "@/assets/xulei/cicon1.png";
+const bimRef = ref(null);
+const imgShown2 = ref(false);
+const xunjianDiaShown = ref(false);
+const chuzhiDiaShown = ref(false);
+const diaImgWidth = ref(1117);
 const showRobatMp4 = ref(1);
+const isBotCon = ref(true);
+// ai巡视
+const handleXunshi=()=>{
+  imgShown2.value=false
+  isBotCon.value=false
+  bimRef.value.handleManyou()
+}
+const handleJump5g = () => {
+  const link = document.createElement("a"); // 创建一个<a>元素
+  link.href = "https://longgantech.com/iot/screen"; // 设置链接地址
+  link.target = "_blank"; // 在新窗口中打开
+  link.textContent = ""; // 设置链接文本
+
+  document.body.appendChild(link); // 将链接添加到文档中
+  link.click(); // 触发点击事件，跳转链接
+  document.body.removeChild(link); // 移除链接元素
+};
+const handleTuban = () => {
+  const link = document.createElement("a"); // 创建一个<a>元素
+  link.href = "http://125.211.217.17:20043/citylevel?docId=1933038282051072000"; // 设置链接地址
+  link.target = "_blank"; // 在新窗口中打开
+  link.textContent = ""; // 设置链接文本
+  document.body.appendChild(link); // 将链接添加到文档中
+  link.click(); // 触发点击事件，跳转链接
+  document.body.removeChild(link); // 移除链接元素
+};
+const formData = reactive({
+  chuzhiren: "",
+});
+const options = [
+  {
+    value: "李老师",
+    label: "李老师",
+  },
+  {
+    value: "王老师",
+    label: "王老师",
+  },
+  {
+    value: "徐老师",
+    label: "徐老师",
+  },
+];
 const scrollTableList = ref([
   {
     b: "一殿",
-    c: "施工员未呆安全帽",
+    c: "施工员未戴安全帽",
     d: "治安总站",
     e: "感知设备",
     f: "已办结",
   },
   {
     b: "一殿",
-    c: "施工员未呆安全帽",
+    c: "施工员未戴安全帽",
     d: "治安总站",
     e: "感知设备",
     f: "已办结",
   },
   {
     b: "一殿",
-    c: "施工员未呆安全帽",
+    c: "施工员未戴安全帽",
     d: "治安总站",
     e: "感知设备",
     f: "已办结",
   },
   {
     b: "一殿",
-    c: "施工员未呆安全帽",
+    c: "施工员未戴安全帽",
     d: "治安总站",
     e: "感知设备",
     f: "已办结",
   },
   {
     b: "一殿",
-    c: "施工员未呆安全帽",
+    c: "施工员未戴安全帽",
     d: "治安总站",
     e: "感知设备",
     f: "已办结",
@@ -1082,50 +1251,49 @@ import ItemImg6 from "@/assets/image/home/quxian.png";
 const middleOptions = ref([
   {
     params1: "实名人员检测",
-    params2: "80",
+    params2: 80,
     params3: "人",
     params5: "2010",
     params6: "人次",
     params4: ItemImg1,
+    currentValue: 0,
   },
   {
     params1: "风险隐患",
-    params2: "2",
+    params2: 2,
     params3: "个",
     params5: "32",
     params6: "个",
     params4: ItemImg2,
+    currentValue: 0,
   },
   {
     params1: "风险隐患整改率",
-    params2: "96",
+    params2: 96,
     params3: "%",
     params5: "98",
     params6: "%",
     params4: ItemImg3,
+    currentValue: 0,
   },
   {
     params1: "到场监督次数",
-    params2: "1",
+    params2: 1,
     params3: "次",
     params5: "20",
     params6: "次",
     params4: ItemImg4,
+    currentValue: 0,
   },
   {
     params1: "监督到场率",
-    params2: "85",
+    params2: 85,
     params3: "%",
     params5: "95",
     params6: "%",
     params4: ItemImg5,
+    currentValue: 0,
   },
-  // {
-  //   params1: "合同履约金额",
-  //   params2: "4",
-  //   params3: "千亿",
-  //   params4: ItemImg6,
-  // },
 ]);
 const videoUrls = {
   camera1:
@@ -1138,11 +1306,15 @@ const videoUrls = {
     "https://open.ys7.com/openlive/269f64a09d2741288c713248042f672e.m3u8",
 };
 const videoUrl = ref("http://172.30.41.194:20035/2.mp4");
+import ren3 from "@/assets/xulei/ren3.png"
+import ren4 from "@/assets/xulei/ren4.png"
+import ren5 from "@/assets/xulei/ren5.png"
 const peopleList = ref([
   {
     zz: "周洋",
     tel: "15023296660",
     type: "救援组",
+    img:ren3,
     people: [
       {
         type: "施工负责",
@@ -1165,6 +1337,7 @@ const peopleList = ref([
     zz: "刘海",
     tel: "18623623561",
     type: "现场保障组",
+    img:ren4,
     people: [
       {
         type: "现场秩序",
@@ -1187,6 +1360,7 @@ const peopleList = ref([
     zz: "常国强",
     tel: "13883569294",
     type: "物资保障组",
+    img:ren5,
     people: [
       {
         type: "救援装备",
@@ -1295,6 +1469,19 @@ onUnmounted(() => {
     hls.destroy();
   });
 });
+
+// 添加定时器更新数字
+onMounted(() => {
+  const timer = setInterval(() => {
+    middleOptions.value.forEach((item) => {
+      item.currentValue = Math.floor(Math.random() * (item.params2 + 1));
+    });
+  }, 3000);
+
+  onUnmounted(() => {
+    clearInterval(timer);
+  });
+});
 // onMounted(() => {
 //   autofit.init({
 //     dh: 1080,
@@ -1376,7 +1563,7 @@ onUnmounted(() => {
   background: url("@/assets/rou/icon62.png") no-repeat 100% 100% / cover;
 }
 .is-robot {
-  background: url("@/assets/rou/jiqiren.png") no-repeat center center;
+  background: url("@/assets/rou/jiqiren.jpg") no-repeat center center;
   background-size: 100% 100%;
 }
 .is-top-bg {
@@ -1438,5 +1625,82 @@ onUnmounted(() => {
   height: 360px;
   background: url("@/assets/xulei/icon4.png") no-repeat center center;
   background-size: 100% 100%;
+}
+:deep(.el-dialog) {
+  padding: 0;
+  background: transparent !important;
+}
+:deep(.el-dialog__headerbtn) {
+  margin-top: 20px;
+}
+p {
+  padding: 0;
+  margin: 0;
+}
+.is-span1 {
+  background: linear-gradient(0deg, #70b8ee 0%, #eefdff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1em;
+}
+.is-span2 {
+  width: 31px;
+  height: 42px;
+
+  background: url("@/assets/xulei/cicon2.png") no-repeat center center;
+  background-size: 100% 100%;
+}
+.is-span3 {
+  background: linear-gradient(0deg, #70b8ee 0%, #eefdff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+@keyframes numberChange {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-number {
+  display: inline-block;
+  animation: numberChange 0.5s ease-in-out;
+}
+.is-form-bg {
+  width: 1591px;
+  height: 988px;
+  background: url("@/assets/xulei/cicon3.png") no-repeat center center;
+  background-size: 100% 100%;
+}
+:deep(.el-form-item__label) {
+  color: #fff;
+}
+:deep(.el-select__wrapper) {
+  height: 47px;
+  background: rgba(47, 92, 146, 0.01);
+  border-radius: 4px;
+  box-shadow: 0px 0px 12px NaNpx rgba(37, 75, 123, 0.5) inset;
+}
+:deep(.el-textarea__inner) {
+  width: 835px;
+  height: 157px !important;
+  background: rgba(47, 92, 146, 0.01);
+  border-radius: 4px;
+  box-shadow: 0px 0px 12px NaNpx rgba(37, 75, 123, 0.5) inset;
+}
+:deep(.el-input__wrapper) {
+  width: 763px;
+  height: 47px;
+  background: rgba(47, 92, 146, 0.01) !important;
+  border-radius: 4px;
+  box-shadow: 0px 0px 12px NaNpx rgba(37, 75, 123, 0.5) inset;
 }
 </style>

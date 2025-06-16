@@ -4,6 +4,12 @@
       :loading="isLoading"
       @loadingComplete="handleLoadingComplete"
     />
+    <LoadingAnimation
+      :loading="isLoading2"
+      ref="loadingAnimationRef2"
+      @loadingComplete="handleLoadingComplete2"
+      :title="'监测报告生成中'"
+    />
     <div id="containCesium" class="containCesium"></div>
     <div
       class="absolute top-[30%] right-[1250px] z-9 flex flex-col space-y-2xl"
@@ -22,10 +28,16 @@
       </div>
       <div
         class="is-btn-bg w-[180px] h-[44px] cursor-pointer text-[#fff] flex justify-center items-center"
+        @click="addImageMarker(luanshengList)"
+      >
+        孪生图层
+      </div>
+      <!-- <div
+        class="is-btn-bg w-[180px] h-[44px] cursor-pointer text-[#fff] flex justify-center items-center"
         @click="handleManyou"
       >
         AI巡视
-      </div>
+      </div> -->
     </div>
     <!-- 添加视角信息显示控件 -->
     <!-- <div class="view-info-panel">
@@ -56,13 +68,13 @@
       </div>
     </div> -->
     <!-- 添加点击信息显示控件 -->
-    <!-- <div class="absolute z-999 right-0 bottom-0">
+    <div class="absolute z-999 right-0 bottom-0">
       <p>点击位置</p>
       <textarea
         class="w-[400px] h-[300px]"
         :value="clickPositionInfo"
       ></textarea>
-    </div> -->
+    </div>
     <!-- 风险信息弹窗 -->
     <div v-if="showRiskPopup" class="risk-popup" :style="popupStyle">
       <div class="risk-popup-header">
@@ -88,6 +100,24 @@
         </div>
       </div>
     </div>
+    <!-- 感知进度信息弹窗 -->
+    <div v-if="showJinduPopup" class="fixed z-1000" :style="popupStyle">
+      <img
+        src="@/assets/xulei/cicon8.png"
+        draggable="false"
+        alt=""
+        @click="showJinduPopup = false"
+      />
+    </div>
+    <!-- 感知安全信息弹窗 -->
+    <div v-if="showAnquanPopup" class="fixed z-1000" :style="popupStyle">
+      <img
+        src="@/assets/xulei/cicon7.png"
+        draggable="false"
+        alt=""
+        @click="showAnquanPopup = false"
+      />
+    </div>
     <div id="popBox2"></div>
   </div>
 </template>
@@ -105,17 +135,19 @@ import bim1 from "@/assets/rou/BIM.png";
 import bim2 from "@/assets/rou/BIM.png";
 import fengxian from "@/assets/rou/fengxian.gif";
 import ganzhi from "@/assets/rou/ganzhi.png";
-
+const loadingAnimationRef2 = ref(null);
 const emit = defineEmits([
   "handleEmitShexiangtou",
   "handleEmitJiqiren",
   "handleEmitYimo",
+  "handleEmitJianCeBaoGao",
 ]);
 const position = {
   lng: 106.651155,
   lat: 29.509141,
 };
 const isLoading = ref(true);
+const isLoading2 = ref(false);
 const loading = ref(false);
 const options = ref([]);
 const value = ref(null);
@@ -200,19 +232,27 @@ const handleManyou = () => {
         destination: Cesium.Cartesian3.fromDegrees(
           position.lon,
           position.lat,
-          position.height // 稍微拉高视角，适合室内
+          position.height
         ),
         orientation: {
-          // heading: Cesium.Math.toRadians(-45),
           heading: Cesium.Math.toRadians(position.heading),
-          // pitch: Cesium.Math.toRadians(0), // 适当调整俯仰角度
-          pitch: Cesium.Math.toRadians(position.roll), // 适当调整俯仰角度
+          pitch: Cesium.Math.toRadians(position.roll),
           roll: 0,
         },
         duration: 5,
         complete: () => {
-          // 等待飞行完成后，继续下一个点
-          roamToIndoorPoints(index + 1);
+          if (index < indoorPoints.length - 1) {
+            // 如果不是最后一个点，继续巡视下一个点
+            roamToIndoorPoints(index + 1);
+          } else {
+            // 所有点都巡视完成后，触发检测报告
+            loadingAnimationRef2.value.handleProgress();
+            isLoading2.value = true;
+            setTimeout(() => {
+              isLoading2.value = false;
+              emit("handleEmitJianCeBaoGao");
+            }, 5000);
+          }
         },
       });
     }
@@ -221,7 +261,9 @@ const handleManyou = () => {
   // 开始漫游
   roamToIndoorPoints(0);
 };
-
+defineExpose({
+  handleManyou,
+});
 // 当前视角
 const currentView = ref({
   longitude: "0.000000",
@@ -242,11 +284,16 @@ const clickPosition = ref({
 
 // 添加风险信息弹窗相关数据
 const showRiskPopup = ref(false);
+const showJinduPopup = ref(false);
+const showAnquanPopup = ref(false);
 const popupStyle = ref({
   left: "0px",
   top: "0px",
 });
-
+const popupStyle2 = ref({
+  left: "0px",
+  top: "0px",
+});
 // 风险图层信息
 const riskInfo = ref([
   {
@@ -290,12 +337,17 @@ const riskInfo = ref([
 const handleLoadingComplete = () => {
   isLoading.value = false;
 };
+const handleLoadingComplete2 = () => {
+  isLoading2.value = false;
+};
+// fengxianList
+
 const riskList = ref([
   {
     id: "fengxian1",
     type: "fengxian",
-    lon: 106.648762,
-    lng: 29.510208,
+    lon: 106.648899,
+    lng: 29.509967,
     img: fengxian,
   },
   {
@@ -313,40 +365,44 @@ const riskList = ref([
     img: fengxian,
   },
 ]);
+// 感知 ganzhilist
 const perceptionList = ref([
   {
     id: "ganzhi1",
-    lon: 106.649149,
-    lng: 29.510044,
+    lon: 106.651352,
+    lng: 29.509372,
     img: ganzhi,
+    height: 10,
   },
-  {
-    id: "ganzhi2",
-    lon: 106.650598,
-    lng: 29.510701,
-    img: ganzhi,
-  },
+  // {
+  //   id: "ganzhi2",
+  //   lon: 106.650598,
+  //   lng: 29.510701,
+  //   img: ganzhi,
+  //   height:20
+
+  // },
 ]);
 // 雷达感知
 const handlePerceptionCircle = () => {
   const radarLine = new Cesium.Entity({
     id: "radar_line",
-    position: Cesium.Cartesian3.fromDegrees(106.649149, 29.510044, 50),
+    position: Cesium.Cartesian3.fromDegrees(106.651352, 29.509372, 50),
     polyline: {
       positions: new Cesium.CallbackProperty(() => {
-        const center = Cesium.Cartesian3.fromDegrees(106.649149, 29.510044, 50);
-        const radius = 100.0;
+        const center = Cesium.Cartesian3.fromDegrees(106.651352, 29.509372, 50);
+        const radius = 20.0;
         const time = Date.now() / 1000;
         const angle = time % (2 * Math.PI);
         const endPoint = Cesium.Cartesian3.fromDegrees(
-          106.649149 + (radius * Math.cos(angle)) / 111320,
-          29.510044 + (radius * Math.sin(angle)) / 111320,
+          106.651352 + (radius * Math.cos(angle)) / 111320,
+          29.509372 + (radius * Math.sin(angle)) / 111320,
           50
         );
         return [center, endPoint];
       }, false),
       width: 8,
-      zIndex:999,
+      zIndex: 999,
       material: new Cesium.PolylineGlowMaterialProperty({
         glowPower: 0.2,
         color: Cesium.Color.BLUE.withAlpha(0.6),
@@ -357,10 +413,10 @@ const handlePerceptionCircle = () => {
   // 创建雷达圆环
   const radarCircle = new Cesium.Entity({
     id: "radar_circle",
-    position: Cesium.Cartesian3.fromDegrees(106.649149, 29.510044, 50),
+    position: Cesium.Cartesian3.fromDegrees(106.651352, 29.509372, 50),
     ellipse: {
-      semiMajorAxis: 100.0,
-      semiMinorAxis: 100.0,
+      semiMajorAxis: 20.0,
+      semiMinorAxis: 20.0,
       material: new Cesium.ColorMaterialProperty(
         Cesium.Color.BLUE.withAlpha(0.3)
       ),
@@ -395,7 +451,7 @@ const handleRiskRedCircle = () => {
 // 循环添加风险图层图片
 const handleRiskClick = () => {
   layersType.value = "risk";
-  removeLayer()
+  removeLayer();
   riskList.value.forEach((item) => {
     const imageEntity = new Cesium.Entity({
       id: item.id,
@@ -452,11 +508,11 @@ const handlePerceptionClick = () => {
   layersType.value = "perception";
   // 移除风险图层
   removeLayer();
-  handlePerceptionCircle();
+  // handlePerceptionCircle();
   perceptionList.value.forEach((item) => {
     const imageEntity = new Cesium.Entity({
       id: item.id,
-      position: Cesium.Cartesian3.fromDegrees(item.lon, item.lng, 50),
+      position: Cesium.Cartesian3.fromDegrees(item.lon, item.lng, item.height),
       billboard: {
         image: item.img,
         type: "ganzhi",
@@ -470,14 +526,13 @@ const handlePerceptionClick = () => {
         name: "感知",
         lon: item.lon,
         lat: item.lng,
-        height: 50,
+        height: 20,
       },
     });
     agFeatureLayer.addEntity(imageEntity);
   });
-
   viewer.camera.flyTo({
-    destination: Cesium.Cartesian3.fromDegrees(106.649611, 29.507842, 429.66),
+    destination: Cesium.Cartesian3.fromDegrees(106.651505, 29.506099, 433.76),
     orientation: {
       heading: Cesium.Math.toRadians(0),
       pitch: Cesium.Math.toRadians(-20), // 适当调整俯仰角度
@@ -528,19 +583,29 @@ const removeLayer = () => {
 const imgList = ref([
   {
     id: "shexiangtou",
-    lon: "106.650808",
-    lng: "29.509416",
+    lon: "106.649978",
+    lng: "29.510803",
     img: shexiangtou,
     name: "摄像头",
-    height: 120,
-  },
-  {
-    id: "jiqiren",
-    lon: "106.650191",
-    lng: "29.509561",
     height: 50,
-    img: jiqiren,
   },
+  // {
+  //   id: "jiqiren",
+  //   lon: "106.650191",
+  //   lng: "29.509561",
+  //   height: 50,
+  //   img: jiqiren,
+  // },
+  // {"lon":"106.651533","lng":"29.509455"}
+  // {"lon":"106.651618","lng":"29.509208"}
+  // {"lon":"106.651667","lng":"29.509299"}
+  // {
+  //     id: "jiqiren",
+  //     lon: "106.651618",
+  //     lng: "29.509208",
+  //     height: 115,
+  //     img: jiqiren,
+  //   },
   {
     id: "bim1",
     lon: "106.650945",
@@ -549,25 +614,46 @@ const imgList = ref([
     img: bim1,
   },
   // 漫游测试的点
+  // {
+  //   id: "ceshigaodu",
+  //   lon: "106.650762",
+  //   lng: "29.509678",
+  //   height: 36,
+  //   img: bim1,
+  // },
+]);
+import jindu from "@/assets/xulei/jindu.png";
+import anquan from "@/assets/xulei/anquan.png";
+const jiqirenList = ref([
   {
-    id: "ceshigaodu",
-    lon: "106.651173",
-    lng: "29.509430",
-    height: 38,
-    img: bim1,
-  },
-  {
-    id: "ceshigaodu2",
-    lon: "106.651222",
-    lng: "29.509396",
-    height: 38,
-    img: bim1,
+    id: "jiqiren",
+    lon: "106.651618",
+    lng: "29.509208",
+    height: 115,
+    img: jiqiren,
   },
 ]);
-
+// 孪生图层
+const luanshengList = ref([
+  {
+    id: "lsjindu",
+    lon: "106.651374",
+    lng: "29.509315",
+    height: 40,
+    img: jindu,
+  },
+  {
+    id: "lsanquan",
+    lon: "106.649099",
+    lng: "29.509835",
+    height: 70,
+    img: anquan,
+  },
+]);
+// 单独添加图标
 // 初始化添加marker
-const addImageMarker = () => {
-  imgList.value.forEach((ele) => {
+const addImageMarker = (list) => {
+  list.forEach((ele) => {
     const imageEntity = new Cesium.Entity({
       id: ele.id,
       position: Cesium.Cartesian3.fromDegrees(ele.lon, ele.lng, ele.height),
@@ -583,7 +669,7 @@ const addImageMarker = () => {
         name: ele.name,
         lon: ele.lon,
         lat: ele.lat,
-        height: 50,
+        height: ele.height,
       },
     });
     agFeatureLayer.addEntity(imageEntity);
@@ -744,6 +830,7 @@ const LayerManager = {
   init3DTilesLayer() {
     const urls = [
       "http://172.30.41.194:20035/qxsy_tiles/qx_dnyy_250526/tileset.json",
+      // "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_1/tileset.json",
       "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_2/tileset.json",
       "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_3/tileset.json",
       "http://172.30.41.194:20035/models-rest/rest/models/preview/bim_dnyy_4/tileset.json",
@@ -772,11 +859,17 @@ const EventHandler = {
     } else if (feature.id._id === "bim1") {
       emit("handleEmitYimo");
     } else if (
-      ["fengxian1", "fengxian2", "fengxian3"].includes(feature.id._id)
+      ["fengxian1", "fengxian2", "fengxian3", "ceshigaodu"].includes(
+        feature.id._id
+      )
     ) {
       this.showRiskPopup(movement);
     } else if (feature.detail?.model?.type === "GLTF") {
       this.handleModelClick(feature, viewer, agFeatureLayer);
+    } else if (feature.id._id == "lsanquan") {
+      this.showSafePopup(movement);
+    } else if (feature.id._id == "lsjindu") {
+      this.showJinduPopup(movement);
     }
   },
 
@@ -788,9 +881,26 @@ const EventHandler = {
       top: movement.position.y + 10 + "px",
     };
   },
+  // 孪生安全
+  showSafePopup(movement) {
+    showAnquanPopup.value = true;
+    popupStyle.value = {
+      left: movement.position.x + 10 + "px",
+      top: movement.position.y + 10 + "px",
+    };
+  },
+  // 显示孪生安全弹窗
+  showJinduPopup(movement) {
+    showJinduPopup.value = true;
+    popupStyle.value = {
+      left: movement.position.x + 10 + "px",
+      top: movement.position.y + 10 + "px",
+    };
+  },
 
   // 处理模型点击
   handleModelClick(feature, viewer, agFeatureLayer) {
+    console.log("🚀 ~ handleModelClick ~ feature:", feature.id._id, feature);
     if (lastCopiedEntityId) {
       viewer.entities.remove(lastCopiedEntityId);
     }
@@ -835,6 +945,15 @@ const EventHandler = {
     lastCopiedEntityId = agFeatureLayer._entities.find(
       (item) => item._id === copiedEntity._id
     );
+    if (feature.id._id == "Floor16") {
+      addImageMarker(jiqirenList.value);
+    } else {
+      topEntityId = agFeatureLayer._entities.find(
+        (item) => item._id === "jiqiren"
+      );
+      console.log("🚀 ~ topEntityId:", topEntityId);
+      viewer.entities.remove(topEntityId);
+    }
   },
 };
 
@@ -879,7 +998,7 @@ const initMap = async () => {
     viewer.scene.globe.depthTestAgainstTerrain = true;
 
     // 添加实体
-    addImageMarker();
+    addImageMarker(imgList.value);
     // 添加bimGlb
     addEntityBimGlb();
     // 添加事件监听

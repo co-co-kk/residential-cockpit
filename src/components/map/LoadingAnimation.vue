@@ -2,7 +2,7 @@
   <div class="loading-container" v-if="loading">
     <div class="loading-content">
       <div class="loading-ring"></div>
-      <div class="loading-text">地图加载中...</div>
+      <div class="loading-text">{{props.title}}...</div>
       <div class="loading-progress">
         <div class="progress-bar">
           <div class="progress-fill" :style="{ width: progress + '%' }"></div>
@@ -23,6 +23,10 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: true
+  },
+  title:{
+    type: String,
+    default: "地图加载中"
   }
 });
 
@@ -45,7 +49,24 @@ onMounted(() => {
     }
   }, 100);
 });
-
+const handleProgress=()=>{
+  progress.value=0
+  // 模拟加载进度，3秒完成
+  progressTimer = setInterval(() => {
+    if (progress.value < 100) {
+      progress.value += 2.5; // 每100ms增加0.8%，这样3秒可以完成
+    } else {
+      clearInterval(progressTimer);
+      // 进度条加载完成后，等待一小段时间再触发完成事件
+      setTimeout(() => {
+        emit('loadingComplete');
+      }, 300);
+    }
+  }, 100);
+}
+defineExpose({
+  handleProgress
+})
 onUnmounted(() => {
   if (progressTimer) {
     clearInterval(progressTimer);
